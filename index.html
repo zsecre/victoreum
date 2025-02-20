@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Telegram Mini App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f3f3f3;
+        }
+        h1 {
+            margin-top: 50px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #0088cc;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #005f99;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to My Mini App!</h1>
+    <button id="send-message">Send Message to Chat</button>
+
+    <!-- Include Telegram Web App SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script>
+        // Initialize the Telegram Web App
+        const tg = window.Telegram.WebApp;
+
+        // Expand the Mini App to full screen
+        tg.expand();
+
+        // Handle button click
+        document.getElementById('send-message').addEventListener('click', () => {
+            // Send a message back to the chat
+            tg.sendData('Hello from the Mini App!');
+        });
+
+        // Listen for events from Telegram
+        tg.onEvent('mainButtonClicked', () => {
+            alert('Main Button Clicked!');
+        });
+    </script>
+</body>
+</html>￼Enter
