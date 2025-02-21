@@ -30,6 +30,7 @@
     </style>
 </head>
 <body>
+  
     <h1>Welcome to My Mini App!</h1>
     <button id="send-message">Send Message to Chat</button>
 
@@ -52,6 +53,9 @@
         tg.onEvent('mainButtonClicked', () => {
             alert('Main Button Clicked!');
         });
+        const initData = tg.initDataUnsafe;
+const firstName = initData.user?.first_name;
+alert(`Hello, ${firstName}!`);
     </script>
 </body>
 </html>
