@@ -39,6 +39,14 @@
     <!-- Include Telegram Web App SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script>
+      const userId = initData.user?.id;
+
+        if (userId) {
+            document.getElementById('result').innerText = `Your user ID is: ${userId}`;
+            alert(${userId})
+        } else {
+            document.getElementById('result').innerText = 'User ID not available.';
+        }
         // Initialize the Telegram Web App
         const tg = window.Telegram.WebApp;
 
@@ -62,13 +70,8 @@ const tg = window.Telegram.WebApp;
         const initData = tg.initDataUnsafe;
 
         // Extract the user ID
-        const userId = initData.user?.id;
-
-        if (userId) {
-            document.getElementById('result').innerText = `Your user ID is: ${userId}`;
-        } else {
-            document.getElementById('result').innerText = 'User ID not available.';
-        }
+        
+        
     </script>
 </body>
 </html>
