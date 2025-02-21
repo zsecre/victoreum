@@ -30,7 +30,9 @@
     </style>
 </head>
 <body>
-  
+  <h1>Your Telegram User ID</h1>
+    <p id="result">Loading...</p>
+
     <h1>Welcome to My Mini App!</h1>
     <button id="send-message">Send Message to Chat</button>
 
@@ -56,6 +58,17 @@
         const initData = tg.initDataUnsafe;
 const firstName = initData.user?.first_name;
 alert(`Hello, ${firstName}!`);
+const tg = window.Telegram.WebApp;
+        const initData = tg.initDataUnsafe;
+
+        // Extract the user ID
+        const userId = initData.user?.id;
+
+        if (userId) {
+            document.getElementById('result').innerText = `Your user ID is: ${userId}`;
+        } else {
+            document.getElementById('result').innerText = 'User ID not available.';
+        }
     </script>
 </body>
-</html>
+</html>￼Enter
