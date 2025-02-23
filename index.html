@@ -36,6 +36,7 @@
       height: 35px;
       width: 35px;
       border-radius: 50px;
+      border: .1px solid white;
     }
     .fas {
       font-size: 25px;
@@ -154,14 +155,14 @@
        const photoUrl = initData.user?.photo_url; // Get the profile picture URL
       const profilePicContainer = document.getElementById('profile-pic');
 
-        if (photoUrl) {
+
             // Create an image element and set its source to the profile picture URL
             const img = document.createElement('img');
             img.src = photoUrl;
-            img.alt = `${firstName}'s profile picture`;
+
             profilePicContainer.appendChild(img);
 
-        }
+        
         
 
     const firstName = initData.user?.first_name;
