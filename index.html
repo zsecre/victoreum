@@ -70,7 +70,7 @@
     <style>
   /* Style for buttons */
   [id*="btn"] {
-    cursor: pointer;
+
     text-align: center;
     padding: 10px;
     transition: color 0.3s ease;
@@ -103,7 +103,7 @@
   
   <div id="pic-name-holder">
     <div id="profile-pic"></div>
-    <div id="username">zsecre</div>
+    <div id="username"></div>
   </div>
   <i class='fas fa-wallet'></i>
   </div>
@@ -142,8 +142,19 @@
     </div>
   </div>
   
-  
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    
   <script>
+    // Initialize the Telegram Web App
+        const tg = window.Telegram.WebApp;
+
+        // Expand the Mini App to full screen
+        tg.expand();
+    const initData = tg.initDataUnsafe;
+    const firstName = initData.user?.first_name;
+      
+      document.getElementById('username').innerText = `${firstName}`
+      
   // Wait for the DOM to load completely
   document.addEventListener("DOMContentLoaded", function () {
     // Get all button elements with ids containing "btn"
