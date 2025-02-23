@@ -3,78 +3,187 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Telegram Mini App</title>
+    <title>Victoreum Drop</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 0;
-            padding: 0;
-            background-color: #f3f3f3;
-        }
-        h1 {
-            margin-top: 50px;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #0088cc;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #005f99;
-        }
-        a {
-          text-decoration: none;
-          color: white;
-        }
+    body{
+      margin: 0;
+      background: black;
+      box-shadow: border-box;
+      font-family: Sans-Serif;
+      color: white;
+    }
+    #nav-bar-top{
+      height: 60px;
+      width: 100%;
+      position: absolute;
+      top: 0;
+      border-bottom: .1px solid #ffffff39;
+      color: white;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      box-sizing: border-box;
+      overflow: auto;
+      padding: 0 12px;
+    }
+    #pic-name-holder{
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    #nav-bar-top #profile-pic{
+      height: 35px;
+      width: 35px;
+      background: #09c9ff;
+      color: white;
+      opacity: 1;
+      border-radius: 50px;
+      
+    }
+    .fas {
+      font-size: 25px;
+    }
+    #nav-bar-bot{
+      height: 60px;
+      width: 100%;
+      background: black;
+      position: absolute;
+      bottom: 0;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      
+      color: #9a9ca4a3;
+    }
+    #nav-bar-bot i{
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      
+    }
+    #nav-bar-bot p{
+      font-size: 3px;
+    }
     </style>
+    <style>
+  /* Style for buttons */
+  [id*="btn"] {
+    cursor: pointer;
+    text-align: center;
+    padding: 10px;
+    transition: color 0.3s ease;
+  }
+
+  /* Style for active button */
+  [id*="btn"].active {
+    color: white;
+  }
+
+  /* Style for content divs */
+  [id*="cont"] {
+    display: none; /* Initially hidden */
+    padding: 20px;
+    border: 1px solid #cccccc0a;
+    height: 75vh;
+    margin: 60px 0;
+  }
+
+  /* Style for visible content */
+  [id*="cont"]:not([style*="display: none"]) {
+    display: block;
+  }
+</style>
+    <script src="https://kit.fontawesome.com/caf9999568.js" crossorigin="anonymous"></script>
 </head>
 <body>
-  <h3 id="username"></h3>
-  <h1>Your Telegram User ID</h1>
-    <p id="result">Loading...</p>
+  <!-- Nav Top -->
+  <div id="nav-bar-top">
+  
+  <div id="pic-name-holder">
+    <div id="profile-pic"></div>
+    <div id="username">zsecre</div>
+  </div>
+  <i class='fas fa-wallet'></i>
+  </div>
+  
+  
+  <div id="home-cont">
+    Home
+  </div>
+  <div id="friends-cont">
+    Friends
+  </div>
+  <div id="games-cont">
+    Games
+  </div>
+  <div id="airdrop-cont">
+    Airdrop
+  </div>
+  
+  <!-- Nav Bottom -->
+  <div id="nav-bar-bot">
+    <div id="home-btn">
+    <i class="fa-solid fa-house"></i>
+    <p>Home</p>
+    </div>
+    <div id="friends-btn">
+    <i class="fa-solid fa-user-group"></i>
+    <p>Friends</p>
+    </div>
+    <div id="games-btn">
+    <i class="fa-solid fa-gamepad"></i>
+    <p>Games</p>
+    </div>
+    <div id="airdrop-btn">
+    <i class="fa-solid fa-parachute-box"></i>
+    <p>Airdrop</p>
+    </div>
+  </div>
+  
+  
+  <script>
+  // Wait for the DOM to load completely
+  document.addEventListener("DOMContentLoaded", function () {
+    // Get all button elements with ids containing "btn"
+    const buttons = document.querySelectorAll('[id*="btn"]');
 
-    <h1>Welcome to My Mini App!</h1>
-    <button id="send-message">Send Message to Chat</button>
-    <button><a href="https://t.me/victoriumgames">Subscribe</a></button>
-    <!-- Include Telegram Web App SDK -->
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script>
-
-        // Initialize the Telegram Web App
-        const tg = window.Telegram.WebApp;
-
-        // Expand the Mini App to full screen
-        tg.expand();
-
-        // Handle button click
-        document.getElementById('send-message').addEventListener('click', () => {
-            // Send a message back to the chat
-            tg.sendData('Hello from the Mini App!');
+    // Add click event listeners to each button
+    buttons.forEach(button => {
+      button.addEventListener("click", function () {
+        // Remove 'active' class from all buttons and reset their styles
+        buttons.forEach(btn => {
+          btn.style.color = "#9a9ca4a3"; // Set color to grey
+          btn.classList.remove("active");
         });
 
-        // Listen for events from Telegram
-        tg.onEvent('mainButtonClicked', () => {
-            alert('Main Button Clicked!');
+        // Add 'active' class to the clicked button and set its color to white
+        this.style.color = "white";
+        this.classList.add("active");
+
+        // Hide all content divs with ids containing "cont"
+        const contents = document.querySelectorAll('[id*="cont"]');
+        contents.forEach(content => {
+          content.style.display = "none";
         });
-        const initData = tg.initDataUnsafe;
-const firstName = initData.user?.first_name;
-alert(`Hello, ${firstName}!`);
-document.getElementById('username').innerText = `${firstName}`
 
-        // Extract the user ID
-        
-        const userId = initData.user?.id;
-
-        if (userId) {
-            document.getElementById('result').innerText = `Your user ID is: ${userId}`;
-        } else {
-            document.getElementById('result').innerText = 'User ID not available.';
+        // Show the corresponding content div based on the clicked button's id
+        const targetId = this.id.replace("-btn", "-cont");
+        const targetContent = document.getElementById(targetId);
+        if (targetContent) {
+          targetContent.style.display = "flex";
         }
-    </script>
+      });
+    });
+
+    // Optionally, trigger the first button's click event by default to show initial state
+    const defaultButton = document.querySelector('[id*="btn"]');
+    if (defaultButton) {
+      defaultButton.click();
+    }
+  });
+</script>
+  
 </body>
 </html>
