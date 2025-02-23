@@ -147,7 +147,11 @@
   <script>
     // Initialize the Telegram Web App
         const tg = window.Telegram.WebApp;
-
+        tg.setBackgroundColor('#000000');
+        // Black background
+        tg.setHeaderColor('#000000');
+        // Black header
+        
         // Expand the Mini App to full screen
         tg.expand();
     const initData = tg.initDataUnsafe;
