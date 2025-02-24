@@ -184,7 +184,7 @@
 <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js"></script>
 
 <!-- Your Custom JavaScript Code -->
-    <script>
+    <script type="module">
 
         // Initialize the Telegram Web App
         const tg = window.Telegram.WebApp;
@@ -221,46 +221,8 @@
             }
             return result;
         }
-
-        // Save data to Firebase when the button is clicked
         
-        // Wait for the DOM to load completely
-        document.addEventListener("DOMContentLoaded", function () {
-            // Get all button elements with ids containing "btn"
-            const buttons = document.querySelectorAll('[id*="btn"]');
-            // Add click event listeners to each button
-            buttons.forEach(button => {
-                button.addEventListener("click", function () {
-                    // Remove 'active' class from all buttons and reset their styles
-                    buttons.forEach(btn => {
-                        btn.style.color = "#9a9ca4a3"; // Set color to grey
-                        btn.classList.remove("active");
-                    });
-                    // Add 'active' class to the clicked button and set its color to white
-                    this.style.color = "cyan";
-                    this.classList.add("active");
-                    // Hide all content divs with ids containing "cont"
-                    const contents = document.querySelectorAll('[id*="cont"]');
-                    contents.forEach(content => {
-                        content.style.display = "none";
-                    });
-                    // Show the corresponding content div based on the clicked button's id
-                    const targetId = this.id.replace("-btn", "-cont");
-                    const targetContent = document.getElementById(targetId);
-                    if (targetContent) {
-                        targetContent.style.display = "flex";
-                    }
-                });
-            });
-            // Optionally, trigger the first button's click event by default to show initial state
-            const defaultButton = document.querySelector('[id*="btn"]');
-            if (defaultButton) {
-                defaultButton.click();
-            }
-        });
-    </script>
-<script type="module">
-    // Import Firebase modules
+            // Import Firebase modules
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
     import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
@@ -316,7 +278,43 @@
                 alert('An error occurred while saving your data. Please try again.');
             }
     });
-</script>
+        // Save data to Firebase when the button is clicked
+        
+        // Wait for the DOM to load completely
+        document.addEventListener("DOMContentLoaded", function () {
+            // Get all button elements with ids containing "btn"
+            const buttons = document.querySelectorAll('[id*="btn"]');
+            // Add click event listeners to each button
+            buttons.forEach(button => {
+                button.addEventListener("click", function () {
+                    // Remove 'active' class from all buttons and reset their styles
+                    buttons.forEach(btn => {
+                        btn.style.color = "#9a9ca4a3"; // Set color to grey
+                        btn.classList.remove("active");
+                    });
+                    // Add 'active' class to the clicked button and set its color to white
+                    this.style.color = "cyan";
+                    this.classList.add("active");
+                    // Hide all content divs with ids containing "cont"
+                    const contents = document.querySelectorAll('[id*="cont"]');
+                    contents.forEach(content => {
+                        content.style.display = "none";
+                    });
+                    // Show the corresponding content div based on the clicked button's id
+                    const targetId = this.id.replace("-btn", "-cont");
+                    const targetContent = document.getElementById(targetId);
+                    if (targetContent) {
+                        targetContent.style.display = "flex";
+                    }
+                });
+            });
+            // Optionally, trigger the first button's click event by default to show initial state
+            const defaultButton = document.querySelector('[id*="btn"]');
+            if (defaultButton) {
+                defaultButton.click();
+            }
+        });
+    </script>
 
 </body>
 </html>
