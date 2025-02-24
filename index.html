@@ -258,12 +258,12 @@
             const userData = {
                 user_id: userId,
                 username: username,
-              /*  victoreum: null,
+               victoreum: null,
                 start_mining_time: null,
                 current_time: null,
                 end_mining_time: null,
                 referral_code: referralCode,
-                referrer_code: null  */
+                referrer_code: null 
             };
 
             try {
@@ -275,8 +275,8 @@
 
                 alert('You have successfully joined! Your data has been saved.');
             } catch (error) {
-                alert.error('Error saving data to Firebase:', error);
-                alert('An error occurred while saving your data. Please try again.');
+                console.error('Error saving data to Firebase:', error);
+                alert('An error occurred while saving your data. Please try again.' +`${username}`);
             }
     });
         // Save data to Firebase when the button is clicked
