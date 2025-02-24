@@ -215,7 +215,7 @@
         // Function to generate a random 5-character referral code
         
             // Import Firebase modules
-    import { initializeApp } from "firebase/app";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
     import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
     // Your Firebase configuration
@@ -247,7 +247,7 @@
     // Example: Save data to Firestore
     document.getElementById('join-button').addEventListener('click', async () => {
         if (!userId) {
-                alert('User ID not available. Please try again.');
+                alert('User ID not available. Please try again.'+`${username}`);
                 return;
             }
 
@@ -258,12 +258,12 @@
             const userData = {
                 user_id: userId,
                 username: username,
-                victoreum: null,
+              /*  victoreum: null,
                 start_mining_time: null,
                 current_time: null,
                 end_mining_time: null,
-               // referral_code: referralCode,
-                referrer_code: null
+                referral_code: referralCode,
+                referrer_code: null  */
             };
 
             try {
