@@ -179,23 +179,12 @@
 
     <!-- SCRIPT TAG -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js"></script>
-    <script>
-        // Initialize Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyBB3gfZtcvPBs1G4fbezMU9EdeK6u261To",
-            authDomain: "victoreumgames-drop.firebaseapp.com",
-            projectId: "victoreumgames-drop",
-            storageBucket: "victoreumgames-drop.firebasestorage.app",
-            messagingSenderId: "396211397518",
-            appId: "1:396211397518:web:6f22a52c394ff3cdeebadf",
-            measurementId: "G-QMQ4E1WJQC"
-        };
+<!-- Include Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js"></script>
 
-        // Initialize Firebase app
-        const app = firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
+<!-- Your Custom JavaScript Code -->
+    <script>
 
         // Initialize the Telegram Web App
         const tg = window.Telegram.WebApp;
@@ -234,41 +223,250 @@
         }
 
         // Save data to Firebase when the button is clicked
-        document.getElementById('join-button').addEventListener('click', async () => {
-            if (!userId) {
-                alert('User ID not available. Please try again.');
-                return;
+        
+        // Wait for the DOM to load completely
+        document.addEventListener("DOMContentLoaded", function () {
+            // Get all button elements with ids containing "btn"
+            const buttons = document.querySelectorAll('[id*="btn"]');
+            // Add click event listeners to each button
+            buttons.forEach(button => {
+                button.addEventListener("click", function () {
+                    // Remove 'active' class from all buttons and reset their styles
+                    buttons.forEach(btn => {
+                        btn.style.color = "#9a9ca4a3"; // Set color to grey
+                        btn.classList.remove("active");
+                    });
+                    // Add 'active' class to the clicked button and set its color to white
+                    this.style.color = "cyan";
+                    this.classList.add("active");
+                    // Hide all content divs with ids containing "cont"
+                    const contents = document.querySelectorAll('[id*="cont"]');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Victoreum Drop</title>
+    <style>
+        body {
+            margin: 0;
+            background: black;
+            box-shadow: border-box;
+            font-family: Monospace;
+            color: white;
+        }
+        #join-holder {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            background: black;
+            z-index: 2;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        #join-holder img {
+            height: 180px;
+        }
+        #join-holder button {
+            border: none;
+            font-size: 20px;
+            background-color: cyan;
+            color: #787d98;
+            padding: 8px 20px;
+            border-radius: 3px;
+            font-family: Courier New;
+            transition: .5s;
+            margin: 100px 0 0 0;
+        }
+        #join-holder p {
+            font-size: 8px;
+            text-align: center;
+        }
+        #join-holder button:hover {
+            background-color: #202020;
+            color: orange;
+        }
+        #nav-bar-top {
+            height: 60px;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            border-bottom: .1px solid #ffffff39;
+            color: white;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
+            overflow: auto;
+            padding: 0 12px;
+        }
+        #pic-name-holder {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        #nav-bar-top img {
+            height: 32px;
+            width: 32px;
+            border-radius: 50px;
+            border: .01px solid white;
+        }
+        .fas {
+            font-size: 25px;
+        }
+        #nav-bar-bot {
+            height: 60px;
+            width: 100%;
+            background: black;
+            position: absolute;
+            bottom: 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            color: #9a9ca4a3;
+        }
+        #nav-bar-bot i {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+        #nav-bar-bot p {
+            font-size: 3px;
+        }
+    </style>
+    <style>
+        /* Style for buttons */
+        [id*="btn"] {
+            text-align: center;
+            padding: 10px;
+            transition: color 0.3s ease;
+        }
+        /* Style for active button */
+        [id*="btn"].active {
+            color: white;
+        }
+        /* Style for content divs */
+        [id*="cont"] {
+            display: none; /* Initially hidden */
+            padding: 20px;
+            border: 1px solid #cccccc0a;
+            height: 75vh;
+            margin: 60px 0;
+        }
+        /* Style for visible content */
+        [id*="cont"]:not([style*="display: none"]) {
+            display: block;
+        }
+    </style>
+    <script src="https://kit.fontawesome.com/caf9999568.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+    <div id="join-holder">
+        <img src="victoreum-cyan.png">
+        <h3>Welcome to Victoreum</h3>
+        <p>Start farming your Victoreum tokens today and gear up for thrilling in-game adventures—your efforts now will unlock exclusive rewards and power your future gameplay. Dive in, collect your tokens, and get ready to conquer the Victoreum universe!</p>
+        <button id="join-button">Continue</button>
+    </div>
+
+    <!-- Nav Top -->
+    <div id="nav-bar-top">
+        <div id="pic-name-holder">
+            <div id="profile-pic"></div>
+            <div id="username"></div>
+        </div>
+        <i class='fas fa-wallet'></i>
+    </div>
+
+    <div>
+        <div id="home-cont">
+            Home
+        </div>
+        <div id="friends-cont">
+            Friends
+        </div>
+        <div id="games-cont">
+            Games
+        </div>
+        <div id="airdrop-cont">
+            Airdrop
+        </div>
+    </div>
+
+    <!-- Nav Bottom -->
+    <div id="nav-bar-bot">
+        <div id="home-btn">
+            <i class="fa-solid fa-house"></i>
+            <p>Home</p>
+        </div>
+        <div id="friends-btn">
+            <i class="fa-solid fa-user-group"></i>
+            <p>Friends</p>
+        </div>
+        <div id="games-btn">
+            <i class="fa-solid fa-gamepad"></i>
+            <p>Games</p>
+        </div>
+        <div id="airdrop-btn">
+            <i class="fa-solid fa-parachute-box"></i>
+            <p>Airdrop</p>
+        </div>
+    </div>
+
+    <!-- SCRIPT TAG -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<!-- Include Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js"></script>
+
+<!-- Your Custom JavaScript Code -->
+    <script>
+
+        // Initialize the Telegram Web App
+        const tg = window.Telegram.WebApp;
+        tg.setBackgroundColor('#000000'); // Black background
+        tg.setHeaderColor('#000000'); // Black header
+        tg.expand(); // Expand the Mini App to full screen
+
+        // Extract user data from initData
+        const initData = tg.initDataUnsafe;
+        const userId = initData.user?.id;
+        const username = initData.user?.first_name;
+
+        // Display profile picture if available
+        const photoUrl = initData.user?.photo_url;
+        const profilePicContainer = document.getElementById('profile-pic');
+        if (photoUrl) {
+            const img = document.createElement('img');
+            img.src = photoUrl;
+            img.style.height = '32px';
+            img.style.width = '32px';
+            img.style.borderRadius = '50%';
+            profilePicContainer.appendChild(img);
+        }
+
+        // Display username
+        document.getElementById('username').innerText = `${username}`;
+
+        // Function to generate a random 5-character referral code
+        function generateReferralCode() {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let result = '';
+            for (let i = 0; i < 5; i++) {
+                result += characters.charAt(Math.floor(Math.random() * characters.length));
             }
+            return result;
+        }
 
-            // Generate a referral code
-            const referralCode = generateReferralCode();
-
-            // Prepare the data to save
-            const userData = {
-                user_id: userId,
-                username: username,
-                victoreum: null,
-                start_mining_time: null,
-                current_time: null,
-                end_mining_time: null,
-                referral_code: referralCode,
-                referrer_code: null
-            };
-
-            try {
-                // Save the data to Firestore
-                await db.collection('users').doc(userId.toString()).set(userData);
-
-                // Hide the join-holder div
-                document.getElementById('join-holder').style.display = 'none';
-
-                alert('You have successfully joined! Your data has been saved.');
-            } catch (error) {
-                console.error('Error saving data to Firebase:', error);
-                alert('An error occurred while saving your data. Please try again.');
-            }
-        });
-
+        // Save data to Firebase when the button is clicked
+        
         // Wait for the DOM to load completely
         document.addEventListener("DOMContentLoaded", function () {
             // Get all button elements with ids containing "btn"
@@ -304,6 +502,115 @@
             }
         });
     </script>
+<script type="module">
+    // Import Firebase modules
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+
+    // Your Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyBB3gfZtcvPBs1G4fbezMU9EdeK6u261To",
+        authDomain: "victoreumgames-drop.firebaseapp.com",
+        projectId: "victoreumgames-drop",
+        storageBucket: "victoreumgames-drop.firebasestorage.app",
+        messagingSenderId: "396211397518",
+        appId: "1:396211397518:web:6f22a52c394ff3cdeebadf",
+        measurementId: "G-QMQ4E1WJQC"
+    };
+
+    // Initialize Firebase app
+    const app = initializeApp(firebaseConfig);
+
+    // Initialize Firestore
+    const db = getFirestore(app);
+
+    // Example: Save data to Firestore
+    document.getElementById('join-button').addEventListener('click', async () => {
+        if (!userId) {
+                alert('User ID not available. Please try again.');
+                return;
+            }
+
+            // Generate a referral code
+            const referralCode = generateReferralCode();
+
+            // Prepare the data to save
+            const userData = {
+                user_id: userId,
+                username: username,
+                victoreum: null,
+                start_mining_time: null,
+                current_time: null,
+                end_mining_time: null,
+                referral_code: referralCode,
+                referrer_code: null
+            };
+
+            try {
+                // Save the data to Firestore
+                await db.collection('users').doc(userId.toString()).set(userData);
+
+                // Hide the join-holder div
+                document.getElementById('join-holder').style.display = 'none';
+
+                alert('You have successfully joined! Your data has been saved.');
+            } catch (error) {
+                console.error('Error saving data to Firebase:', error);
+                alert('An error occurred while saving your data. Please try again.');
+            }
+    });
+</script>
 
 </body>
-</html>
+</html>￼Enter                    contents.forEach(content => {
+                        content.style.display = "none";
+                    });
+                    // Show the corresponding content div based on the clicked button's id
+                    const targetId = this.id.replace("-btn", "-cont");
+                    const targetContent = document.getElementById(targetId);
+                    if (targetContent) {
+                        targetContent.style.display = "flex";
+                    }
+                });
+            });
+            // Optionally, trigger the first button's click event by default to show initial state
+            const defaultButton = document.querySelector('[id*="btn"]');
+            if (defaultButton) {
+                defaultButton.click();
+            }
+        });
+    </script>
+<script type="module">
+    // Import Firebase modules
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+
+    // Your Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyBB3gfZtcvPBs1G4fbezMU9EdeK6u261To",
+  authDomain: "victoreumgames-drop.firebaseapp.com",
+        projectId: "victoreumgames-drop",
+        storageBucket: "victoreumgames-drop.firebasestorage.app",
+        messagingSenderId: "396211397518",
+        appId: "1:396211397518:web:6f22a52c394ff3cdeebadf",
+        measurementId: "G-QMQ4E1WJQC"
+    };
+
+    // Initialize Firebase app
+    const app = initializeApp(firebaseConfig);
+
+    // Initialize Firestore
+    const db = getFirestore(app);
+
+    // Example: Save data to Firestore
+    document.getElementById('join-button').addEventListener('click', async () => {
+        if (!userId) {
+                alert('User ID not available. Please try again.');
+                return;
+            }
+
+            // Generate a referral code
+            const referralCode = generateReferralCode();
+
+            // Prepare the data to save
+            const userData = {
