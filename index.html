@@ -213,14 +213,6 @@
         document.getElementById('username').innerText = `${username}`;
 
         // Function to generate a random 5-character referral code
-        function generateReferralCode() {
-            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-            let result = '';
-            for (let i = 0; i < 5; i++) {
-                result += characters.charAt(Math.floor(Math.random() * characters.length));
-            }
-            return result;
-        }
         
             // Import Firebase modules
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
@@ -243,6 +235,15 @@
     // Initialize Firestore
     const db = getFirestore(app);
 
+        function generateReferralCode() {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let result = '';
+            for (let i = 0; i < 5; i++) {
+                result += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            return result;
+        }
+        
     // Example: Save data to Firestore
     document.getElementById('join-button').addEventListener('click', async () => {
         if (!userId) {
@@ -261,7 +262,7 @@
                 start_mining_time: null,
                 current_time: null,
                 end_mining_time: null,
-                referral_code: referralCode,
+               // referral_code: referralCode,
                 referrer_code: null
             };
 
