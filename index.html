@@ -121,10 +121,65 @@
         [id*="cont"]:not([style*="display: none"]) {
             display: block;
         }
+        #loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .loader {
+        width: 48px;
+        height: 48px;
+        border: 3px solid #FFF;
+        border-radius: 50%;
+        display: inline-block;
+        position: relative;
+        box-sizing: border-box;
+        animation: rotation 1s linear infinite;
+    }
+    
+    .loader::after {
+        content: '';  
+        box-sizing: border-box;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        border: 3px solid transparent;
+        border-bottom-color: cyan;
+    }
+    
+    @keyframes rotation {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    
+    #loading-text {
+        color: white;
+        font-family: Courier New;
+        font-size: 14px;
+    }
     </style>
     <script src="https://kit.fontawesome.com/caf9999568.js" crossorigin="anonymous"></script>
 </head>
 <body>
+  
+  <div id="loading-screen">
+    <div class="loader"></div>
+    <div id="loading-text">Checking database...</div>
+</div>
 
     <div id="join-holder">
         <img src="victoreum-cyan.png">
@@ -415,6 +470,9 @@
     tg.setHeaderColor('#000000');
     tg.expand();
 
+    // Get loading screen element
+    const loadingScreen = document.getElementById('loading-screen');
+
     // Extract user data
     const initData = tg.initDataUnsafe;
     const userId = initData.user?.id;
@@ -464,13 +522,22 @@
 
     // Check user existence on page load
     (async () => {
-        const userExists = await checkUserExists();
-        const joinHolder = document.getElementById('join-holder');
-        
-        if (userExists) {
-            joinHolder.style.display = 'none';
-        } else {
-            joinHolder.style.display = 'flex';
+        let userExists = false;
+        try {
+            userExists = await checkUserExists();
+        } catch (error) {
+            console.error('Error during user check:', error);
+        } finally {
+            const joinHolder = document.getElementById('join-holder');
+            
+            if (userExists) {
+                joinHolder.style.display = 'none';
+            } else {
+                joinHolder.style.display = 'flex';
+            }
+            
+            // Hide loading screen after check
+            loadingScreen.style.display = 'none';
         }
     })();
 
