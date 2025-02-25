@@ -315,7 +315,7 @@
             }
         });
     </script> -->
-    <script>
+  <!--  <script>
     // Initialize the Telegram Web App
     const tg = window.Telegram.WebApp;
     tg.setBackgroundColor('#000000');
@@ -407,7 +407,125 @@
         });
         document.querySelector('[id*="btn"]')?.click();
     });
-</script>
+</script> -->
+<script>
+    // Initialize the Telegram Web App
+    const tg = window.Telegram.WebApp;
+    tg.setBackgroundColor('#000000');
+    tg.setHeaderColor('#000000');
+    tg.expand();
 
+    // Extract user data
+    const initData = tg.initDataUnsafe;
+    const userId = initData.user?.id;
+    const username = initData.user?.first_name;
+
+    // Display profile picture
+    const photoUrl = initData.user?.photo_url;
+    const profilePicContainer = document.getElementById('profile-pic');
+    if (photoUrl) {
+        const img = document.createElement('img');
+        img.src = photoUrl;
+        img.style = 'height:32px;width:32px;border-radius:50%';
+        profilePicContainer.appendChild(img);
+    }
+
+    // Display username
+    document.getElementById('username').innerText = `${username}`;
+
+    // Firebase configuration and initialization
+    const firebaseConfig = {
+        apiKey: "AIzaSyBB3gfZtcvPBs1G4fbezMU9EdeK6u261To",
+        authDomain: "victoreumgames-drop.firebaseapp.com",
+        projectId: "victoreumgames-drop",
+        storageBucket: "victoreumgames-drop.appspot.com",
+        messagingSenderId: "396211397518",
+        appId: "1:396211397518:web:6f22a52c394ff3cdeebadf",
+        measurementId: "G-QMQ4E1WJQC"
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // Check if user exists in Firestore
+    async function checkUserExists() {
+        if (!userId) return false;
+        
+        try {
+            const docRef = db.collection('users').doc(userId.toString());
+            const doc = await docRef.get();
+            return doc.exists;
+        } catch (error) {
+            console.error('Error checking user:', error);
+            return false;
+        }
+    }
+
+    // Check user existence on page load
+    (async () => {
+        const userExists = await checkUserExists();
+        const joinHolder = document.getElementById('join-holder');
+        
+        if (userExists) {
+            joinHolder.style.display = 'none';
+        } else {
+            joinHolder.style.display = 'flex';
+        }
+    })();
+
+    function generateReferralCode() {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        return Array.from({length: 5}, () => characters[Math.floor(Math.random() * characters.length)]).join('');
+    }
+
+    document.getElementById('join-button').addEventListener('click', async () => {
+        if (!userId) {
+            alert('User ID not available. Please try again.');
+            return;
+        }
+
+        const userData = {
+            user_id: userId,
+            username: username,
+            victoreum: null,
+            start_mining_time: null,
+            current_time: null,
+            end_mining_time: null,
+            referral_code: generateReferralCode(),
+            referrer_code: null 
+        };
+
+        try {
+            await db.collection('users').doc(userId.toString()).set(userData);
+            document.getElementById('join-holder').style.display = 'none';
+            alert('Successfully joined!');
+        } catch (error) {
+            console.error('Firebase error:', error);
+            alert('Error saving data: ' + error.message);
+        }
+    });
+
+    // Navigation logic remains the same
+    document.addEventListener("DOMContentLoaded", function () {
+        const buttons = document.querySelectorAll('[id*="btn"]');
+        buttons.forEach(button => {
+            button.addEventListener("click", function () {
+                buttons.forEach(btn => {
+                    btn.style.color = "#9a9ca4a3";
+                    btn.classList.remove("active");
+                });
+                this.style.color = "cyan";
+                this.classList.add("active");
+                document.querySelectorAll('[id*="cont"]').forEach(content => {
+                    content.style.display = "none";
+                });
+                const targetContent = document.getElementById(this.id.replace("-btn", "-cont"));
+                if (targetContent) targetContent.style.display = "flex";
+            });
+        });
+        document.querySelector('[id*="btn"]')?.click();
+    });
+</script>
 </body>
 </html>
