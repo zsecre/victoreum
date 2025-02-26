@@ -555,11 +555,11 @@
                 
                 // Update points per hour
                 const vphElement = document.getElementById('points-per-hour');
-                vphElement.innerText = `${userId}/h`;
+                vphElement.innerText = `${userData.vph}/h`;
                 
                 // Update victoreum points
                 const pointsElement = document.getElementById('victoreum_points');
-                pointsElement.innerText = userData.victoreum_points;
+                pointsElement.innerText = `${userData.victoreum_points}`;
             }
         } catch (error) {
             console.error('Error fetching user data:', error);
