@@ -12,6 +12,9 @@
             font-family: Monospace;
             color: white;
         }
+        * {
+          font-family: Segoe UI;
+        }
         #join-holder {
             position: absolute;
             height: 100%;
@@ -53,7 +56,7 @@
             width: 100%;
             position: absolute;
             top: 0;
-            border-bottom: .1px solid #ffffff39;
+            
             color: white;
             display: flex;
             flex-direction: row;
@@ -87,6 +90,8 @@
             justify-content: space-around;
             align-items: center;
             color: #9a9ca4a3;
+            border: .01px solid #111111;
+            box-sizing: border-box;
         }
         #nav-bar-bot i {
             text-align: center;
@@ -112,10 +117,7 @@
         /* Style for content divs */
         [id*="cont"] {
             display: none; /* Initially hidden */
-            padding: 20px;
-            border: 1px solid #cccccc0a;
-            height: 75vh;
-            margin: 60px 0;
+            
         }
         /* Style for visible content */
         [id*="cont"]:not([style*="display: none"]) {
@@ -127,7 +129,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0, 0, 0, 0.9);
+        background: rgba(0, 0, 0, 1);
         display: flex;
         justify-content: center;
         align-items: center;
@@ -171,7 +173,96 @@
         font-family: Courier New;
         font-size: 14px;
     }
+    .cont{
+    /*background: #272727; */
+      
+      height: 82vh;
+      margin-top: 60px;
+      padding: 0;
+    }
+    .home{
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .home #logo-holder{
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      
+      padding: 90px 0 50px;
+      
+    }
+    .home #victoreum-logo{
+      height: 160px;
+      
+    }
+    .home .button{
+      border: none;
+      height: 40px;
+      width: 80%;
+      background: cyan;
+      border-radius: 3px;
+      color: #ea6800;
+      font-weight: 600;
+      transition: .3s;
+      font-family: Monospace;
+    }
+    .home .button:hover {
+        background-color: #202020;
+        color: orange;
+        font-weight: 200;
+        width: 18%;
+      }
+    .home #claim-button{
+      display: none;
+    }
+    .home #timer-holder{
+      width: 170px;
+      height: 40px;
+      background: #2b2b2b;
+      border-radius: 50px;
+      display: none;
+    }
+    #victoreum-points-holder{
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      gap: 5px;
+      align-items: center;
+    }
+    #victoreum-points-holder #points-logo{
+      height: 27px;
+      
+    }
+    #start-claim-holder{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-top: 30px;
+    }
+    #vph-holder{
+      display: flex;
+      flex-direction: row;
+      background: rgb(0,255,225, .1);
+      height: 35px;
+      width: 75px;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50px;
+      gap: 3px;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      
+    }
     </style>
+    
+    
     <script src="https://kit.fontawesome.com/caf9999568.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -196,18 +287,36 @@
         </div>
         <i class='fas fa-wallet'></i>
     </div>
-
+    
+    
+   <!-- MIDDLE CONTAINERS -->
     <div>
-        <div id="home-cont">
-            Home
-        </div>
-        <div id="friends-cont">
+        <div id="home-cont" class="cont home">
+            <div id="logo-holder">
+              <div id="vph-holder">
+                <i class="fa-solid fa-bolt"></i>
+                <div id="points-per-hour">10/h</div>
+              </div>
+              <img src="victoreum-cyan.png" id="victoreum-logo">
+              <div id="victoreum-points-holder">
+                <img src="victoreum-points-logo.png" id="points-logo">
+                <div id="victoreum-points">138, 393, 074</div>
+             </div>
+              </div>
+            <div id="start-claim-holder">
+              <div id="timer-holder"></div>
+              <button id="start-button" class="button start">Start</button>
+              <button id="claim-button" class="button claim">Claim</button>
+            </div>
+            </div>
+        
+        <div id="friends-cont" class="cont friends">
             Friends
         </div>
-        <div id="games-cont">
+        <div id="games-cont" class="cont games">
             Games
         </div>
-        <div id="airdrop-cont">
+        <div id="airdrop-cont" class="cont airdrop">
             Airdrop
         </div>
     </div>
@@ -239,230 +348,7 @@
 <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore-compat.js"></script>
 
 <!-- Your Custom JavaScript Code -->
-  <!--  <script>
 
-        // Initialize the Telegram Web App
-        const tg = window.Telegram.WebApp;
-        tg.setBackgroundColor('#000000'); // Black background
-        tg.setHeaderColor('#000000'); // Black header
-        tg.expand(); // Expand the Mini App to full screen
-
-        // Extract user data from initData
-        const initData = tg.initDataUnsafe;
-        const userId = initData.user?.id;
-        const username = initData.user?.first_name;
-
-        // Display profile picture if available
-        const photoUrl = initData.user?.photo_url;
-        const profilePicContainer = document.getElementById('profile-pic');
-        if (photoUrl) {
-            const img = document.createElement('img');
-            img.src = photoUrl;
-            img.style.height = '32px';
-            img.style.width = '32px';
-            img.style.borderRadius = '50%';
-            profilePicContainer.appendChild(img);
-        }
-
-        // Display username
-        document.getElementById('username').innerText = `${username}`;
-
-        // Function to generate a random 5-character referral code
-        
-            // Import Firebase modules
-
-
-    // Your Firebase configuration
-    const firebaseConfig = {
-        apiKey: "AIzaSyBB3gfZtcvPBs1G4fbezMU9EdeK6u261To",
-        authDomain: "victoreumgames-drop.firebaseapp.com",
-        projectId: "victoreumgames-drop",
-        storageBucket: "victoreumgames-drop.firebasestorage.app",
-        messagingSenderId: "396211397518",
-        appId: "1:396211397518:web:6f22a52c394ff3cdeebadf",
-        measurementId: "G-QMQ4E1WJQC"
-    };
-
-    // Initialize Firebase app
-    const app = initializeApp(firebaseConfig);
-
-    // Initialize Firestore
-    const db = getFirestore(app);
-
-        function generateReferralCode() {
-            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-            let result = '';
-            for (let i = 0; i < 5; i++) {
-                result += characters.charAt(Math.floor(Math.random() * characters.length));
-            }
-            return result;
-        }
-        
-    // Example: Save data to Firestore
-    document.getElementById('join-button').addEventListener('click', async () => {
-        if (!userId) {
-                alert('User ID not available. Please try again.'+`${username}`);
-                return;
-            }
-
-            // Generate a referral code
-            const referralCode = generateReferralCode();
-
-            // Prepare the data to save
-            const userData = {
-                user_id: userId,
-                username: username,
-               victoreum: null,
-                start_mining_time: null,
-                current_time: null,
-                end_mining_time: null,
-                referral_code: referralCode,
-                referrer_code: null 
-            };
-
-            try {
-                // Save the data to Firestore
-                await db.collection('users').doc(userId.toString()).set(userData);
-
-                // Hide the join-holder div
-                document.getElementById('join-holder').style.display = 'none';
-
-                alert('You have successfully joined! Your data has been saved.');
-            } catch (error) {
-                console.error('Error saving data to Firebase:', error);
-                alert('An error occurred while saving your data. Please try again.' +`${username}`);
-            }
-    });
-        // Save data to Firebase when the button is clicked
-        
-        // Wait for the DOM to load completely
-        document.addEventListener("DOMContentLoaded", function () {
-            // Get all button elements with ids containing "btn"
-            const buttons = document.querySelectorAll('[id*="btn"]');
-            // Add click event listeners to each button
-            buttons.forEach(button => {
-                button.addEventListener("click", function () {
-                    // Remove 'active' class from all buttons and reset their styles
-                    buttons.forEach(btn => {
-                        btn.style.color = "#9a9ca4a3"; // Set color to grey
-                        btn.classList.remove("active");
-                    });
-                    // Add 'active' class to the clicked button and set its color to white
-                    this.style.color = "cyan";
-                    this.classList.add("active");
-                    // Hide all content divs with ids containing "cont"
-                    const contents = document.querySelectorAll('[id*="cont"]');
-                    contents.forEach(content => {
-                        content.style.display = "none";
-                    });
-                    // Show the corresponding content div based on the clicked button's id
-                    const targetId = this.id.replace("-btn", "-cont");
-                    const targetContent = document.getElementById(targetId);
-                    if (targetContent) {
-                        targetContent.style.display = "flex";
-                    }
-                });
-            });
-            // Optionally, trigger the first button's click event by default to show initial state
-            const defaultButton = document.querySelector('[id*="btn"]');
-            if (defaultButton) {
-                defaultButton.click();
-            }
-        });
-    </script> -->
-  <!--  <script>
-    // Initialize the Telegram Web App
-    const tg = window.Telegram.WebApp;
-    tg.setBackgroundColor('#000000');
-    tg.setHeaderColor('#000000');
-    tg.expand();
-
-    // Extract user data
-    const initData = tg.initDataUnsafe;
-    const userId = initData.user?.id;
-    const username = initData.user?.first_name;
-
-    // Display profile picture
-    const photoUrl = initData.user?.photo_url;
-    const profilePicContainer = document.getElementById('profile-pic');
-    if (photoUrl) {
-        const img = document.createElement('img');
-        img.src = photoUrl;
-        img.style = 'height:32px;width:32px;border-radius:50%';
-        profilePicContainer.appendChild(img);
-    }
-
-    // Display username
-    document.getElementById('username').innerText = `${username}`;
-
-    // Firebase configuration and initialization
-    const firebaseConfig = {
-        apiKey: "AIzaSyBB3gfZtcvPBs1G4fbezMU9EdeK6u261To",
-        authDomain: "victoreumgames-drop.firebaseapp.com",
-        projectId: "victoreumgames-drop",
-        storageBucket: "victoreumgames-drop.appspot.com",
-        messagingSenderId: "396211397518",
-        appId: "1:396211397518:web:6f22a52c394ff3cdeebadf",
-        measurementId: "G-QMQ4E1WJQC"
-    };
-
-    // Initialize Firebase
-    const app = firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-
-    function generateReferralCode() {
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        return Array.from({length: 5}, () => characters[Math.floor(Math.random() * characters.length)]).join('');
-    }
-
-    document.getElementById('join-button').addEventListener('click', async () => {
-        if (!userId) {
-            alert('User ID not available. Please try again.');
-            return;
-        }
-
-        const userData = {
-            user_id: userId,
-            username: username,
-            victoreum: null,
-            start_mining_time: null,
-            current_time: null,
-            end_mining_time: null,
-            referral_code: generateReferralCode(),
-            referrer_code: null 
-        };
-
-        try {
-            await db.collection('users').doc(userId.toString()).set(userData);
-            document.getElementById('join-holder').style.display = 'none';
-            alert('Successfully joined!');
-        } catch (error) {
-            console.error('Firebase error:', error);
-            alert('Error saving data: ' + error.message);
-        }
-    });
-
-    // Navigation logic remains the same
-    document.addEventListener("DOMContentLoaded", function () {
-        const buttons = document.querySelectorAll('[id*="btn"]');
-        buttons.forEach(button => {
-            button.addEventListener("click", function () {
-                buttons.forEach(btn => {
-                    btn.style.color = "#9a9ca4a3";
-                    btn.classList.remove("active");
-                });
-                this.style.color = "cyan";
-                this.classList.add("active");
-                document.querySelectorAll('[id*="cont"]').forEach(content => {
-                    content.style.display = "none";
-                });
-                const targetContent = document.getElementById(this.id.replace("-btn", "-cont"));
-                if (targetContent) targetContent.style.display = "flex";
-            });
-        });
-        document.querySelector('[id*="btn"]')?.click();
-    });
-</script> -->
 <script>
     // Initialize the Telegram Web App
     const tg = window.Telegram.WebApp;
@@ -556,15 +442,28 @@
             user_id: userId,
             username: username,
             victoreum: null,
+            vph: 10,
             start_mining_time: null,
-            current_time: null,
             end_mining_time: null,
             referral_code: generateReferralCode(),
-            referrer_code: null 
+            referrer_code: null,
+            tasks: {
+                task_1: null,
+                task_2: null
+            }
         };
 
         try {
+            // Save main user data
             await db.collection('users').doc(userId.toString()).set(userData);
+            
+            // Create tasks subcollection with individual documents
+            const tasksCollection = db.collection('users').doc(userId.toString()).collection('tasks');
+            
+            // Set task documents
+            await tasksCollection.doc('task_1').set({ completed: null });
+            await tasksCollection.doc('task_2').set({ completed: null });
+
             document.getElementById('join-holder').style.display = 'none';
             alert('Successfully joined!');
         } catch (error) {
