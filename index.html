@@ -419,7 +419,7 @@
             if (userExists) {
                 joinHolder.style.display = 'none';
             } else {
-                joinHolder.style.display = 'flex';
+                joinHolder.style.display = 'none';
             }
             
             // Hide loading screen after check
@@ -447,23 +447,14 @@
             end_mining_time: null,
             referral_code: generateReferralCode(),
             referrer_code: null,
-            tasks: {
+            tasks: {  // Add tasks field here
                 task_1: null,
                 task_2: null
             }
         };
 
         try {
-            // Save main user data
             await db.collection('users').doc(userId.toString()).set(userData);
-            
-            // Create tasks subcollection with individual documents
-            const tasksCollection = db.collection('users').doc(userId.toString()).collection('tasks');
-            
-            // Set task documents
-            await tasksCollection.doc('task_1').set({ completed: null });
-            await tasksCollection.doc('task_2').set({ completed: null });
-
             document.getElementById('join-holder').style.display = 'none';
             alert('Successfully joined!');
         } catch (error) {
