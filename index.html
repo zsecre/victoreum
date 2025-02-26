@@ -92,6 +92,7 @@
             color: #9a9ca4a3;
             border: .01px solid #111111;
             box-sizing: border-box;
+            padding: 0 8px;
         }
         #nav-bar-bot i {
             text-align: center;
@@ -191,9 +192,9 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      gap: 10px;
+      gap: 15px;
       
-      padding: 90px 0 50px;
+      padding: 85px 0 25px;
       
     }
     .home #victoreum-logo{
@@ -215,8 +216,11 @@
         background-color: #202020;
         color: orange;
         font-weight: 200;
-        width: 18%;
+        width: 40%;
       }
+    .home #start-button{
+      display: none;
+    }
     .home #claim-button{
       display: none;
     }
@@ -236,7 +240,9 @@
     }
     #victoreum-points-holder #points-logo{
       height: 27px;
-      
+    }
+    #victoreum-points-holder #victoreum-points{
+      font-size: 22px;
     }
     #start-claim-holder{
       display: flex;
@@ -259,6 +265,34 @@
       top: 10px;
       right: 10px;
       
+    }
+    #channel-holder{
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 30px 25px;
+      background: rgb(255,255,255, .05);
+      border-radius: 3px;
+      border: .09px solid rgb(255,255,255, .065);
+    }
+    h7{
+      font-size: 10px;
+    }
+    #join-community-button, #join-code-button{
+      border: none;
+      width: 70px;
+      height: 30px;
+      border-radius: 50px;
+      background: #6dff02;
+    }
+    #channel-holder #community ,#codes{
+      font-size: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      font-weight: 200;
     }
     </style>
     
@@ -300,19 +334,31 @@
               <img src="victoreum-cyan.png" id="victoreum-logo">
               <div id="victoreum-points-holder">
                 <img src="victoreum-points-logo.png" id="points-logo">
-                <div id="victoreum-points">138, 393, 074</div>
+                <div id="victoreum-points">193748</div>
              </div>
               </div>
             <div id="start-claim-holder">
               <div id="timer-holder"></div>
-              <button id="start-button" class="button start">Start</button>
+              <div id="channel-holder">
+                <h7>Join Victoreum Telegram Channels to start mining:</h7>
+                <div id="community">•Victoreum Commumity <button id="join-community-button">Join</button>
+                </div>
+                <div id="codes">•Victoreum Claim Code<button id="join-code-button">Join</button>
+                </div>
+              </div>
+              <button id="start-button" class="button start">Start Farming</button>
               <button id="claim-button" class="button claim">Claim</button>
             </div>
             </div>
+        <!-- HOME END CODE-->
         
+        <div id="daily-cont" class="cont daily">
+            DAILY
+        </div>
         <div id="friends-cont" class="cont friends">
             Friends
         </div>
+        
         <div id="games-cont" class="cont games">
             Games
         </div>
@@ -326,6 +372,10 @@
         <div id="home-btn">
             <i class="fa-solid fa-house"></i>
             <p>Home</p>
+        </div>
+        <div id="daily-btn">
+            <i class="fa-solid fa-calendar-days"></i>
+            <p>Daily</p>
         </div>
         <div id="friends-btn">
             <i class="fa-solid fa-user-group"></i>
@@ -462,7 +512,40 @@
             alert('Error saving data: ' + error.message);
         }
     });
+    
+    // Add these event listeners for the new buttons
+    document.getElementById('join-community-button').addEventListener('click', async () => {
+        // Open community channel
+        window.open('https://t.me/victoreumcommunity', '_blank');
+        
+        // Update task_1 status
+        try {
+            await db.collection('users').doc(userId.toString()).update({
+                'tasks.task_1': 'subscribed'
+            });
+            alert('Community channel subscription recorded!');
+        } catch (error) {
+            console.error('Error updating task:', error);
+            alert('Error updating task status: ' + error.message);
+        }
+    });
 
+    document.getElementById('join-code-button').addEventListener('click', async () => {
+        // Open codes channel
+        window.open('https://t.me/victoreumcodes', '_blank');
+        
+        // Update task_2 status
+        try {
+            await db.collection('users').doc(userId.toString()).update({
+                'tasks.task_2': 'subscribed'
+            });
+            alert('Code channel subscription recorded!');
+        } catch (error) {
+            console.error('Error updating task:', error);
+            alert('Error updating task status: ' + error.message);
+        }
+    });
+    
     // Navigation logic remains the same
     document.addEventListener("DOMContentLoaded", function () {
         const buttons = document.querySelectorAll('[id*="btn"]');
