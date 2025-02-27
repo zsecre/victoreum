@@ -593,7 +593,7 @@
         try {
             await db.collection('users').doc(userId.toString()).update({
                 'join_rewards': 'recieved',
-                'victoreum-points': 100,
+                'victoreum_points': 100,
                 'vph': 10
                 
             });
