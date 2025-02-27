@@ -267,7 +267,7 @@
       
     }
     #channel-holder{
-      display: none;
+      display: flex;
       flex-direction: column;
       justify-content: space-between;
       gap: 8px;
@@ -308,6 +308,7 @@
     }
     #reward-holder{
       padding: 5px 25px;
+      display: none;
     }
     #rewards-button-holder{
       display: flex;
@@ -561,9 +562,9 @@
             user_id: userId,
             username: username,
             join_rewards: null,
-            victoreum: null,
-            victoreum_points: null,
-            vph: 10,
+            victoreum: 0,
+            victoreum_points: 0,
+            vph: 0,
             start_mining_time: null,
             end_mining_time: null,
             referral_code: generateReferralCode(),
@@ -590,7 +591,10 @@
         // Update join_rewards status
         try {
             await db.collection('users').doc(userId.toString()).update({
-                'join_rewards': 'recieved'
+                'join_rewards': 'recieved',
+                'victoreum-points': 100,
+                'vph': 10
+                
             });
         } catch (error) {
             console.error('Error updating task:', error);
