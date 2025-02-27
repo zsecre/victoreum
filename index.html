@@ -348,9 +348,18 @@
               <div id="timer-holder"></div>
               <div id="channel-holder">
                 <h7>Join Victoreum Telegram Channels to start mining:</h7>
-                <div id="community"><i class="fa-brands fa-telegram"></i> Victoreum Commumity <button id="join-community-button">Join</button>
+                <div id="community"><i class="fa-brands fa-telegram"></i> Victoreum Community <button id="join-community-button">Join</button>
                 </div>
                 <div id="codes"><i class="fa-brands fa-telegram"></i> Victoreum Claim Code<button id="join-code-button">Join</button>
+                </div>
+              </div>
+              
+              <div id="reward-holder">
+                <div id="rewards-button-holder">
+                  <div id="rewards">
+                    
+                  </div>
+                  <button id="confirm-reward-button">Confirm</button>
                 </div>
               </div>
               <button id="start-button" class="button start">Start Farming</button>
@@ -576,7 +585,13 @@
                 joinCodeBtn.style.backgroundColor = "rgb(42,42,42)"
                 joinCodeBtn.style.color = "rgb(100,255,18)"
                 }
-                
+                if(userData.tasks.task_1 && userData.tasks.task_2 == "subscribed"){
+                  document.getElementById("channel-holder").style.display = "none"
+                  document.getElementById("reward-holder").style.display = "flex"
+                }
+                if(userData.tasks.task_1 && userData.tasks.task_2 != "subscribed"){
+                  document.getElementById("reward-holder").style.display = "none"
+                }
             }
         } catch (error) {
             console.error('Error fetching user data:', error);
