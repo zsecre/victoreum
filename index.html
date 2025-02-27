@@ -308,7 +308,7 @@
     }
     #reward-holder{
       padding: 5px 25px;
-
+      display: none;
     }
     #rewards-button-holder{
       display: flex;
@@ -662,7 +662,7 @@
                   document.getElementById("channel-holder").style.display = "none"
                   document.getElementById("reward-holder").style.display = "flex"
                 }
-                if((userData.tasks.task_1 || userData.tasks.task_2 != "subscribed") || userData.join_rewards == "recieved"){
+                if( userData.join_rewards == "recieved"){
                   document.getElementById("reward-holder").style.display = "none"
                 }
             }
