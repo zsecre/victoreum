@@ -13,7 +13,7 @@
             color: white;
         }
         * {
-          font-family: Segoe UI;
+          font-family: Trebuchet MS;
         }
         #join-holder {
             position: absolute;
@@ -267,7 +267,7 @@
       
     }
     #channel-holder{
-      display: flex;
+      display: none;
       flex-direction: column;
       justify-content: space-between;
       gap: 8px;
@@ -300,6 +300,55 @@
     }
     #channel-holder i{
       font-size: 20px;
+    }
+    
+    /* REWARD HOLDER FOR JOINING TG*/
+    #reward-holder #ty{
+      font-size: 11px;
+    }
+    #reward-holder{
+      padding: 5px 25px;
+    }
+    #rewards-button-holder{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      
+    }
+    #rewards{
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+    }
+    #reward{
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10px;
+      height: 50px;
+      width: 43px;
+      border-radius: 3px;
+      padding: 7px;
+      background-color: rgb(28,28,28);
+    }
+    #reward-holder #confirm-reward-button{
+      padding: 8px 0;
+      font-size: 16px;
+      border: none;
+      background: cyan;
+      border-radius: 3px;
+      transition: .3s;
+    }
+    #reward-holder #confirm-reward-button:hover{
+      background: #353535;
+      color: #ff9507;
+    }
+    #reward img{
+      height: 30px;
     }
     </style>
     
@@ -355,9 +404,14 @@
               </div>
               
               <div id="reward-holder">
+                 <div id="ty">Thank you! Here's your rewads for joining our channel. Please confirm. You can now start mining.
+                 </div>
                 <div id="rewards-button-holder">
                   <div id="rewards">
-                    
+                   <div id="reward">
+                     <img src="victoreum-points-logo.png">100</div>
+                   <div id="reward">
+                     <i class="fas fa-bolt"></i>+10/h</div>
                   </div>
                   <button id="confirm-reward-button">Confirm</button>
                 </div>
@@ -506,6 +560,7 @@
         const userData = {
             user_id: userId,
             username: username,
+            join_rewards: null,
             victoreum: null,
             victoreum_points: null,
             vph: 10,
@@ -529,7 +584,21 @@
         }
     });
     
+    
     // Add these event listeners for the new buttons
+    document.getElementById('confirm-reward-button').addEventListener('click', async () => {
+        // Update join_rewards status
+        try {
+            await db.collection('users').doc(userId.toString()).update({
+                'join_rewards': 'recieved'
+            });
+        } catch (error) {
+            console.error('Error updating task:', error);
+            alert('Error updating task status: ' + error.message);
+        }
+    });
+    
+    
     document.getElementById('join-community-button').addEventListener('click', async () => {
         // Open community channel
         window.open('https://t.me/victoreumcommunity', '_blank');
@@ -589,7 +658,7 @@
                   document.getElementById("channel-holder").style.display = "none"
                   document.getElementById("reward-holder").style.display = "flex"
                 }
-                if(userData.tasks.task_1 && userData.tasks.task_2 != "subscribed"){
+                if((userData.tasks.task_1 || userData.tasks.task_2 != "subscribed") || userData.joined == "recieved"){
                   document.getElementById("reward-holder").style.display = "none"
                 }
             }
