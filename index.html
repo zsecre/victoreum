@@ -568,12 +568,15 @@
                 const joinCommBtn = document.getElementById('join-community-button');
                 joinCommBtn.innerText = "✓";
                 joinCommBtn.style.backgroundColor = "rgb(42,42,42)"
+                joinCommBtn.style.color = "rgb(100,255,18)"
                 }
                 if(userData.tasks.task_2 == "subscribed"){
                 const joinCodeBtn = document.getElementById('join-code-button');
                 joinCodeBtn.innerText = "✓";
                 joinCodeBtn.style.backgroundColor = "rgb(42,42,42)"
+                joinCodeBtn.style.color = "rgb(100,255,18)"
                 }
+                
             }
         } catch (error) {
             console.error('Error fetching user data:', error);
