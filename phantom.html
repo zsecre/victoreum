@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phantom Wallet Assets</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 10px 0;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #status {
+            margin: 20px 0;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        .connected {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .assets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .asset-card {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .asset-image {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Phantom Wallet Assets</h1>
+    <button id="connectButton">Connect to Phantom</button>
+    <div id="status"></div>
+    <div id="assetsContainer" class="assets-grid"></div>
+
+    <script>
+        const connectButton = document.getElementById('connectButton');
+        const statusDiv = document.getElementById('status');
+        const assetsContainer = document.getElementById('assetsContainer');
+
+        // Check if Phantom Wallet is installed
+        if (window?.solana?.isPhantom) {
+            const provider = window.solana;
+            
+            connectButton.addEventListener('click', async () => {
+                try {
+                    // Connect to Phantom Wallet
+                    await provider.connect();
+                    statusDiv.textContent = `Connected: ${provider.publicKey.toString()}`;
+                    statusDiv.className = 'status connected';
+                    
+                    // Get and display assets
+                    const assets = await getAssets();
+                    displayAssets(assets);
+                } catch (error) {
+                    statusDiv.textContent = `Error: ${error.message}`;
+                    statusDiv.className = 'status error';
+                }
+            });
+        } else {
+            connectButton.remove();
+            statusDiv.textContent = 'Phantom Wallet not detected. Please install Phantom Wallet.';
+            statusDiv.className = 'status error';
+        }
+
+        async function getAssets() {
+            try {
+                const response = await window.solana.request({
+                    method: 'getAssets',
+                    params: {
+                        publicKey: window.solana.publicKey.toString(),
+                    }
+                });
+                return response.assets;
+            } catch (error) {
+                console.error('Error fetching assets:', error);
+                return [];
+            }
+        }
+
+        function displayAssets(assets) {
+            assetsContainer.innerHTML = '';
+            
+            assets.forEach(asset => {
+                const assetCard = document.createElement('div');
+                assetCard.className = 'asset-card';
+                
+                const content = `
+                    ${asset.content?.links?.image ? 
+                        `<img src="${asset.content.links.image}" class="asset-image" alt="${asset.name}">` : 
+                        '<div class="asset-image">No image</div>'}
+                    <h3>${asset.name}</h3>
+                    <p>Symbol: ${asset.symbol}</p>
+                    <p>Balance: ${asset.token_info.balance / (10 ** asset.token_info.decimals)}</p>
+                `;
+                
+                assetCard.innerHTML = content;
+                assetsContainer.appendChild(assetCard);
+            });
+        }
+    </script>
+</body>
+</html
