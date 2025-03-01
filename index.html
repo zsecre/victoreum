@@ -201,42 +201,15 @@
       height: 160px;
       
     }
-    .home .button{
-      border: none;
-      height: 40px;
-      width: 80%;
-      background: cyan;
-      border-radius: 3px;
-      color: #ea6800;
-      font-weight: 600;
-      transition: .3s;
-      font-family: Monospace;
-    }
-    .home .button:hover {
-        background-color: #202020;
-        color: orange;
-        font-weight: 200;
-        width: 40%;
-      }
-    .home #start-button{
-      display: none;
-    }
-    .home #claim-button{
-      display: none;
-    }
-    .home #timer-holder{
-      width: 170px;
-      height: 40px;
-      background: #2b2b2b;
-      border-radius: 50px;
-      display: none;
-    }
     #victoreum-points-holder{
       display: flex;
       flex-direction: row;
       justify-content: center;
       gap: 5px;
       align-items: center;
+      position: absolute;
+      top: 0px;
+      right: 22px;
     }
     #victoreum-points-holder #points-logo{
       height: 27px;
@@ -262,12 +235,56 @@
       border-radius: 50px;
       gap: 3px;
       position: absolute;
-      top: 10px;
+      top: 40px;
       right: 10px;
       
     }
+    /* Start Claim Buttons */
+    #start-claim-button-holder{
+      
+      height: 220px;
+      width: 100%;
+      display: none;
+      align-items: center;
+      justify-content: end;
+      flex-direction: column;
+      
+      padding: 0 0 8px 0;
+      box-sizing: border-box;
+    }
+    .home #timer-holder{
+      width: 210px;
+      height: 40px;
+      background: #2b2b2b;
+      border-radius: 50px;
+      display: none;
+    }
+    .home #start-button{
+      display: block;
+    }
+    .home #claim-button{
+      display: none;
+    }
+    .home .button{
+      border: none;
+      height: 40px;
+      width: 80%;
+      background: cyan;
+      border-radius: 3px;
+      color: #ea6800;
+      font-weight: 600;
+      transition: .3s;
+      font-family: Monospace;
+    }
+    .home .button:hover {
+        background-color: #202020;
+        color: orange;
+        font-weight: 200;
+        width: 40%;
+      }
+    /* CHANNEL JOIN HOLDER */
     #channel-holder{
-      display: flex;
+      display: none;
       flex-direction: column;
       justify-content: space-between;
       gap: 8px;
@@ -303,13 +320,13 @@
     }
     
     /* REWARD HOLDER FOR JOINING TG*/
-    #reward-holder #ty{
-      font-size: 11px;
-    }
     #reward-holder{
       padding: 5px 25px;
       display: none;
       flex-direction: column;
+    }
+    #reward-holder #ty{
+      font-size: 11px;
     }
     #rewards-button-holder{
       display: flex;
@@ -395,8 +412,8 @@
                 <div id="victoreum-points">0</div>
              </div>
               </div>
+              
             <div id="start-claim-holder">
-              <div id="timer-holder"></div>
               <div id="channel-holder">
                 <h7>Join Victoreum Telegram Channels to start mining:</h7>
                 <div id="community"><i class="fa-brands fa-telegram"></i> Victoreum Community <button id="join-community-button">Join</button>
@@ -406,7 +423,7 @@
               </div>
               
               <div id="reward-holder">
-                 <div id="ty">Thank you! Here's your rewads for joining our channel. Please confirm. You can now start mining.
+                 <div id="ty">Thank you! Here's your rewads for joining our channels. Please confirm. You can now start mining.
                  </div>
                 <div id="rewards-button-holder">
                   <div id="rewards">
@@ -418,8 +435,12 @@
                   <button id="confirm-reward-button">Confirm</button>
                 </div>
               </div>
+              
+              <div id="start-claim-button-holder">
+              <div id="timer-holder"></div>
               <button id="start-button" class="button start">Start Farming</button>
               <button id="claim-button" class="button claim">Claim</button>
+              </div>
             </div>
             </div>
         <!-- HOME END CODE-->
@@ -438,6 +459,8 @@
             Airdrop
         </div>
     </div>
+
+
 
     <!-- Nav Bottom -->
     <div id="nav-bar-bot">
@@ -664,8 +687,10 @@
                   document.getElementById("reward-holder").style.display = "flex"
                 }
                 if( userData.join_rewards == "recieved"){
-                  document.getElementById("reward-holder").style.display = "none"
+                  document.getElementById("reward-holder").style.display = "none";
+                  document.getElementById("start-claim-button-holder").style.display = "flex";
                 }
+                
             }
         } catch (error) {
             console.error('Error fetching user data:', error);
