@@ -699,31 +699,84 @@
         }
     }
     fetchAndDisplayUserData();
+    
+    
+    // Add this timer function
+    let timerInterval;
 
-    // Add event listener for Start Farming button
+    function startTimer(endTime) {
+        function updateTimer() {
+            const now = Date.now();
+            const remaining = endTime - now;
+
+            if (remaining <= 0) {
+                clearInterval(timerInterval);
+                document.getElementById('timer-holder').innerHTML = "00:00:00";
+                document.getElementById('claim-button').style.display = 'block';
+                return;
+            }
+
+            const hours = Math.floor(remaining / (1000 * 60 * 60));
+            const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor(remaining % (1000 * 60)) / 1000;
+
+            // Format with leading zeros
+            const display = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            document.getElementById('timer-holder').innerHTML = display;
+        }
+
+        // Update immediately and every second
+        updateTimer();
+        timerInterval = setInterval(updateTimer, 1000);
+    }
+    // Update fetchAndDisplayUserData function
+    async function fetchAndDisplayUserDataTime() {
+        try {
+            const userDoc = await db.collection('users').doc(userId.toString()).get();
+            if (userDoc.exists) {
+                const userData = userDoc.data();
+                
+                // Existing code...
+
+                // Add timer check
+                if (userData.end_mining_time) {
+                    const endTime = userData.end_mining_time.toMillis();
+                    const now = Date.now();
+                    
+                    if (endTime > now) {
+                        document.getElementById('timer-holder').style.display = 'block';
+                        document.getElementById('start-button').style.display = 'none';
+                        document.getElementById('claim-button').style.display = 'block';
+                        startTimer(endTime);
+                    }
+                }
+            }
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+        }
+    }
+
+    // Update start button click handler
     document.getElementById('start-button').addEventListener('click', async () => {
         try {
             const startTime = firebase.firestore.Timestamp.now();
-            const endTime = firebase.firestore.Timestamp.fromMillis(
-                startTime.toMillis() + (5 * 60 * 60 * 1000) // Add 5 hours in milliseconds
-            );
+            const endTime = startTime.toMillis() + (5 * 60 * 60 * 1000);
 
             await db.collection('users').doc(userId.toString()).update({
                 start_mining_time: startTime,
-                end_mining_time: endTime
+                end_mining_time: firebase.firestore.Timestamp.fromMillis(endTime)
             });
-            
-            // Optional: Update UI
+
+            // Start the timer with the new end time
+            document.getElementById('timer-holder').style.display = 'block';
             document.getElementById('start-button').style.display = 'none';
             document.getElementById('claim-button').style.display = 'block';
-            document.getElementById('timer-holder').style.display = 'block';
+            startTimer(endTime);
 
         } catch (error) {
             console.error('Error starting mining:', error);
         }
     });
-
-    // ... (rest of the existing code remains the same)
     
     // Navigation logic remains the same
     document.addEventListener("DOMContentLoaded", function () {
