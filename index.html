@@ -216,6 +216,8 @@
     }
     #victoreum-points-holder #victoreum-points{
       font-size: 22px;
+      font-weight: 100;
+      font-style: italic;
     }
     #start-claim-holder{
       display: flex;
@@ -697,6 +699,32 @@
         }
     }
     fetchAndDisplayUserData();
+
+    // Add event listener for Start Farming button
+    document.getElementById('start-button').addEventListener('click', async () => {
+        try {
+            const startTime = firebase.firestore.Timestamp.now();
+            const endTime = firebase.firestore.Timestamp.fromMillis(
+                startTime.toMillis() + (5 * 60 * 60 * 1000) // Add 5 hours in milliseconds
+            );
+
+            await db.collection('users').doc(userId.toString()).update({
+                start_mining_time: startTime,
+                end_mining_time: endTime
+            });
+            
+            // Optional: Update UI
+            document.getElementById('start-button').style.display = 'none';
+            document.getElementById('claim-button').style.display = 'block';
+            document.getElementById('timer-holder').style.display = 'block';
+
+        } catch (error) {
+            console.error('Error starting mining:', error);
+        }
+    });
+
+    // ... (rest of the existing code remains the same)
+    
     // Navigation logic remains the same
     document.addEventListener("DOMContentLoaded", function () {
         const buttons = document.querySelectorAll('[id*="btn"]');
