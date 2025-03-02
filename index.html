@@ -702,8 +702,13 @@
     }
             if(now < userData.end_mining_time){
               document.getElementById('timer-holder').style.display = "flex"
+              document.getElementById('claim-button').style.display = "none"
+              document.getElementById('start-button').style.display = "none"
+              
             }if(userData.end_mining_time && userData.start_mining_time == 0){
-              document.getElementById('start-button').style.display = "flex"
+              document.getElementById('start-button').style.display = "block"
+              document.getElementById('timer-holder').style.display = "none"
+              document.getElementById('claim-button').style.display = "none"
             }
 
                 
@@ -717,14 +722,14 @@
     document.getElementById('start-button').addEventListener('click', async () => {
     try {
         // Get the current time as a Firestore Timestamp
-        const startTime = firebase.firestore.Timestamp.now();
+        const startTime = Date.now();
         // Calculate the end time 5 hours later in milliseconds
-        const endTime = startTime.toMillis() + (5 * 60 * 60 * 1000);
+        const endTime = startTime + (5 * 60 * 60 * 1000);
 
         // Update the Firestore document for the user
         await db.collection('users').doc(userId.toString()).update({
             start_mining_time: startTime,
-            end_mining_time: firebase.firestore.Timestamp.fromMillis(endTime)
+            end_mining_time: endTime
         });
 
         // Update the UI: show the timer and hide the start button, then start the countdown timer
