@@ -696,12 +696,12 @@
                   document.getElementById("start-claim-button-holder").style.display = "flex";
                 }
                 const now = Date.now();
-            if(userData.start_mining_time && userData.end_mining_time == "0"){
+            if( userData.end_mining_time == 0){
               document.getElementById('start-button').style.display = "block"
               document.getElementById('timer-holder').style.display = "none"
               document.getElementById('claim-button').style.display = "none"
             }
-                if (now > userData.end_mining_time && userData.end_mining_time != 0) {
+                if (now >= userData.end_mining_time && userData.end_mining_time != 0) {
                   document.getElementById('claim-button').style.display = 'block';
                   document.getElementById('timer-holder').style.display = "none";
                   document.getElementById('start-button').style.display = "none"
