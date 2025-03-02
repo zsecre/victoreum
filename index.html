@@ -696,19 +696,21 @@
                   document.getElementById("start-claim-button-holder").style.display = "flex";
                 }
                 const now = Date.now();
+            if(userData.end_mining_time && userData.start_mining_time == 0){
+              document.getElementById('start-button').style.display = "block"
+              document.getElementById('timer-holder').style.display = "none"
+              document.getElementById('claim-button').style.display = "none"
+            }
                 if (now >= userData.end_mining_time) {
                   document.getElementById('claim-button').style.display = 'block';
                   document.getElementById('timer-holder').style.display = "none";
+                  document.getElementById('start-button').style.display = "none"
     }
             if(now < userData.end_mining_time){
               document.getElementById('timer-holder').style.display = "flex"
               document.getElementById('claim-button').style.display = "none"
               document.getElementById('start-button').style.display = "none"
               
-            }if(userData.end_mining_time && userData.start_mining_time == 0){
-              document.getElementById('start-button').style.display = "block"
-              document.getElementById('timer-holder').style.display = "none"
-              document.getElementById('claim-button').style.display = "none"
             }
 
                 
@@ -732,10 +734,6 @@
             end_mining_time: endTime
         });
 
-        // Update the UI: show the timer and hide the start button, then start the countdown timer
-        document.getElementById('timer-holder').style.display = 'block';
-        document.getElementById('start-button').style.display = 'none';
-        document.getElementById('claim-button').style.display = 'block';
         startTimer(endTime);
 
     } catch (error) {
