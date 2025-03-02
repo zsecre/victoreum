@@ -260,9 +260,12 @@
       background: #2b2b2b;
       border-radius: 50px;
       display: none;
+      justify-content: center;
+      align-items: center;
+      color: #ff870b;
     }
     .home #start-button{
-      display: block;
+      display: none;
     }
     .home #claim-button{
       display: none;
@@ -591,8 +594,8 @@
             victoreum: 0,
             victoreum_points: 0,
             vph: 0,
-            start_mining_time: null,
-            end_mining_time: null,
+            start_mining_time: 0,
+            end_mining_time: 0,
             referral_code: generateReferralCode(),
             referrer_code: null,
             tasks: {  // Add tasks field here
@@ -692,6 +695,17 @@
                   document.getElementById("reward-holder").style.display = "none";
                   document.getElementById("start-claim-button-holder").style.display = "flex";
                 }
+                const now = Date.now();
+                if (now >= userData.end_mining_time) {
+                  document.getElementById('claim-button').style.display = 'block';
+                  document.getElementById('timer-holder').style.display = "none";
+    }
+            if(now < userData.end_mining_time){
+              document.getElementById('timer-holder').style.display = "flex"
+            }if(userData.end_mining_time && userData.start_mining_time == 0){
+              document.getElementById('start-button').style.display = "flex"
+            }
+
                 
             }
         } catch (error) {
@@ -734,7 +748,6 @@ function startTimer(endTime) {
         if (remaining <= 0) {
             clearInterval(timerInterval);
             document.getElementById('timer-holder').innerHTML = "00:00:00";
-            document.getElementById('claim-button').style.display = 'block';
             return;
         }
 
