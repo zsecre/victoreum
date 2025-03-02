@@ -194,7 +194,7 @@
       align-items: center;
       gap: 15px;
       
-      padding: 85px 0 25px;
+      padding: 120px 0 25px;
       
     }
     .home #victoreum-logo{
@@ -734,40 +734,35 @@
             end_mining_time: endTime
         });
 
-        startTimer(endTime);
-
     } catch (error) {
         console.error('Error starting mining:', error);
     }
 });
 
 let timerInterval;
+    function startTimer(endTime) {
+        // Clear any existing timer interval
+        if (timerInterval) clearInterval(timerInterval);
 
-function startTimer(endTime) {
-    function updateTimer() {
-        const now = Date.now();
-        const remaining = endTime - now;
-
-        if (remaining <= 0) {
-            clearInterval(timerInterval);
-            document.getElementById('timer-holder').innerHTML = "00:00:00";
-            return;
+        function updateTimer() {
+            const now = Date.now();
+            const remaining = endTime - now;
+            if (remaining <= 0) {
+                clearInterval(timerInterval);
+                document.getElementById('timer-holder').innerHTML = "00:00:00";
+                // Optionally, show claim-button when time is up
+                document.getElementById('claim-button').style.display = 'block';
+                return;
+            }
+            const hours = Math.floor(remaining / (1000 * 60 * 60));
+            const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+            const display = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            document.getElementById('timer-holder').innerHTML = display;
         }
-
-        const hours = Math.floor(remaining / (1000 * 60 * 60));
-        const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
-
-        // Format with leading zeros (hh:mm:ss)
-        const display = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-        document.getElementById('timer-holder').innerHTML = display;
+        updateTimer();
+        timerInterval = setInterval(updateTimer, 1000);
     }
-
-    // Update immediately and then every second
-    updateTimer();
-    timerInterval = setInterval(updateTimer, 1000);
-}
-
 
     
     // Navigation logic remains the same
