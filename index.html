@@ -718,6 +718,7 @@
     }
     fetchAndDisplayUserData();
     
+    // START MIMING BUTTON CLICK
     document.getElementById('start-button').addEventListener('click', async () => {
     try {
         // Get the current time as a Firestore Timestamp
@@ -729,6 +730,21 @@
         await db.collection('users').doc(userId.toString()).update({
             start_mining_time: startTime,
             end_mining_time: endTime
+        });
+
+    } catch (error) {
+        console.error('Error starting mining:', error);
+    }
+});
+    // CLAIM BUTTON click
+    document.getElementById('claim-button').addEventListener('click', async () => {
+    try {
+
+
+        // Update the Firestore document for the user
+        await db.collection('users').doc(userId.toString()).update({
+            start_mining_time: 0,
+            end_mining_time: 0
         });
 
     } catch (error) {
