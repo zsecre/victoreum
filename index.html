@@ -712,6 +712,30 @@
               document.getElementById('start-button').style.display = "none"
               
             }
+            let timerInterval;
+    function startTimer(endTime) {
+        // Clear any existing timer interval
+        if (timerInterval) clearInterval(timerInterval);
+
+        function updateTimer() {
+            const now = Date.now();
+            const remaining = userData.end_mining_time - now;
+            if (remaining <= 0) {
+                clearInterval(timerInterval);
+                document.getElementById('timer-holder').innerHTML = "00:00:00";
+                // Optionally, show claim-button when time is up
+                document.getElementById('claim-button').style.display = 'block';
+                return;
+            }
+            const hours = Math.floor(remaining / (1000 * 60 * 60));
+            const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+            const display = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            document.getElementById('timer-holder').innerHTML = display;
+        }
+        updateTimer();
+        timerInterval = setInterval(updateTimer, 1000);
+    }
 
                 
             }
@@ -739,30 +763,7 @@
     }
 });
 
-let timerInterval;
-    function startTimer(endTime) {
-        // Clear any existing timer interval
-        if (timerInterval) clearInterval(timerInterval);
 
-        function updateTimer() {
-            const now = Date.now();
-            const remaining = endTime - now;
-            if (remaining <= 0) {
-                clearInterval(timerInterval);
-                document.getElementById('timer-holder').innerHTML = "00:00:00";
-                // Optionally, show claim-button when time is up
-                document.getElementById('claim-button').style.display = 'block';
-                return;
-            }
-            const hours = Math.floor(remaining / (1000 * 60 * 60));
-            const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
-            const display = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-            document.getElementById('timer-holder').innerHTML = display;
-        }
-        updateTimer();
-        timerInterval = setInterval(updateTimer, 1000);
-    }
 
     
     // Navigation logic remains the same
