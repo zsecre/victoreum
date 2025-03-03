@@ -254,14 +254,16 @@
       padding: 0 0 8px 0;
       box-sizing: border-box;
     }
-    .home #timer-holder{
-      width: 210px;
-      height: 40px;
+    #timer-holder-div{
       background: #2b2b2b;
       border-radius: 50px;
       display: none;
       justify-content: center;
       align-items: center;
+      width: 210px;
+      height: 40px;
+    }
+    .home #timer-holder{
       color: #ff870b;
     }
     .home #start-button{
@@ -442,7 +444,10 @@
               </div>
               
               <div id="start-claim-button-holder">
+              <div id="timer-holder-div">
+              <i class="fa-solid fa-clock"></i>
               <div id="timer-holder"></div>
+              </div>
               <button id="start-button" class="button start">Start Farming</button>
               <button id="claim-button" class="button claim">Claim</button>
               </div>
@@ -698,16 +703,16 @@
                 const now = Date.now();
             if( userData.end_mining_time == 0){
               document.getElementById('start-button').style.display = "block"
-              document.getElementById('timer-holder').style.display = "none"
+              document.getElementById('timer-holder-div').style.display = "none"
               document.getElementById('claim-button').style.display = "none"
             }
                 if (now >= userData.end_mining_time && userData.end_mining_time != 0) {
                   document.getElementById('claim-button').style.display = 'block';
-                  document.getElementById('timer-holder').style.display = "none";
+                  document.getElementById('timer-holder-div').style.display = "none";
                   document.getElementById('start-button').style.display = "none"
     }
             if(now < userData.end_mining_time){
-              document.getElementById('timer-holder').style.display = "flex"
+              document.getElementById('timer-holder-div').style.display = "flex"
               document.getElementById('claim-button').style.display = "none"
               document.getElementById('start-button').style.display = "none"
             }
