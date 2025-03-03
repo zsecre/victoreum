@@ -255,6 +255,7 @@
       box-sizing: border-box;
     }
     #timer-holder-div{
+      position: relative;
       background: #2b2b2b;
       border-radius: 50px;
       display: none;
@@ -267,6 +268,11 @@
     }
     .home #timer-holder{
       color: #ff870b;
+    }
+    #claim-in{
+      position: absolute;
+      top: -20px;
+      left: 0;
     }
     .home #start-button{
       display: none;
@@ -447,6 +453,7 @@
               
               <div id="start-claim-button-holder">
               <div id="timer-holder-div">
+              <div id="claim-in">Claim in:</div>
               <i class="fa-solid fa-clock"></i>
               <div id="timer-holder"></div>
               </div>
