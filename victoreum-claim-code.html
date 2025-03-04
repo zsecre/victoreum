@@ -28,12 +28,13 @@
     }
     return result;
   }
-
   // Update Firestore document
   async function updateClaimCode() {
+    
+    const code = generateCode()
+    
     try {
-      const code = generateCode();
-      const docRef = firestore.collection('claim-code').doc('code');
+      const docRef = firestore.collection('claim-code').doc(code);
       
       await docRef.update({
         value: code
