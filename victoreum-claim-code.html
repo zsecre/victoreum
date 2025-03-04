@@ -1,0 +1,50 @@
+<!-- Include Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+
+<script>
+  // Your Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyBB3gfZtcvPBs1G4fbezMU9EdeK6u261To",
+    authDomain: "victoreumgames-drop.firebaseapp.com",
+    databaseURL: "https://victoreumgames-drop-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "victoreumgames-drop",
+    storageBucket: "victoreumgames-drop.firebasestorage.app",
+    messagingSenderId: "396211397518",
+    appId: "1:396211397518:web:6f22a52c394ff3cdeebadf",
+    measurementId: "G-QMQ4E1WJQC"
+  };
+
+  // Initialize Firebase
+  const app = firebase.initializeApp(firebaseConfig);
+  const firestore = firebase.firestore();
+
+  // Function to generate random 7-character uppercase code
+  function generateCode() {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let result = '';
+    for (let i = 0; i < 7; i++) {
+      result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return result;
+  }
+
+  // Update Firestore document
+  async function updateClaimCode() {
+    try {
+      const code = generateCode();
+      const docRef = firestore.collection('claim-code').doc('code');
+      
+      await docRef.update({
+        value: code
+      });
+      
+      console.log('Document successfully updated with code:', code);
+    } catch (error) {
+      console.error('Error updating document:', error);
+    }
+  }
+
+  // Run the update function
+  updateClaimCode();
+</script>
