@@ -1,42 +1,57 @@
-<html>
-
-</html>   
-
 <?php
 // update_claim_code.php
 
-// Generate a random 7-character uppercase code (A-Z only)
+// Generate a random 7-character uppercase code
 $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 $code = '';
 for ($i = 0; $i < 7; $i++) {
     $code .= $characters[rand(0, strlen($characters) - 1)];
 }
 
-// Firebase Realtime Database URL for the "claim-code/code" node.
-// The ".json" extension is required by the REST API.
-$url = 'https://victoreumgames-drop-default-rtdb.asia-southeast1.firebasedatabase.app/claim-code/code.json';
+// Firestore REST API endpoint to update the document.
+// This URL targets the document in the collection "claim-code" with ID "code"
+// and uses an update mask to update the field named "code".
+$url = 'https://firestore.googleapis.com/v1/projects/victoreumgames-drop/databases/(default)/documents/claim-code/code?updateMask.fieldPaths=code';
 
-// The data to update: simply the new code (as a JSON string)
-$data = json_encode($code);
+// Build the JSON body for the PATCH request.
+// Firestore documents require fields to be nested under a "fields" object.
+$data = json_encode([
+    "fields" => [
+        "code" => [
+            "stringValue" => $code
+        ]
+    ]
+]);
 
-// Initialize a cURL session
-$ch = curl_init();
-
-// Set the required options for a PUT request
-curl_setopt($ch, CURLOPT_URL, $url);
-curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT'); // Use PUT to write the new value
+// Initialize cURL session
+$ch = curl_init($url);
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PATCH");
 curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+curl_setopt($ch, CURLOPT_HTTPHEADER, [
+    'Content-Type: application/json'
+]);
+
+// If you require authentication, add an Authorization header with your access token.
+// For example:
+// curl_setopt($ch, CURLOPT_HTTPHEADER, [
+//     'Content-Type: application/json',
+//     'Authorization: Bearer YOUR_ACCESS_TOKEN'
+// ]);
 
 // Execute the request and capture the response
 $response = curl_exec($ch);
+$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-// Check for errors if needed
+// Check for errors
 if (curl_errno($ch)) {
-    echo 'cURL error: ' . curl_error($ch);
+    echo "cURL error: " . curl_error($ch);
 } else {
-    echo "Firebase claim-code updated to: " . $code;
+    if ($httpCode >= 200 && $httpCode < 300) {
+        echo "Firestore document updated successfully to: " . $code;
+    } else {
+        echo "Error updating Firestore. HTTP Code: " . $httpCode . "\nResponse: " . $response;
+    }
 }
 
 // Close the cURL session
