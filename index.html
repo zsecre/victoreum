@@ -200,7 +200,7 @@
       justify-content: end;
       align-items: center;
       gap: 15px;
-      padding: 175px 0 48px;
+      padding: 170px 0 40px;
       
     }
     .home #victoreum-logo{
@@ -249,16 +249,13 @@
     }
     /* Start Claim Buttons */
     #start-claim-button-holder{
-      
-      height: 220px;
+      height: 180px;
       width: 100%;
       display: flex;
       align-items: center;
-      justify-content: end;
+      justify-content: flex-end;
       flex-direction: column;
       
-      padding: 0 0 8px 0;
-      box-sizing: border-box;
     }
     #timer-holder-div{
       position: relative;
@@ -282,11 +279,9 @@
       font-weight: 500;
       color: #757474;
     }
-    .home #start-button{
-      display: none;
-    }
+
     .home #claim-button-holder{
-      display: flex;
+      display: none;
       justify-content: center;
       transition: .3s;
       position: absolute;
@@ -360,7 +355,7 @@
     
     /* CHANNEL JOIN HOLDER */
     #channel-holder{
-      display: flex;
+      display: none;
       flex-direction: column;
       justify-content: space-between;
       gap: 8px;
@@ -774,7 +769,10 @@
                   document.getElementById("channel-holder").style.display = "none"
                   document.getElementById("reward-holder").style.display = "flex"
                 }
-
+                if(userData.tasks.task_1 || userData.tasks.task_2 != "subscribed"){
+                  document.getElementById("channel-holder").style.display = "flex"
+                  document.getElementById("reward-holder").style.display = "none"
+                }
                 if( userData.join_rewards == "recieved"){
                   document.getElementById("reward-holder").style.display = "none";
                   document.getElementById("start-claim-button-holder").style.display = "flex";
