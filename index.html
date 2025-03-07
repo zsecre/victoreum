@@ -826,6 +826,8 @@
     document.getElementById('claim-button').addEventListener('click', async () => {
     try {
       const codeDoc = await db.collection('claim-code').doc("code").get();
+      const userDoc = await db.collection('users').doc(userId.toString()).get();
+      const userData = userDoc.data();
       const codeData = codeDoc.data();
         // Update the Firestore document for the user
       const codeInput = document.getElementById("claim-code-input").value
@@ -833,7 +835,7 @@
         await db.collection('users').doc(userId.toString()).update({
             start_mining_time: 0,
             end_mining_time: 0,
-            victoreum_points: victoreum_points + (vph * 5 )
+            victoreum_points: userData.victoreum_points + ( userData.vph * 5 )
         });
       }else{
         document.getElementById("invalid-code-holder").style.bottom = "12px"
