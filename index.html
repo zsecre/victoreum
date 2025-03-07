@@ -325,14 +325,14 @@
         width: 40%;
       }
     #invalid-code-holder{
-      width: 85%;
+      width: 90%;
       display: none;
       flex-direction: row;
       align-items: center;
       position: absolute;
       bottom: -210px;
       background: #ff0000;
-      padding: 60px 15px 40px 15px;
+      padding: 60px 15px 50px 15px;
       box-sizing: border-box;
       font-size: 13px;
       gap: 8px;
@@ -818,7 +818,9 @@
             start_mining_time: startTime,
             end_mining_time: endTime
         });
-
+        setTimeout(function() {
+          location.reload();
+          }, 2000);
     } catch (error) {
         console.error('Error starting mining:', error);
     }
@@ -838,6 +840,9 @@
             end_mining_time: 0,
             victoreum_points: userData.victoreum_points + ( userData.vph * 5 )
         });
+        setTimeout(function() {
+          location.reload();
+          }, 2000);
       }else{
         document.getElementById("invalid-code-holder").style.bottom = "12px"
         document.getElementById('invalid-code-holder').style.backgroundColor = "#212121"
