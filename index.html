@@ -785,7 +785,7 @@
            if( userData.end_mining_time == 0){
               document.getElementById('start-button').style.display = "block"
               document.getElementById('timer-holder-div').style.display = "none"
-              document.getElementById('claim-button-holder').style.display = "flex"
+              document.getElementById('claim-button-holder').style.display = "none"
             }
                 if (now >= userData.end_mining_time && userData.end_mining_time != 0) {
                   document.getElementById('claim-button-holder').style.display = 'flex';
@@ -793,9 +793,9 @@
                   document.getElementById('start-button').style.display = "none"
                   
                 }
-            if(now < userData.end_mining_time){
+            if(now < userData.end_mining_time ){
               document.getElementById('timer-holder-div').style.display = "flex"
-              document.getElementById('claim-button-holder').style.display = "flex"
+              document.getElementById('claim-button-holder').style.display = "none"
               document.getElementById('start-button').style.display = "none"
             } 
             }
