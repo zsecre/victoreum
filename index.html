@@ -11,6 +11,11 @@
             box-shadow: border-box;
             font-family: Monospace;
             color: white;
+             width: 100%
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
         }
         * {
           font-family: Trebuchet MS;
@@ -92,7 +97,8 @@
             color: #9a9ca4a3;
             border: .01px solid #111111;
             box-sizing: border-box;
-            padding: 0 12px;
+            padding: 0 15px;
+            z-index: 0;
         }
         #nav-bar-bot i {
             text-align: center;
@@ -185,6 +191,7 @@
       display: flex;
       flex-direction: column;
       position: relative;
+      height: 100%;
     }
     .home #logo-holder{
       width: 100%;
@@ -231,8 +238,8 @@
       display: flex;
       flex-direction: row;
       background: rgb(0,255,225, .1);
-      height: 35px;
-      width: 75px;
+      height: 33px;
+      width: 70px;
       justify-content: center;
       align-items: center;
       border-radius: 50px;
@@ -240,14 +247,14 @@
       position: absolute;
       top: 40px;
       right: 10px;
-      
+      font-size: 14px;
     }
     /* Start Claim Buttons */
     #start-claim-button-holder{
       
       height: 220px;
       width: 100%;
-      display: none;
+      display: flex;
       align-items: center;
       justify-content: end;
       flex-direction: column;
@@ -280,8 +287,25 @@
     .home #start-button{
       display: none;
     }
-    .home #claim-button{
-      display: none;
+    .home #claim-button-holder{
+      display: flex;
+      justify-content: center;
+      transition: .3s;
+      position: absolute;
+    }
+    #claim-code-input{
+      border: none;
+      outline: none;
+      margin-right: 2px;
+      border-radius: 3px 0;
+      font-size: 14px;
+      padding-left: 5px;
+      background-color: gray;
+      color: white;
+      font-weight: 500;
+    }
+    ::placeholder{
+      color: #bab8b8;
     }
     .home .button{
       border: none;
@@ -300,6 +324,42 @@
         font-weight: 200;
         width: 40%;
       }
+    #invalid-code-holder{
+      width: 85%;
+      display: none;
+      flex-direction: row;
+      align-items: center;
+      position: absolute;
+      bottom: -210px;
+      background: #ff0000;
+      padding: 60px 15px 40px 15px;
+      box-sizing: border-box;
+      font-size: 13px;
+      gap: 8px;
+      border-radius: 3px;
+      transition: .3s;
+      
+    }
+    #invalid-code-holder a{
+      color: gray;
+      padding: 10px 16px;
+      background: #37ffbb;
+      font-weight: 500;
+      text-decoration: none;
+      border-radius: 3px;
+    }
+    #invalid-code-holder #close-invalid-code{
+      position: absolute;
+      top: -10px;
+      right: 10px;
+      width: 25px;
+      height: 25px;
+      background: red;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
     /* CHANNEL JOIN HOLDER */
     #channel-holder{
       display: flex;
@@ -426,7 +486,7 @@
               </div>
               <img src="victoreum-cyan.png" id="victoreum-logo">
               <div id="victoreum-points-holder">
-                <img src="victoreum-points-logo.png" id="points-logo">
+                <img src="vpl.png" id="points-logo">
                 <div id="victoreum-points">0</div>
              </div>
               </div>
@@ -446,7 +506,7 @@
                 <div id="rewards-button-holder">
                   <div id="rewards">
                    <div id="reward">
-                     <img src="victoreum-points-logo.png">100</div>
+                     <img src="vpl.png">100</div>
                    <div id="reward">
                      <i class="fas fa-bolt"></i>+10/h</div>
                   </div>
@@ -461,8 +521,15 @@
               <div id="timer-holder"></div>
               </div>
               <button id="start-button" class="button start">Start Farming</button>
+              <div id="claim-button-holder">
               <input type="rext" id="claim-code-input" placeholder="Enter claim code">
               <button id="claim-button" class="button claim">Claim</button>
+              <div id="invalid-code-holder">
+                <div id="close-invalid-code">×</div>
+                Claim code is incorrect. Please visit Victoreum Claim Code channel to get the correct code.
+                <a href="https://t.me/victoreumcodes">Go</a>
+              </div>
+              </div>
               </div>
             </div>
             </div>
@@ -709,26 +776,29 @@
                   document.getElementById("channel-holder").style.display = "none"
                   document.getElementById("reward-holder").style.display = "flex"
                 }
+                if(userData.tasks.task_1 || userData.tasks.task_2 != "subscribed"){
+                  document.getElementById("channel-holder").style.display = "flex"
+                }
                 if( userData.join_rewards == "recieved"){
                   document.getElementById("reward-holder").style.display = "none";
                   document.getElementById("start-claim-button-holder").style.display = "flex";
                 }
                 const now = Date.now();
-            if( userData.end_mining_time == 0){
+           if( userData.end_mining_time == 0){
               document.getElementById('start-button').style.display = "block"
               document.getElementById('timer-holder-div').style.display = "none"
-              document.getElementById('claim-button').style.display = "none"
+              document.getElementById('claim-button-holder').style.display = "flex"
             }
                 if (now >= userData.end_mining_time && userData.end_mining_time != 0) {
-                  document.getElementById('claim-button').style.display = 'block';
-                  document.getElementById('timer-holder-div').style.display = "none";
+                  document.getElementById('claim-button-holder').style.display = 'flex';
+                   document.getElementById('timer-holder-div').style.display = "none";
                   document.getElementById('start-button').style.display = "none"
     }
             if(now < userData.end_mining_time){
               document.getElementById('timer-holder-div').style.display = "flex"
-              document.getElementById('claim-button').style.display = "none"
+              document.getElementById('claim-button-holder').style.display = "flex"
               document.getElementById('start-button').style.display = "none"
-            }
+            } 
             }
         } catch (error) {
             console.error('Error fetching user data:', error);
@@ -757,19 +827,30 @@
     // CLAIM BUTTON click
     document.getElementById('claim-button').addEventListener('click', async () => {
     try {
-
-
+      const codeDoc = await db.collection('claim-code').doc("code").get();
+      const codeData = codeDoc.data();
         // Update the Firestore document for the user
+      const codeInput = document.getElementById("claim-code-input").value
+      if(codeInput == codeData.code){
         await db.collection('users').doc(userId.toString()).update({
             start_mining_time: 0,
-            end_mining_time: 0
+            end_mining_time: 0,
+            victoreum_points: victoreum_points + (vph * 5 )
         });
+      }else{
+        document.getElementById("invalid-code-holder").style.bottom = "12px"
+        document.getElementById('invalid-code-holder').style.backgroundColor = "#212121"
+        document.getElementById('invalid-code-holder').style.display = "flex"
+      }
 
     } catch (error) {
         console.error('Error starting mining:', error);
     }
 });
-
+    document.getElementById('close-invalid-code').addEventListener('click', async () => {
+      document.getElementById('invalid-code-holder').style.bottom = "-210px"
+      document.getElementById('invalid-code-holder').style.backgroundColor = "#ff0000"
+    })
 
 // Timer function that calculates remaining time and updates the timer-holder div
 let timerInterval;
@@ -824,12 +905,24 @@ async function updateRemainingTimeDisplay() {
     console.error("Error fetching user's end_mining_time:", error);
   }
 }
-
 // Example: Call updateRemainingTimeDisplay() after user data is fetched 
 // or when a mining session is started.
 updateRemainingTimeDisplay();
 
-    
+
+
+    const input = document.getElementById('claim-code-input');
+     const div2 = document.getElementById("nav-bar-bot");
+      input.addEventListener('mouseenter', () => {
+        div2.style.display = 'none';
+        document.body.style.overflow = 'scroll';
+        document.getElementById('invalid-code-holder').style.display = "none"
+        });
+      input.addEventListener('mouseleave', () => {
+          div2.style.display = 'flex'; // or restore its original display type
+          document.body.style.overflow = 'hidden';
+          
+        });
     // Navigation logic remains the same
     document.addEventListener("DOMContentLoaded", function () {
         const buttons = document.querySelectorAll('[id*="btn"]');
