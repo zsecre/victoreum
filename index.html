@@ -790,7 +790,7 @@
                    document.getElementById('timer-holder-div').style.display = "none";
                   document.getElementById('start-button').style.display = "none"
                   setTimeout(function() {
-            $('#home-cont').load('https://zsecre.github.io/victoreum/index.html #home-cont');
+                    fetchAndDisplayUserData();
             }, 2000);
                 }
             if(now < userData.end_mining_time ){
@@ -819,7 +819,7 @@
             end_mining_time: endTime
         });
           setTimeout(function() {
-            $('#home-cont').load('https://zsecre.github.io/victoreum/index.html #home-cont');
+            fetchAndDisplayUserData();
             }, 2000);
     } catch (error) {
         console.error('Error starting mining:', error);
@@ -841,7 +841,7 @@
             victoreum_points: userData.victoreum_points + ( userData.vph * 5 )
         });
         setTimeout(function() {
-            $('#home-cont').load('https://zsecre.github.io/victoreum/index.html #home-cont');
+            fetchAndDisplayUserData();
             }, 2000);
       }else{
         document.getElementById("invalid-code-holder").style.bottom = "12px"
