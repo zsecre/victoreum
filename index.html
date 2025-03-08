@@ -787,6 +787,20 @@
                   document.getElementById('claim-button-holder').style.display = 'flex';
                    document.getElementById('timer-holder-div').style.display = "none";
                   document.getElementById('start-button').style.display = "none"
+                  setTimeout(function() {
+          $.ajax({
+            url: 'index.html', // This endpoint returns the updated HTML content
+            method: 'GET',
+            dataType: 'html',
+            success: function(data) {
+    // Replace the inner HTML of the #content element with the new data
+          $('#start-claim-button-holder').html(data);
+              },
+              error: function(jqXHR, textStatus, errorThrown) {
+                console.error('Error fetching data:', textStatus, errorThrown);
+              }
+          });
+          }, 1000);
                 }
             if(now < userData.end_mining_time ){
               document.getElementById('timer-holder-div').style.display = "flex"
@@ -814,14 +828,19 @@
             end_mining_time: endTime
         });
         setTimeout(function() {
-          fetch('index.html')
-              .then(response => response.text())
-              .then(data => {
-                document.getElementById('start-claim-button-holder').innerHTML = data;
-                
-              })
-              .catch(error => console.error('Error:', error));
-          }, 2000);
+          $.ajax({
+            url: 'index.html', // This endpoint returns the updated HTML content
+            method: 'GET',
+            dataType: 'html',
+            success: function(data) {
+    // Replace the inner HTML of the #content element with the new data
+          $('#start-claim-button-holder').html(data);
+              },
+              error: function(jqXHR, textStatus, errorThrown) {
+                console.error('Error fetching data:', textStatus, errorThrown);
+              }
+          });
+          }, 1000);
     } catch (error) {
         console.error('Error starting mining:', error);
     }
@@ -842,14 +861,19 @@
             victoreum_points: userData.victoreum_points + ( userData.vph * 5 )
         });
         setTimeout(function() {
-          fetch('index.html')
-              .then(response => response.text())
-              .then(data => {
-                document.getElementById('start-claim-button-holder').innerHTML = data;
-                
-              })
-              .catch(error => console.error('Error:', error));
-          }, 2000);
+          $.ajax({
+            url: 'index.html', // This endpoint returns the updated HTML content
+            method: 'GET',
+            dataType: 'html',
+            success: function(data) {
+    // Replace the inner HTML of the #content element with the new data
+          $('#start-claim-button-holder').html(data);
+              },
+              error: function(jqXHR, textStatus, errorThrown) {
+                console.error('Error fetching data:', textStatus, errorThrown);
+              }
+          });
+          }, 1000);
       }else{
         document.getElementById("invalid-code-holder").style.bottom = "12px"
         document.getElementById('invalid-code-holder').style.backgroundColor = "#212121"
