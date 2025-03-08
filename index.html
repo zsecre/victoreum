@@ -792,14 +792,6 @@
               document.getElementById('timer-holder-div').style.display = "flex"
               document.getElementById('claim-button-holder').style.display = "none"
               document.getElementById('start-button').style.display = "none"
-          
-              fetch('index.html')
-              .then(response => response.text())
-              .then(data => {
-                document.getElementById('start-claim-button-holder').innerHTML = data;
-                
-              })
-              .catch(error => console.error('Error:', error));
             } 
             }
         } catch (error) {
