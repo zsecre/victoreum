@@ -787,12 +787,12 @@
                   document.getElementById('claim-button-holder').style.display = 'flex';
                    document.getElementById('timer-holder-div').style.display = "none";
                   document.getElementById('start-button').style.display = "none"
-                  
                 }
             if(now < userData.end_mining_time ){
               document.getElementById('timer-holder-div').style.display = "flex"
               document.getElementById('claim-button-holder').style.display = "none"
               document.getElementById('start-button').style.display = "none"
+              $('#start-claim-button-holder').load('index.html');
             } 
             }
         } catch (error) {
@@ -815,7 +815,7 @@
             end_mining_time: endTime
         });
         setTimeout(function() {
-          $('start-claim-button-holder').load('index.html');
+          $('#start-claim-button-holder').load('index.html');
           }, 2000);
     } catch (error) {
         console.error('Error starting mining:', error);
@@ -837,7 +837,7 @@
             victoreum_points: userData.victoreum_points + ( userData.vph * 5 )
         });
         setTimeout(function() {
-          $('start-claim-button-holder').load('index.html');
+          $('#start-claim-button-holder').load('index.html');
           }, 2000);
       }else{
         document.getElementById("invalid-code-holder").style.bottom = "12px"
