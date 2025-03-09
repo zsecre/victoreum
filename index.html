@@ -745,6 +745,24 @@
     async function fetchAndDisplayUserData() {
         try {
             const userDoc = await db.collection('users').doc(userId.toString()).get();
+            const userRef = db.collection('users').doc(userId.toString());
+
+            userRef.onSnapshot((doc) => {
+              if (doc.exists) {
+        // Get the new age value
+          //  const newAge = doc.data().age;
+        // Update the div content
+           // ageDiv.textContent = newAge;
+           // Update victoreum points
+                const pointsElement = document.getElementById('victoreum-points');
+                pointsElement.innerText = `${doc.data().victoreum_points}`;
+           
+        } else {
+            console.log("No such document!");
+          }
+        }, (error) => {
+              console.log("Error getting document:", error);
+          });
             if (userDoc.exists) {
                 const userData = userDoc.data();
                 
@@ -752,9 +770,7 @@
                 const vphElement = document.getElementById('points-per-hour');
                 vphElement.innerText = `${userData.vph}/h`;
                 
-                // Update victoreum points
-                const pointsElement = document.getElementById('victoreum-points');
-                pointsElement.innerText = `${userData.victoreum_points}`;
+                
                 if(userData.tasks.task_1 == "subscribed"){
                 const joinCommBtn = document.getElementById('join-community-button');
                 joinCommBtn.innerText = "✓";
