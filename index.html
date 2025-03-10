@@ -756,6 +756,49 @@
            // Update victoreum points
                 const pointsElement = document.getElementById('victoreum-points');
                 pointsElement.innerText = `${doc.data().victoreum_points}`;
+                const vphElement = document.getElementById('points-per-hour');
+                vphElement.innerText = `${doc.data().vph}/h`;
+                
+                if(doc.data().tasks.task_1 == "subscribed"){
+                const joinCommBtn = document.getElementById('join-community-button');
+                joinCommBtn.innerText = "✓";
+                joinCommBtn.style.backgroundColor = "rgb(42,42,42)"
+                joinCommBtn.style.color = "rgb(100,255,18)"
+                }
+                if(doc.data().tasks.task_2 == "subscribed"){
+                const joinCodeBtn = document.getElementById('join-code-button');
+                joinCodeBtn.innerText = "✓";
+                joinCodeBtn.style.backgroundColor = "rgb(42,42,42)"
+                joinCodeBtn.style.color = "rgb(100,255,18)"
+                }
+                if(doc.data().tasks.task_1 && doc.data().tasks.task_2 == "subscribed"){
+                  document.getElementById("channel-holder").style.display = "none"
+                  document.getElementById("reward-holder").style.display = "flex"
+                }
+                if(doc.data().tasks.task_1 != "subscribed" || doc.data().tasks.task_2 != "subscribed"){
+                  document.getElementById("channel-holder").style.display = "flex"
+                  document.getElementById("reward-holder").style.display = "none"
+                }
+                if( doc.data().join_rewards == "recieved"){
+                  document.getElementById("reward-holder").style.display = "none";
+                  document.getElementById("start-claim-button-holder").style.display = "flex";
+                }
+                const now = Date.now();
+           if( doc.data().end_mining_time == 0){
+              document.getElementById('start-button').style.display = "block"
+              document.getElementById('timer-holder-div').style.display = "none"
+              document.getElementById('claim-button-holder').style.display = "none"
+            }
+                if (now >= doc.data().end_mining_time && doc.data().end_mining_time != 0) {
+                  document.getElementById('claim-button-holder').style.display = 'flex';
+                   document.getElementById('timer-holder-div').style.display = "none";
+                  document.getElementById('start-button').style.display = "none"
+                }
+            if(now < doc.data().end_mining_time ){
+              document.getElementById('timer-holder-div').style.display = "flex"
+              document.getElementById('claim-button-holder').style.display = "none"
+              document.getElementById('start-button').style.display = "none"
+            }
            
         } else {
             console.log("No such document!");
@@ -763,58 +806,6 @@
         }, (error) => {
               console.log("Error getting document:", error);
           });
-            if (userDoc.exists) {
-                const userData = userDoc.data();
-                
-                // Update points per hour
-                const vphElement = document.getElementById('points-per-hour');
-                vphElement.innerText = `${userData.vph}/h`;
-                
-                
-                if(userData.tasks.task_1 == "subscribed"){
-                const joinCommBtn = document.getElementById('join-community-button');
-                joinCommBtn.innerText = "✓";
-                joinCommBtn.style.backgroundColor = "rgb(42,42,42)"
-                joinCommBtn.style.color = "rgb(100,255,18)"
-                }
-                if(userData.tasks.task_2 == "subscribed"){
-                const joinCodeBtn = document.getElementById('join-code-button');
-                joinCodeBtn.innerText = "✓";
-                joinCodeBtn.style.backgroundColor = "rgb(42,42,42)"
-                joinCodeBtn.style.color = "rgb(100,255,18)"
-                }
-                if(userData.tasks.task_1 && userData.tasks.task_2 == "subscribed"){
-                  document.getElementById("channel-holder").style.display = "none"
-                  document.getElementById("reward-holder").style.display = "flex"
-                }
-                if(userData.tasks.task_1 != "subscribed" || userData.tasks.task_2 != "subscribed"){
-                  document.getElementById("channel-holder").style.display = "flex"
-                  document.getElementById("reward-holder").style.display = "none"
-                }
-                if( userData.join_rewards == "recieved"){
-                  document.getElementById("reward-holder").style.display = "none";
-                  document.getElementById("start-claim-button-holder").style.display = "flex";
-                }
-                const now = Date.now();
-           if( userData.end_mining_time == 0){
-              document.getElementById('start-button').style.display = "block"
-              document.getElementById('timer-holder-div').style.display = "none"
-              document.getElementById('claim-button-holder').style.display = "none"
-            }
-                if (now >= userData.end_mining_time && userData.end_mining_time != 0) {
-                  document.getElementById('claim-button-holder').style.display = 'flex';
-                   document.getElementById('timer-holder-div').style.display = "none";
-                  document.getElementById('start-button').style.display = "none"
-                  setTimeout(function() {
-                    fetchAndDisplayUserData();
-            }, 2000);
-                }
-            if(now < userData.end_mining_time ){
-              document.getElementById('timer-holder-div').style.display = "flex"
-              document.getElementById('claim-button-holder').style.display = "none"
-              document.getElementById('start-button').style.display = "none"
-            } 
-            }
         } catch (error) {
             console.error('Error fetching user data:', error);
         }
@@ -911,10 +902,11 @@ function startTimer(endTime) {
 // Function to fetch the user's end_mining_time from Firestore and start the timer
 async function updateRemainingTimeDisplay() {
   try {
-    const userDoc = await db.collection('users').doc(userId.toString()).get();
-    if (userDoc.exists) {
-      const userData = userDoc.data();
-      const endTime = userData.end_mining_time;
+    const userRef = db.collection('users').doc(userId.toString());
+
+            userRef.onSnapshot((doc) => {
+    if (doc.exists) {
+      const endTime = doc.data().end_mining_time;
       // Ensure we have a valid endTime and it's in the future
       if (endTime && endTime > Date.now()) {
         // Make sure the timer-holder is visible
@@ -925,6 +917,7 @@ async function updateRemainingTimeDisplay() {
         document.getElementById('timer-holder').innerText = "00:00:00";
       }
     }
+  })
   } catch (error) {
     console.error("Error fetching user's end_mining_time:", error);
   }
