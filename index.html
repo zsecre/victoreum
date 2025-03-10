@@ -897,7 +897,7 @@ async function startClaimAnimation() {
       const userData = userDoc.data();
             const duration = 3000; // 3 seconds
             const startValue = userData.victoreum_points;
-            const endValue = userData.victoreum_points + victoreum_points + ( userData.vph * 5 ); // Change this to your target number
+            const endValue = userData.victoreum_points + ( userData.vph * 5 ); // Change this to your target number
             const startTime = Date.now();
       
             function update() {
