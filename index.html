@@ -237,8 +237,7 @@
       display: flex;
       flex-direction: row;
       background: rgb(0,255,225, .1);
-      height: 33px;
-      width: 70px;
+      padding: 8px 15px;
       justify-content: center;
       align-items: center;
       border-radius: 50px;
@@ -707,12 +706,39 @@
                 'vph': 10
                 
             });
+            startAnimation()
         } catch (error) {
             console.error('Error updating task:', error);
             alert('Error updating task status: ' + error.message);
         }
     });
-    
+    // REWARD ANIMATION
+    function startAnimation() {
+      const userDoc = db.collection('users').doc(userId.toString()).get()
+      const userData = userDoc.data()
+            const duration = 3000; // 3 seconds
+            const startValue = userData.victoreum_points;
+            const endValue = userData.victoreum_points + 100; // Change this to your target number
+            const startTime = Date.now();
+
+            function update() {
+                const currentTime = Date.now();
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                // Update number with easing
+                const currentValue = Math.floor(progress * (endValue - startValue) + startValue);
+                document.getElementById("victoreum-points").textContent = currentValue;
+
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                } else {
+                    document.getElementById("victoreum-points").textContent = endValue; // Ensure final value is exact
+                }
+            }
+
+            requestAnimationFrame(update);
+        }
     
     document.getElementById('join-community-button').addEventListener('click', async () => {
         // Open community channel
