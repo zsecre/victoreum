@@ -440,6 +440,73 @@
     #reward img{
       height: 30px;
     }
+    
+    /* DAILY CONTAINER STYLE */
+    #daily-cont{
+    display: flex;
+    flex-direction: column;
+    justify-items: flex-start;
+    }
+    #daily-rewards-text{
+      padding: 15px;
+      margin-top: 70px;
+      font-size: 20px;
+      font-weight: 500;
+    }
+  .days{
+    background: #1f1f1f;
+    display: flex;
+    flex-direction: column;
+    height: 100px;
+    width: 85px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    gap: 8px;
+    font-size: 9px;
+    font-weight: 300;
+    color: #b4b4b4;
+    padding: 0 15px;
+    
+  }
+  #daily-points{
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .days img{
+    height: 25px;
+    width: 35px;
+    
+  }
+  #daily-buttons{
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    padding: 15px;
+    overflow-y: auto;
+    
+    height: 90px;
+    align-items: center;
+  }
+  #claim-daily-button{
+    
+    align-self: center;
+    margin-top: 250px;
+    border: none;
+      height: 40px;
+      width: 80%;
+      background: white;
+      border-radius: 3px;
+      font-weight: 600;
+      transition: .3s;
+      font-family: Monospace;
+    color #2e2e2e
+  }
+  #claim-daily-button:hover{
+    background: #494949;
+    color: white;
+  }
+  
     </style>
     
     
@@ -528,9 +595,104 @@
             </div>
         <!-- HOME END CODE-->
         
+        <!-- DAILY CODE START-->
         <div id="daily-cont" class="cont daily">
-            DAILY
+          <div id="daily-rewards-text">Daily rewards</div>
+          <div id="daily-buttons">
+            
+          <div id="day-1" class="days one">
+            <div id="days">
+              Day 1
+            </div>
+            <img src="vpl.png">
+            <div id="daily-points">
+              1500
+            </div>
+            <div id="daily-status">
+              Unclaimed
+            </div>
+          </div>
+          <div id="day-2" class="days two">
+            <div id="days">
+              Day 2
+            </div>
+            <img src="vpl.png">
+            <div id="daily-points">
+              2500
+            </div>
+            <div id="daily-status">
+              Unclaimed
+            </div>
+          </div>
+          <div id="day-3" class="days three">
+            <div id="days">
+              Day 3
+            </div>
+            <img src="vpl.png">
+            <div id="daily-points">
+              3500
+            </div>
+            <div id="daily-status">
+              Unclaimed
+            </div>
+          </div>
+          <div id="day-4" class="days four">
+            <div id="days">
+              Day 4
+            </div>
+            <img src="vpl.png">
+            <div id="daily-points">
+              4500
+            </div>
+            <div id="daily-status">
+              Unclaimed
+            </div>
+          </div>
+          
+          <div id="day-5" class="days five">
+            <div id="days">
+              Day 5
+            </div>
+            <img src="vpl.png">
+            <div id="daily-points">
+              5500
+            </div>
+            <div id="daily-status">
+              Unclaimed
+            </div>
+          </div>
+          
+          <div id="day-6" class="days six">
+            <div id="days">
+              Day 6
+            </div>
+            <img src="vpl.png">
+            <div id="daily-points">
+              7500
+            </div>
+            <div id="daily-status">
+              Unclaimed
+            </div>
+          </div>
+          
+          <div id="day-7" class="days seven">
+            <div id="days">
+              Day 7
+            </div>
+            <img src="vpl.png">
+            <div id="daily-points">
+              10000
+            </div>
+            <div id="daily-status">
+              Unclaimed
+            </div>
+          </div>
+          
+          </div>
+            <button id="claim-daily-button">Claim Reward</button>
         </div>
+        <!-- DAILY CODE END END-->
+        
         <div id="friends-cont" class="cont friends">
             Friends
         </div>
@@ -682,6 +844,17 @@
             tasks: {  // Add tasks field here
                 task_1: null,
                 task_2: null
+            },
+            daily_reward: {
+                day_to_claim : 1,
+                time_to_claim: 0,
+                day_1: null,
+                day_2: null,
+                day_3: null,
+                day_4: null,
+                day_5: null,
+                day_6: null,
+                day_7: null
             }
         };
 
@@ -996,6 +1169,26 @@ updateRemainingTimeDisplay();
           document.body.style.overflow = 'hidden';
           
         });
+        
+    document.getElementById('claim-daily-button').addEventListener('click', async () => {
+    try {
+          const now = new Date();
+          const tomorrowMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+          const timestampTomorrow = tomorrowMidnight.getTime();
+        // Timestamp in milliseconds, same as Date.now()
+        
+        await db.collection('users').doc(userId.toString()).update({
+                'daily_reward.day_1': 'Claimed',
+                'daily_reward.day_to_claim': '2',
+                'daily_reward.time_to_claim': timestampTomorrow,
+                'victoreum_points' : 'victoreum_points' + 1500
+            });
+        }catch (error) {
+            console.error('Error updating task:', error);
+            alert('Error updating task status: ' + error.message);
+        }
+    })
+        
     // Navigation logic remains the same
     document.addEventListener("DOMContentLoaded", function () {
         const buttons = document.querySelectorAll('[id*="btn"]');
