@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content= "width=device-width, user-scalable=no">
     <title>Victoreum Drop</title>
     <style>
         body {
@@ -660,7 +661,8 @@
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         return Array.from({length: 5}, () => characters[Math.floor(Math.random() * characters.length)]).join('');
     }
-
+    
+    
     document.getElementById('join-button').addEventListener('click', async () => {
         if (!userId) {
             alert('User ID not available. Please try again.');
@@ -810,6 +812,7 @@
             console.error('Error fetching user data:', error);
         }
     }
+    setInterval(fetchAndDisplayUserData, 1000);
     fetchAndDisplayUserData();
     
     // START MIMING BUTTON CLICK
@@ -866,10 +869,6 @@
       document.getElementById('invalid-code-holder').style.bottom = "-210px"
       document.getElementById('invalid-code-holder').style.backgroundColor = "#ff0000"
     })
-if(document.getElementById('timer-holder').innerText = "00:00:00"){
-  fetchAndDisplayUserData()
-  document.getElementById('claim-code-input').value = "Code"
-}
 // Timer function that calculates remaining time and updates the timer-holder div
 let timerInterval;
 function startTimer(endTime) {
