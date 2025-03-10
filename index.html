@@ -1052,6 +1052,7 @@
             victoreum_points: userData.victoreum_points + ( userData.vph * 5 )
         });
       }, 2000);
+      startClaimAnimation()
       }else{
         document.getElementById("invalid-code-holder").style.bottom = "12px"
         document.getElementById('invalid-code-holder').style.backgroundColor = "#212121"
@@ -1061,7 +1062,7 @@
     } catch (error) {
         console.error('Error starting mining:', error);
     }
-    startClaimAnimation()
+    
 });
       // ANIMATION CLAIM POINTS
 async function startClaimAnimation() {
@@ -1181,7 +1182,7 @@ updateRemainingTimeDisplay();
                 'daily_reward.day_1': 'Claimed',
                 'daily_reward.day_to_claim': '2',
                 'daily_reward.time_to_claim': timestampTomorrow,
-                'victoreum_points' : 'victoreum_points' + 1500
+                'victoreum_points' : victoreum_points + 1500
             });
         }catch (error) {
             console.error('Error updating task:', error);
