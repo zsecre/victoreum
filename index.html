@@ -866,7 +866,10 @@
       document.getElementById('invalid-code-holder').style.bottom = "-210px"
       document.getElementById('invalid-code-holder').style.backgroundColor = "#ff0000"
     })
-
+if(document.getElementById('timer-holder').innerText = "00:00:00"){
+  fetchAndDisplayUserData()
+  document.getElementById('claim-code-input').value = "Code"
+}
 // Timer function that calculates remaining time and updates the timer-holder div
 let timerInterval;
 function startTimer(endTime) {
