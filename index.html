@@ -863,6 +863,7 @@
 });
     // CLAIM BUTTON click
     document.getElementById('claim-button').addEventListener('click', async () => {
+      
     try {
       const codeDoc = await db.collection('claim-code').doc("code").get();
       const userDoc = await db.collection('users').doc(userId.toString()).get();
@@ -871,14 +872,13 @@
         // Update the Firestore document for the user
       const codeInput = document.getElementById("claim-code-input").value
       if(codeInput == codeData.code){
+        setTimeout( async function() {
         await db.collection('users').doc(userId.toString()).update({
             start_mining_time: 0,
             end_mining_time: 0,
             victoreum_points: userData.victoreum_points + ( userData.vph * 5 )
         });
-        setTimeout(function() {
-            fetchAndDisplayUserData();
-            }, 2000);
+      }, 2000);
       }else{
         document.getElementById("invalid-code-holder").style.bottom = "12px"
         document.getElementById('invalid-code-holder').style.backgroundColor = "#212121"
