@@ -888,7 +888,36 @@
     } catch (error) {
         console.error('Error starting mining:', error);
     }
+    startClaimAnimation()
 });
+      // ANIMATION CLAIM POINTS
+async function startClaimAnimation() {
+    
+      const userDoc = await db.collection('users').doc(userId.toString()).get();
+      const userData = userDoc.data();
+            const duration = 3000; // 3 seconds
+            const startValue = userData.victoreum_points;
+            const endValue = userData.victoreum_points + victoreum_points + ( userData.vph * 5 ); // Change this to your target number
+            const startTime = Date.now();
+      
+            function update() {
+                const currentTime = Date.now();
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                // Update number with easing
+                const currentValue = Math.floor(progress * (endValue - startValue) + startValue);
+                document.getElementById("victoreum-points").textContent = currentValue;
+
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                } else {
+                    document.getElementById("victoreum-points").textContent = endValue; // Ensure final value is exact
+                }
+            }
+
+            requestAnimationFrame(update);
+        }
 // CLOSE INVALID CODE
     document.getElementById('close-invalid-code').addEventListener('click', async () => {
       document.getElementById('invalid-code-holder').style.bottom = "-210px"
