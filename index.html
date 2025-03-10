@@ -1176,13 +1176,15 @@ updateRemainingTimeDisplay();
           const now = new Date();
           const tomorrowMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
           const timestampTomorrow = tomorrowMidnight.getTime();
+          const userDoc = await db.collection('users').doc(userId.toString()).get();
+          const userData = userDoc.data();
         // Timestamp in milliseconds, same as Date.now()
         
         await db.collection('users').doc(userId.toString()).update({
                 'daily_reward.day_1': 'Claimed',
                 'daily_reward.day_to_claim': '2',
                 'daily_reward.time_to_claim': timestampTomorrow,
-                'victoreum_points' : victoreum_points + 1500
+                'victoreum_points' : userData.victoreum_points + 1500
             });
         }catch (error) {
             console.error('Error updating task:', error);
