@@ -851,13 +851,11 @@
         const endTime = startTime + (5 * 60 * 60 * 1000);
 
         // Update the Firestore document for the user
+        setTimeout( async function() {
         await db.collection('users').doc(userId.toString()).update({
             start_mining_time: startTime,
             end_mining_time: endTime
         });
-          setTimeout(function() {
-            fetchAndDisplayUserData();
-            updateRemainingTimeDisplay();
             }, 2000);
     } catch (error) {
         console.error('Error starting mining:', error);
