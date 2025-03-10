@@ -714,11 +714,11 @@
     });
     // REWARD ANIMATION
     function startAnimation() {
-      const userDoc = db.collection('users').doc(userId.toString()).get()
-      const userData = userDoc.data()
+      userData = db.collection('users').doc(userId.toString()).get()
+      
             const duration = 3000; // 3 seconds
-            const startValue = userData.victoreum_points;
-            const endValue = userData.victoreum_points + 100; // Change this to your target number
+            const startValue = userData.data().victoreum_points;
+            const endValue = userData.data().victoreum_points + 100; // Change this to your target number
             const startTime = Date.now();
 
             function update() {
