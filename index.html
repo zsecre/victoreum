@@ -1263,7 +1263,7 @@ updateRemainingTimeDisplay();
                     const dayElement = document.getElementById(dayElementId);
                     
                     // Check if element exists and the reward status
-                    if (userData.daily_reward.[dayKey] == 'Claimed') {
+                    if (userData.daily_reward.dayKey === 'Claimed') {
                         dayElement.style.backgroundColor = 'rgb(25,31,28)';
                         const statusElement = dayElement.querySelector("#daily-status");
                         if (statusElement) {
