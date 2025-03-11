@@ -1255,9 +1255,10 @@ updateRemainingTimeDisplay();
                 const dayKey = `day_${i}`;
                 const dayElementId = `day-${i}`;
                   if (doc.data().daily_reward[dayKey] === 'Claimed'){
-                    document.getElementById(`day-${i}`).style.backgroundColor = 'rgba(19,255,122,0.236)'
-                    document.getElementById(dayElementId).querySelector("#daily-status").textContent = 'Recieved'; /*
-                    document.querySelector(`day-${i}` "#daily-status").style.color = "#00d800" */
+                    const dayElement = document.getElementById(dayElementId);
+                    document.getElementById(`day-${i}`).style.backgroundColor = 'rgb(25,31,28)'
+                    dayElement.querySelector("#daily-status").textContent = 'Recieved'; 
+                    dayElement.querySelector("#daily-status").style.color = "#00d800" 
                   }
                 }
               } else {
