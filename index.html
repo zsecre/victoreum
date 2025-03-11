@@ -1254,7 +1254,7 @@ updateRemainingTimeDisplay();
                 for (let i = 1; i <= 7; i++) {
                 const dayKey = `day_${i}`;
                 const dayElementId = `day-${i}`;
-                  if (doc.data().daily_reward.dayKey === 'Claimed'){
+                  if (doc.data().daily_reward.dayKey == 'Claimed'){
                     const dayElement = document.getElementById(dayElementId);
                     document.getElementById(`day-${i}`).style.backgroundColor = 'rgb(25,31,28)'
                     dayElement.querySelector("#daily-status").textContent = 'Recieved'; 
