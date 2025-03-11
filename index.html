@@ -1254,14 +1254,12 @@ updateRemainingTimeDisplay();
         userRef.onSnapshot((doc) => {
             if (doc.exists) {
                 // Get the data once to avoid repeated calls
-                const userData = doc.data();
                 
                     // Check if element exists and the reward status
-                    if (userData.daily_reward.day_1 == 'Claimed') {
-                        document.getElementById('day-1').style.backgroundColor = 'rgb(25,31,28)';
-                         document.querySelector("#day-1 #daily-status");
-                         document.querySelector("#day-1 #daily-status").textContent = 'Received'; // Fixed typo from 'Recieved'
-                            document.querySelector("#day-1 #daily-status").style.color = "#00d800";
+            if (doc.data().daily_reward.day_2 == 'Claimed') {
+                  document.getElementById('day-2').style.backgroundColor = 'rgb(15,21,18)';
+                  document.querySelector("#day-2 #daily-status").textContent = 'Received'; // Fixed typo from 'Recieved'
+                  document.querySelector("#day-2 #daily-status").style.color = "#00d800";
                         }
                 
             } else {
