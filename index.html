@@ -1256,22 +1256,14 @@ updateRemainingTimeDisplay();
                 // Get the data once to avoid repeated calls
                 const userData = doc.data();
                 
-                // Loop through days 1-7
-                for (let i = 1; i <= 7; i++) {
-                    const dayKey = `day_${i}`;
-                    const dayElementId = `day-${i}`;
-                    const dayElement = document.getElementById(dayElementId);
-                    
                     // Check if element exists and the reward status
-                    if (userData.daily_reward.dayKey === 'Claimed') {
-                        dayElement.style.backgroundColor = 'rgb(25,31,28)';
-                        const statusElement = dayElement.querySelector("#daily-status");
-                        if (statusElement) {
-                            statusElement.textContent = 'Received'; // Fixed typo from 'Recieved'
-                            statusElement.style.color = "#00d800";
+                    if (userData.daily_reward.day_1 == 'Claimed') {
+                        document.getElementById('day-1').style.backgroundColor = 'rgb(25,31,28)';
+                         document.querySelector("#day-1 #daily-status");
+                         document.querySelector("#day-1 #daily-status").textContent = 'Received'; // Fixed typo from 'Recieved'
+                            document.querySelector("#day-1 #daily-status").style.color = "#00d800";
                         }
-                    }
-                }
+                
             } else {
                 console.log("No such document!");
             }
