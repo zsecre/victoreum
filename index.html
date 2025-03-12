@@ -1257,18 +1257,14 @@ updateRemainingTimeDisplay();
                 // Get the data once to avoid repeated calls
                     // Check if element exists and the reward status
           const dailyReward = doc.data().daily_reward;
-            Object.entries(dailyReward).forEach(([key, value]) => {
-              if (key.startsWith('days_') && value === 'Claimed') {
-        // Do something for this day
-              const dayNumber = parseInt(key.split('_')[1]);
-            console.log(`Day ${dayNumber} is claimed`);
-        // Replace the console.log with your specific logic here
-                  document.getElementById(`day-${dayNumber}`).style.backgroundColor = '#04ff6c20';
-                  document.querySelector(`day-${dayNumber} #daily-status`).style.color = "#16c900"
-                  document.querySelector(`day-${dayNumber} #daily-status`).textContent = "Received" 
-    }
-});
-                        
+          for (let day = 1; day <= 7; day++) {
+            const key = `.days_${day}`;
+              if (dailyReward[key] === 'Claimed') {
+                  document.getElementById('day-'+`${day}`).style.backgroundColor = '#04ff6c20';
+                /*  document.querySelector(`${daysDiv[i]} #daily-status`).style.color = "#16c900"
+                  document.querySelector(`${daysDiv[i]} #daily-status`).textContent = "Received" */
+                        }
+            }
             } else {
                 console.log("No such document!");
             }
