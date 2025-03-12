@@ -1282,7 +1282,7 @@ updateRemainingTimeDisplay();
     */
 
 
-async function checkUserTasks(userId) {
+async function checkUserTasks() {
     try {
         const docRef = doc(db, 'users', userId.toString(), 'daily_reward');
         const docSnap = await getDoc(docRef);
@@ -1295,7 +1295,7 @@ async function checkUserTasks(userId) {
             for (let i = 1; i <= taskCount; i++) {
                 const taskField = `day_${i}`;
                 
-                if (userData.taskField === "Claimed") {
+                if (userData[taskField] === "Claimed") {
                     document.getElementById('day-2').style.backgroundColor = '#04ff6c20';
                 }
             }
