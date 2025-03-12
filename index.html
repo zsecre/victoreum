@@ -1293,9 +1293,9 @@ userRef.onSnapshot((doc) => {
     for (let day = 1; day <= 7; day++) {
       const key = `day_${day}`;
       if (dailyReward[key] === "Claimed") {
-        document.getElementById(`day-${day}`).style.backgroundColor = '#061302';
-        document.querySelector(`day-${day} #daily-status`).style.color = "#16c900"
-        document.querySelector(`day-${day} #daily-status`).textContent = "Received"
+        document.getElementById(`day-${day}`).style.backgroundColor = '#092705';
+        document.querySelector(`#day-${day} #daily-status`).style.color = "#16c900"
+        document.querySelector(`#day-${day} #daily-status`).textContent = "Received"
       }
     }
   } else {
