@@ -1255,14 +1255,16 @@ updateRemainingTimeDisplay();
         userRef.onSnapshot((doc) => {
             if (doc.exists) {
                 // Get the data once to avoid repeated calls
-                
                     // Check if element exists and the reward status
-            if (doc.data().daily_reward.day_2 == 'Claimed') {
-                  document.getElementById('day-2').style.backgroundColor = '#04ff6c20';
-                  document.querySelector("#day-2 #daily-status").style.color = "#16c900"
-                  document.querySelector("#day-2 #daily-status").textContent = "Received"
+          const days = [day_1, day_2, day_3, day_4, day_5, day_6, day_7]
+          const daysDiv = ["day-1", "day-2", "day-3", "day-4", "day-5", "day-6", "day-7"]
+            for (let i = 0; i < 7; i++) {
+            if (doc.data().daily_reward.days == 'Claimed') {
+                  document.getElementById(daysDiv).style.backgroundColor = '#04ff6c20';
+                  document.querySelector(`${daysDiv} #daily-status`).style.color = "#16c900"
+                  document.querySelector(`${daysDiv} #daily-status`).textContent = "Received"
                         }
-                
+            }
             } else {
                 console.log("No such document!");
             }
