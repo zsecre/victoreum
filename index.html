@@ -1246,6 +1246,7 @@ updateRemainingTimeDisplay();
     
     // DAILY CLAIM CODE end_mining_time
     //SHOW DAILY REWARD code
+    /*
     async function fetchAndDisplayReward() {
     try {
       const userDoc = await db.collection('users').doc(userId.toString()).get();
@@ -1257,13 +1258,13 @@ updateRemainingTimeDisplay();
                 // Get the data once to avoid repeated calls
                     // Check if element exists and the reward status
           const dailyReward = doc.data().daily_reward.day_;
-          const num = [1,2,3,4,5,6,7]
+         const num = [1,2,3,4,5,6,7]
           for (let i = 0; i <= 6; i++) {
             const key = "day_";
               if (doc.data().daily_reward.day_+num[i] == 'Claimed') {
                   document.getElementById('day-2').style.backgroundColor = '#04ff6c20';
                 /*  document.querySelector(`${daysDiv[i]} #daily-status`).style.color = "#16c900"
-                  document.querySelector(`${daysDiv[i]} #daily-status`).textContent = "Received" */
+                  document.querySelector(`${daysDiv[i]} #daily-status`).textContent = "Received"
                         }
             }
             } else {
@@ -1278,6 +1279,36 @@ updateRemainingTimeDisplay();
     }
 }
     fetchAndDisplayReward()
+    */
+
+
+async function checkUserTasks(userId) {
+    try {
+        const docRef = doc(db, 'users', userId, 'daily_reward');
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            const userData = docSnap.data();
+            const taskCount = 7; // Set your maximum number of tasks
+
+            // Single loop with if statement
+            for (let i = 1; i <= taskCount; i++) {
+                const taskField = `day_${i}`;
+                
+                if (userData[taskField] === "Claimed") {
+                    document.getElementById('day-2').style.backgroundColor = '#04ff6c20';
+                }
+            }
+        } else {
+            console.log("No such document!");
+        }
+    } catch (error) {
+        console.error("Error getting document:", error);
+    }
+}
+
+checkUserTasks();
+// Call the function
         
     // Navigation logic remains the same
     document.addEventListener("DOMContentLoaded", function () {
