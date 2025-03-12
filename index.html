@@ -1298,8 +1298,9 @@ userRef.onSnapshot((doc) => {
         document.querySelector(`#day-${day} #daily-status`).style.color = "#16c900"
         document.querySelector(`#day-${day} #daily-status`).textContent = "Received"
       }
-      if(dailyReward.day_to_claim  == day){
+      if(dailyReward.day_to_claim  == day && dailyReward[key] != "Claimed"){
         document.getElementById(`day-${day}`).style.backgroundColor = '#a4a4a4';
+        document.getElementById(`day-${day}`).style.color = 'black';
       }
     }
   } else {
