@@ -1295,7 +1295,7 @@ async function checkUserTasks() {
             for (let i = 1; i <= taskCount; i++) {
                 const taskField = `day_${i}`;
                 
-                if (userData[taskField] === "Claimed") {
+                if (userData.taskField === "Claimed") {
                     document.getElementById('day-2').style.backgroundColor = '#04ff6c20';
                 }
             }
