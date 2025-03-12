@@ -1259,10 +1259,10 @@ updateRemainingTimeDisplay();
           const days = [day_1, day_2, day_3, day_4, day_5, day_6, day_7]
           const daysDiv = ["day-1", "day-2", "day-3", "day-4", "day-5", "day-6", "day-7"]
             for (let i = 0; i < 7; i++) {
-            if (doc.data().daily_reward.days == 'Claimed') {
+            if (doc.data().daily_reward.days[i] == 'Claimed') {
                   document.getElementById(daysDiv).style.backgroundColor = '#04ff6c20';
-                  document.querySelector(`${daysDiv} #daily-status`).style.color = "#16c900"
-                  document.querySelector(`${daysDiv} #daily-status`).textContent = "Received"
+                  document.querySelector(`${daysDiv[i]} #daily-status`).style.color = "#16c900"
+                  document.querySelector(`${daysDiv[i]} #daily-status`).textContent = "Received"
                         }
             }
             } else {
