@@ -1295,7 +1295,7 @@ userRef.onSnapshot((doc) => {
       if (dailyReward[key] === "Claimed") {
         document.getElementById(`day-${day}`).style.backgroundColor = '#00110d';
         document.getElementById(`day-${day}`).style.width = '85px';
-        document.querySelector(`#day-${day} #daily-status`).style.color = "#16c900"
+        document.querySelector(`#day-${day} #daily-status`).style.color = "#17b903";
         document.querySelector(`#day-${day} #daily-status`).textContent = "Received"
       }
       if(dailyReward[key] != "Claimed"){
@@ -1307,8 +1307,6 @@ userRef.onSnapshot((doc) => {
       if(dailyReward.day_to_claim  == day && dailyReward[key] != "Claimed"){
         document.getElementById(`day-${day}`).style.backgroundColor = '#a4a4a4';
         document.getElementById(`day-${day}`).style.color = 'black';
-      }else{
-        document.querySelector(`#day-${day} #daily-status`).style.color = "white"
       }
     }
   } else {
