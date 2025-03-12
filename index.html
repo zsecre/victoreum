@@ -455,7 +455,7 @@
       font-weight: 500;
     }
   #day-1, #day-2, #day-3, #day-4, #day-5, #day-6, #day-7{
-    background: #1f1f1f;
+    background: #151515;
     display: flex;
     flex-direction: column;
     height: 100px;
@@ -1283,28 +1283,26 @@ updateRemainingTimeDisplay();
 
 
 async function checkUserTasks() {
-    try {
-        const docRef = doc(db, 'users', userId.toString(), 'daily_reward');
-        const docSnap = await getDoc(docRef);
+    
+const userRef = db.collection("users").doc(userId.toString());
 
-        if (docSnap.exists()) {
-            const userData = docSnap.data();
-            const taskCount = 7; // Set your maximum number of tasks
+userRef.get().then((doc) => {
+  if (doc.exists) {
+    const dailyReward = doc.data().daily_reward; // Get the map field
 
-            // Single loop with if statement
-            for (let i = 1; i <= taskCount; i++) {
-                const taskField = `day_${i}`;
-                
-                if (userData.taskField === "Claimed") {
-                    document.getElementById('day-2').style.backgroundColor = '#04ff6c20';
-                }
-            }
-        } else {
-            console.log("No such document!");
-        }
-    } catch (error) {
-        console.error("Error getting document:", error);
+    for (let day = 1; day <= 7; day++) {
+      const key = `day_${day}`;
+      if (dailyReward[key] === "Claimed") {
+        document.getElementById('day-2').style.backgroundColor = '#001609';
+      }
     }
+  } else {
+    console.log("User document not found.");
+  }
+}).catch((error) => {
+  console.error("Error getting document:", error);
+});
+
 }
 
 checkUserTasks();
