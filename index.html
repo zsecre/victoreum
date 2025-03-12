@@ -1257,7 +1257,7 @@ updateRemainingTimeDisplay();
                 // Get the data once to avoid repeated calls
                 
                     // Check if element exists and the reward status
-            if (doc.data().daily_reward.day_2 === 'Claimed') {
+            if (doc.data().daily_reward.day_2 == 'Claimed') {
                   document.getElementById('day-2').style.backgroundColor = '#04ff6c20';
                   document.querySelector("#day-2 #daily-status").style.color = "#16c900"
                   document.querySelector("#day-2 #daily-status").textContent = "Received"
