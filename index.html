@@ -947,7 +947,7 @@
      // Add this function to fetch and display user data
     async function fetchAndDisplayUserData() {
         try {
-            const userDoc = await db.collection('users').doc(userId.toString()).get();
+            /*const userDoc = await db.collection('users').doc(userId.toString()).get();*/
             const userRef = db.collection('users').doc(userId.toString());
 
             userRef.onSnapshot((doc) => {
@@ -1248,6 +1248,7 @@ updateRemainingTimeDisplay();
     //SHOW DAILY REWARD code
     async function fetchAndDisplayReward() {
     try {
+      const userDoc = await db.collection('users').doc(userId.toString()).get();
         const userRef = db.collection('users').doc(userId.toString());
         
         // Use a single snapshot listener instead of creating one per iteration
