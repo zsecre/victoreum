@@ -1297,7 +1297,8 @@ userRef.onSnapshot((doc) => {
         document.getElementById(`day-${day}`).style.width = '85px';
         document.querySelector(`#day-${day} #daily-status`).style.color = "#16c900"
         document.querySelector(`#day-${day} #daily-status`).textContent = "Received"
-      }else{
+      }
+      if(dailyReward[key] !== "Claimed"){
         document.getElementById(`day-${day}`).style.backgroundColor = '#151515';
         document.getElementById(`day-${day}`).style.width = '85px';
         document.querySelector(`#day-${day} #daily-status`).style.color = "white"
