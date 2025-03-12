@@ -1297,10 +1297,17 @@ userRef.onSnapshot((doc) => {
         document.getElementById(`day-${day}`).style.width = '85px';
         document.querySelector(`#day-${day} #daily-status`).style.color = "#16c900"
         document.querySelector(`#day-${day} #daily-status`).textContent = "Received"
+      }else{
+        document.getElementById(`day-${day}`).style.backgroundColor = '#151515';
+        document.getElementById(`day-${day}`).style.width = '85px';
+        document.querySelector(`#day-${day} #daily-status`).style.color = "white"
+        document.querySelector(`#day-${day} #daily-status`).textContent = "Unclaimed"
       }
       if(dailyReward.day_to_claim  == day && dailyReward[key] != "Claimed"){
         document.getElementById(`day-${day}`).style.backgroundColor = '#a4a4a4';
         document.getElementById(`day-${day}`).style.color = 'black';
+      }else{
+        document.querySelector(`#day-${day} #daily-status`).style.color = "white"
       }
     }
   } else {
