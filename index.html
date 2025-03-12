@@ -1258,7 +1258,7 @@ updateRemainingTimeDisplay();
                     // Check if element exists and the reward status
           const dailyReward = doc.data().daily_reward.day_;
           for (let i = 1; i <= 7; i++) {
-            const key = `day_${i}`;
+            const key = "day_"+i;
               if (doc.data().daily_reward.key == 'Claimed') {
                   document.getElementById('day-2').style.backgroundColor = '#04ff6c20';
                 /*  document.querySelector(`${daysDiv[i]} #daily-status`).style.color = "#16c900"
