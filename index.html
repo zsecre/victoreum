@@ -1256,15 +1256,19 @@ updateRemainingTimeDisplay();
             if (doc.exists) {
                 // Get the data once to avoid repeated calls
                     // Check if element exists and the reward status
-          const days = ["doc.data().daily_reward.day_1", "doc.data().daily_reward.day_2", "doc.data().daily_reward.day_3", "doc.data().daily_reward.day_4", "doc.data().daily_reward.day_5", "doc.data().daily_reward.day_6", "doc.data().daily_reward.day_7"]
-          const daysDiv = ["day-1", "day-2", "day-3", "day-4", "day-5", "day-6", "day-7"]
-            for (let i = 0; i < 7; i++) {
-            if (days[i] == 'Claimed') {
-                  document.getElementById(daysDiv).style.backgroundColor = '#04ff6c20';
-                /*  document.querySelector(`${daysDiv[i]} #daily-status`).style.color = "#16c900"
-                  document.querySelector(`${daysDiv[i]} #daily-status`).textContent = "Received" */
-                        }
-            }
+          const dailyReward = doc.data().daily_reward;
+            Object.entries(dailyReward).forEach(([key, value]) => {
+              if (key.startsWith('days_') && value === 'Claimed') {
+        // Do something for this day
+              const dayNumber = parseInt(key.split('_')[1]);
+            console.log(`Day ${dayNumber} is claimed`);
+        // Replace the console.log with your specific logic here
+                  document.getElementById(`day-${dayNumber}`).style.backgroundColor = '#04ff6c20';
+                  document.querySelector(`day-${dayNumber} #daily-status`).style.color = "#16c900"
+                  document.querySelector(`day-${dayNumber} #daily-status`).textContent = "Received" 
+    }
+});
+                        
             } else {
                 console.log("No such document!");
             }
