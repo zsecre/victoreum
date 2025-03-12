@@ -1293,10 +1293,13 @@ userRef.onSnapshot((doc) => {
     for (let day = 1; day <= 7; day++) {
       const key = `day_${day}`;
       if (dailyReward[key] === "Claimed") {
-        document.getElementById(`day-${day}`).style.backgroundColor = '#092705';
+        document.getElementById(`day-${day}`).style.backgroundColor = '#00110d';
         document.getElementById(`day-${day}`).style.width = '85px';
         document.querySelector(`#day-${day} #daily-status`).style.color = "#16c900"
         document.querySelector(`#day-${day} #daily-status`).textContent = "Received"
+      }
+      if(dailyReward.day_to_claim  == day){
+        document.getElementById(`day-${day}`).style.backgroundColor = '#a4a4a4';
       }
     }
   } else {
