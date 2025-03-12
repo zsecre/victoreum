@@ -1294,6 +1294,7 @@ userRef.onSnapshot((doc) => {
       const key = `day_${day}`;
       if (dailyReward[key] === "Claimed") {
         document.getElementById(`day-${day}`).style.backgroundColor = '#092705';
+        document.getElementById(`day-${day}`).style.width = '85px';
         document.querySelector(`#day-${day} #daily-status`).style.color = "#16c900"
         document.querySelector(`#day-${day} #daily-status`).textContent = "Received"
       }
