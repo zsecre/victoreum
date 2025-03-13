@@ -473,6 +473,8 @@
   #daily-points{
     font-size: 12px;
     font-weight: 500;
+    width: 75px;
+    text-align: center;
   }
   .days img{
     height: 25px;
@@ -507,6 +509,23 @@
   #claim-daily-button:hover{
     background: #494949;
     color: white;
+  }
+  #daily-rewards-timer-holder{
+    display: flex;
+    justify-content: center;
+  }
+  #daily-rewards-icon-timer{
+    height: 41px;
+    width: 270px;
+    background: #252525;
+    border-radius: 50px;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 5px;
+    font-weight: 300;
+    color: #9b4b00;
   }
   
     </style>
@@ -692,6 +711,12 @@
           
           </div>
             <button id="claim-daily-button">Claim Reward</button>
+            <div id="daily-rewards-timer-holder">
+              <div id="daily-rewards-icon-timer">
+                <i class="fa-solid fa-clock"></i>
+                <div id="daily-rewards-timer">00:00:00</div>
+              </div>
+            </div>
         </div>
         <!-- DAILY CODE END END-->
         
@@ -812,7 +837,7 @@
             if (userExists) {
                 joinHolder.style.display = 'none';
             } else {
-                joinHolder.style.display = 'flex';
+                joinHolder.style.display = 'none';
             }
             
             // Hide loading screen after check
@@ -1323,7 +1348,33 @@ userRef.onSnapshot((doc) => {
 
 checkUserTasks();
 // Call the function
-        
+        async function fetchDailyClaimTimer() {
+        try {
+            /*const userDoc = await db.collection('users').doc(userId.toString()).get();*/
+            const userRef = db.collection('users').doc(userId.toString());
+
+            userRef.onSnapshot((doc) => {
+              if (doc.exists) {
+                const now = Date.now()
+                if( now <= doc.data().daily_reward.date_to_claim){
+                  document.getElementById("claim-daily-button").style.display = 'none'
+                  document.getElementById('daily-rewards-timer-holder').style.display = "flex"
+                }else{
+                  document.getElementById("claim-daily-button").style.display = 'block'
+                  document.getElementById('daily-rewards-timer-holder').style.display = "none"
+                }
+              } else {
+            console.log("No such document!");
+          }
+        }, (error) => {
+              console.log("Error getting document:", error);
+          });
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+        }
+    }
+                
+                
     // Navigation logic remains the same
     document.addEventListener("DOMContentLoaded", function () {
         const buttons = document.querySelectorAll('[id*="btn"]');
