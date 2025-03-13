@@ -511,7 +511,7 @@
     color: white;
   }
   #daily-rewards-timer-holder{
-    display: none;
+    display: flex;
     justify-content: center;
   }
   #daily-rewards-icon-timer{
@@ -1358,11 +1358,11 @@ checkUserTasks();
                 const now = Date.now()
                 if( now < doc.data().daily_reward.time_to_claim){
                   document.getElementById("claim-daily-button").style.display = 'none'
-                  document.getElementById('daily-rewards-timer-holder').style.display = "block"
+                  document.getElementById('daily-rewards-timer-holder').style.display = "flex"
                 }if(now > doc.data().daily_reward.time_to_claim){
                   document.getElementById("claim-daily-button").style.display = 'block'
                 }
-                  document.getElementById('daily-rewards-timer-holder').style.display = "none"
+                  document.getElementById('daily-rewards-timer-holder').style.display = "flex"
               } else {
             console.log("No such document!");
           }
