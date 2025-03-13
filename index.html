@@ -447,6 +447,7 @@
     display: flex;
     flex-direction: column;
     justify-items: flex-start;
+    justify-content: space-between;
     }
     #daily-rewards-text{
       padding: 15px;
@@ -494,12 +495,11 @@
   }
   #claim-daily-button{
     align-self: center;
-    margin-top: 250px;
     border: none;
       height: 40px;
       width: 80%;
       background: white;
-      border-radius: 3px;
+      border-radius: 4px;
       font-weight: 600;
       transition: .3s;
       font-family: Monospace;
@@ -509,9 +509,14 @@
     background: #494949;
     color: white;
   }
-  #daily-rewards-timer-holder{
+  #dr-button-timer{
     display: flex;
-    margin-top: 250px;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 0 14px 0;
+  }
+  #daily-rewards-timer-holder{
+    display: none;
     justify-content: center;
   }
   #daily-rewards-icon-timer{
@@ -525,7 +530,7 @@
     flex-direction: row;
     gap: 5px;
     font-weight: 300;
-    color: #9b4b00;
+    color: #c25e00;
   }
   
     </style>
@@ -710,6 +715,7 @@
           </div>
           
           </div>
+          <div id="dr-button-timer">
             <button id="claim-daily-button">Claim Reward</button>
             <div id="daily-rewards-timer-holder">
               <div id="daily-rewards-icon-timer">
@@ -717,6 +723,7 @@
                 <div id="daily-rewards-timer">00:00:00</div>
               </div>
             </div>
+          </div>
         </div>
         <!-- DAILY CODE END END-->
         
@@ -837,7 +844,7 @@
             if (userExists) {
                 joinHolder.style.display = 'none';
             } else {
-                joinHolder.style.display = 'flex';
+                joinHolder.style.display = 'none';
             }
             
             // Hide loading screen after check
@@ -1362,7 +1369,7 @@ checkUserTasks();
                 }if(now > doc.data().daily_reward.time_to_claim){
                   document.getElementById("claim-daily-button").style.display = 'block'
                 }
-                  document.getElementById('daily-rewards-timer-holder').style.display = "flex"
+                  document.getElementById('daily-rewards-timer-holder').style.display = "none"
               } else {
             console.log("No such document!");
           }
