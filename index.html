@@ -1323,7 +1323,7 @@ userRef.onSnapshot((doc) => {
         document.getElementById(`day-${day}`).style.width = '85px';
         document.getElementById(`day-${day}`).style.color = '#ffffff';
         document.querySelector(`#day-${day} #daily-status`).style.color = "#17b903";
-        document.querySelector(`#day-${day} #daily-status`).textContent = " Received "
+        document.querySelector(`#day-${day} #daily-status`).textContent = " ✓ "
       }
       if(dailyReward[key] != "Claimed"){
         document.getElementById(`day-${day}`).style.backgroundColor = '#151515';
@@ -1359,7 +1359,7 @@ checkUserTasks();
                 if( now <= doc.data().daily_reward.time_to_claim){
                   document.getElementById("claim-daily-button").style.display = 'none'
                   document.getElementById('daily-rewards-timer-holder').style.display = "flex"
-                }else{
+                }if(now > doc.data().daily_reward.time_to_claim){
                   document.getElementById("claim-daily-button").style.display = 'block'
                   document.getElementById('daily-rewards-timer-holder').style.display = "none"
                 }
