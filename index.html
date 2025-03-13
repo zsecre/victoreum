@@ -1358,7 +1358,7 @@ checkUserTasks();
                 const now = Date.now()
                 if( now < doc.data().daily_reward.time_to_claim){
                   document.getElementById("claim-daily-button").style.display = 'none'
-                  document.getElementById('daily-rewards-timer-holder').style.display = "flex"
+                  document.getElementById('daily-rewards-timer-holder').style.display = "block"
                 }if(now > doc.data().daily_reward.time_to_claim){
                   document.getElementById("claim-daily-button").style.display = 'block'
                 }
