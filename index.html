@@ -1356,11 +1356,10 @@ checkUserTasks();
             userRef.onSnapshot((doc) => {
               if (doc.exists) {
                 const now = Date.now()
-                if( now <= doc.data().daily_reward.time_to_claim){
+                if( now < doc.data().daily_reward.time_to_claim){
                   document.getElementById("claim-daily-button").style.display = 'none'
                   document.getElementById('daily-rewards-timer-holder').style.display = "flex"
                 }if(now > doc.data().daily_reward.time_to_claim){
-                  document.getElementById("claim-daily-button").innerText = now + " " + doc.data().daily_reward.time_to_claim
                   document.getElementById("claim-daily-button").style.display = 'block'
                   document.getElementById('daily-rewards-timer-holder').style.display = "none"
                 }
