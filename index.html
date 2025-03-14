@@ -1368,6 +1368,7 @@ checkUserTasks();
                 if( now < doc.data().daily_reward.time_to_claim){
                   document.getElementById("claim-daily-button").style.display = 'none'
                   document.getElementById('daily-rewards-timer-holder').style.display = "flex"
+                  document.getElementById('daily-rewards-timer-holder').textContent = doc.data().daily_reward.time_to_claim - now
                 }
                 if(now > doc.data().daily_reward.time_to_claim){
                   document.getElementById("claim-daily-button").style.display = 'block'
