@@ -1276,7 +1276,6 @@ updateRemainingTimeDisplay();
             console.error('Error updating task:', error);
             alert('Error updating task status: ' + error.message);
         }
-        updateDaysValue()
     })
     
     // DAILY CLAIM CODE end_mining_time
@@ -1375,15 +1374,14 @@ checkUserTasks();
                   document.getElementById('daily-rewards-timer-holder').style.display = "none"
                 }
                 if(now > doc.data().daily_reward.time_to_claim && day_to_claim == 1){
-                  async function updateDays(){
+                 setTimeout( async function() { 
                   await db.collection('users').doc(userId.toString()).update({
                 'daily_reward.day_1': null,
                 'daily_reward.day_2': null,
                 'daily_reward.day_3': null,
                 'daily_reward.day_4': null,
               });
-                }
-                updateDays()
+                 }, 2000);
                 }
                   
               } else {
@@ -1399,39 +1397,7 @@ checkUserTasks();
         fetchDailyClaimTimer()
         
         
-        async function updateDaysValue(){
-    try {
-        const startTime = Date.now();
-        const userRef = db.collection('users').doc(userId.toString());
-        userRef.onSnapshot((doc) => {
-        if (doc.exists) {
-        // Update the Firestore document for the user
-          if(startTime > doc.data().daily_reward.time_to_claim && day_to_claim == 1){
-          setTimeout( async function() {
-          await db.collection('users').doc(userId.toString()).update({
-            'daily_reward.day_1': null,
-            'daily_reward.day_2': null,
-            'daily_reward.day_3': null,
-            'daily_reward.day_4': null,
-        });
-            }, 2000);
-        }
-      }else {
-            console.log("No such document!");
-      }
-          }, (error) => {
-              console.log("Error getting document:", error);
-          });
-        } catch (error) {
-        console.error('Error starting mining:', error);
-    }
-        }
 
-setTimeout(function(){
-  updateDaysValue()
-}, 1000)
-    updateDaysValue()
-    
     // Navigation logic remains the same
     document.addEventListener("DOMContentLoaded", function () {
         const buttons = document.querySelectorAll('[id*="btn"]');
