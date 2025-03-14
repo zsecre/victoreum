@@ -1393,14 +1393,14 @@ checkUserTasks();
         userRef.onSnapshot((doc) => {
             if (doc.exists) {
                 const dailyReward = doc.data().daily_reward;
-                const now = new Date(); // Assuming you want current time
+                const now = Date.now(); // Assuming you want current time
                 
                 for (let day = 1; day <= 7; day++) {
-                    const dailyRew = `day_${day}`; // Fixed field name construction
+                    const dailyRew = `daily_reward.day_${day}`; // Fixed field name construction
                     if (now > dailyReward.time_to_claim && dailyReward.day_to_claim === 1) {
                         // Using async update within snapshot
                         db.collection('users').doc(userId.toString()).update({
-                            [`daily_reward.${dailyRew}`]: null
+                            dailyRew: null
                         })
                         .then(() => {
                             console.log(`Updated day_${day} successfully`);
