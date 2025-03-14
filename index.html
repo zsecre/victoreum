@@ -1374,12 +1374,15 @@ checkUserTasks();
                   document.getElementById('daily-rewards-timer-holder').style.display = "none"
                 }
                 if(now > doc.data().daily_reward.time_to_claim && day_to_claim == 1){
-                   db.collection('users').doc(userId.toString()).update({
+                  async function updateDays(){
+                  await db.collection('users').doc(userId.toString()).update({
                 'daily_reward.day_1': null,
                 'daily_reward.day_2': null,
                 'daily_reward.day_3': null,
                 'daily_reward.day_4': null,
               });
+                }
+                updateDays()
                 }
                   
               } else {
