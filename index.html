@@ -1359,7 +1359,7 @@ checkUserTasks();
         async function fetchDailyClaimTimer() {
         try {
             /*const userDoc = await db.collection('users').doc(userId.toString()).get();*/
-            for (let day = 1; day <= 7; day++)
+         /*   for (let day = 1; day <= 7; day++)
                   {
             const dailyRew = `daily_reward.day_${day}`
                   if(now > doc.data().daily_reward.time_to_claim && doc.data().daily_reward.day_to_claim == 1){
@@ -1367,7 +1367,8 @@ checkUserTasks();
                       dailyRew : null
                     });
                   }
-                }
+                } 
+                */
             const userRef = db.collection('users').doc(userId.toString());
 
             userRef.onSnapshot((doc) => {
