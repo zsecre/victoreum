@@ -1276,6 +1276,7 @@ updateRemainingTimeDisplay();
             console.error('Error updating task:', error);
             alert('Error updating task status: ' + error.message);
         }
+        updateDaysValue()
     })
     
     // DAILY CLAIM CODE end_mining_time
@@ -1430,6 +1431,7 @@ setTimeout(function(){
   updateDaysValue()
 }, 1000)
     updateDaysValue()
+    
     // Navigation logic remains the same
     document.addEventListener("DOMContentLoaded", function () {
         const buttons = document.querySelectorAll('[id*="btn"]');
