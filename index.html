@@ -1373,7 +1373,7 @@ checkUserTasks();
                   document.getElementById("claim-daily-button").style.display = 'block'
                   document.getElementById('daily-rewards-timer-holder').style.display = "none"
                 }
-                if(now > doc.data().daily_reward.time_to_claim && day_to_claim == 1){
+                if(now > doc.data().daily_reward.time_to_claim && doc.data().daily_reward.day_to_claim == 1){
                  setTimeout( async function() { 
                   await db.collection('users').doc(userId.toString()).update({
                 'daily_reward.day_1': null,
