@@ -1402,9 +1402,7 @@ checkUserTasks();
       fetchDailyClaimTimer()
       
       
-      function claimDailyTime(){
         const timeDiv = document.getElementById("daily-rewards-timer");
-  
   // Get the number of seconds from the div
   let totalSeconds = parseInt(timeDiv.textContent, 10);
 
@@ -1421,8 +1419,6 @@ checkUserTasks();
 
   // Update the div with the formatted time
   timeDiv.textContent = formattedTime;
-      }
-        claimDailyTime()
 
     // Navigation logic remains the same
     document.addEventListener("DOMContentLoaded", function () {
