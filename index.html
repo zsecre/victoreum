@@ -446,7 +446,7 @@
     #daily-cont{
     display: flex;
     flex-direction: column;
-    justify-items: flex-start;
+    justify-content: space-between;
     
     }
     #daily-rewards-text{
@@ -532,7 +532,6 @@
     font-weight: 300;
     color: #c25e00;
   }
-  
     </style>
     
     
@@ -623,6 +622,7 @@
         
         <!-- DAILY CODE START-->
         <div id="daily-cont" class="cont daily">
+          <div>
           <div id="daily-rewards-text">Daily rewards</div>
           <div id="daily-buttons">
             
@@ -715,14 +715,15 @@
           </div>
           
           </div>
+          </div>
           <div id="dr-button-timer">
-            <button id="claim-daily-button">Claim Reward</button>
             <div id="daily-rewards-timer-holder">
               <div id="daily-rewards-icon-timer">
                 <i class="fa-solid fa-clock"></i>
                 <div id="daily-rewards-timer">00:00:00</div>
               </div>
             </div>
+            <button id="claim-daily-button">Claim Reward</button>
           </div>
         </div>
         <!-- DAILY CODE END END-->
