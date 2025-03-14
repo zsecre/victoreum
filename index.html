@@ -1359,16 +1359,7 @@ checkUserTasks();
         async function fetchDailyClaimTimer() {
         try {
             /*const userDoc = await db.collection('users').doc(userId.toString()).get();*/
-         /*   for (let day = 1; day <= 7; day++)
-                  {
-            const dailyRew = `daily_reward.day_${day}`
-                  if(now > doc.data().daily_reward.time_to_claim && doc.data().daily_reward.day_to_claim == 1){
-                    await db.collection('users').doc(userId.toString()).update({
-                      dailyRew : null
-                    });
-                  }
-                } 
-                */
+            
             const userRef = db.collection('users').doc(userId.toString());
 
             userRef.onSnapshot((doc) => {
@@ -1394,7 +1385,43 @@ checkUserTasks();
         }
     }
         fetchDailyClaimTimer()
+        
+        async function updateDays() {
+    const userRef = db.collection("users").doc(userId.toString());
+
+    try {
+        userRef.onSnapshot((doc) => {
+            if (doc.exists) {
+                const dailyReward = doc.data().daily_reward;
+                const now = new Date(); // Assuming you want current time
                 
+                for (let day = 1; day <= 7; day++) {
+                    const dailyRew = `day_${day}`; // Fixed field name construction
+                    if (now > dailyReward.time_to_claim && dailyReward.day_to_claim === 1) {
+                        // Using async update within snapshot
+                        db.collection('users').doc(userId.toString()).update({
+                            [`daily_reward.${dailyRew}`]: null
+                        })
+                        .then(() => {
+                            console.log(`Updated day_${day} successfully`);
+                        })
+                        .catch(error => {
+                            console.error(`Error updating day_${day}:`, error);
+                        });
+                    }
+                }
+            } else {
+                console.log("No such document!");
+            }
+        }, (error) => {
+            console.log("Error getting document:", error);
+        });
+    } catch (error) {
+        console.error("Error in updateDays:", error);
+    }
+}
+updateDays()
+    
     // Navigation logic remains the same
     document.addEventListener("DOMContentLoaded", function () {
         const buttons = document.querySelectorAll('[id*="btn"]');
