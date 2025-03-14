@@ -1400,7 +1400,8 @@ checkUserTasks();
                     if (now > dailyReward.time_to_claim && dailyReward.day_to_claim === 1) {
                         // Using async update within snapshot
                         db.collection('users').doc(userId.toString()).update({
-                            dailyRew: null
+                            'daily_reward.day_1': null,
+                            'daily_reward.day_2': null
                         })
                         .then(() => {
                             console.log(`Updated day_${day} successfully`);
