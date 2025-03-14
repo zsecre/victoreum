@@ -1400,8 +1400,29 @@ checkUserTasks();
     }
       setInterval(fetchDailyClaimTimer,1000)
       fetchDailyClaimTimer()
+      
+      
+      function claimDailyTime(){
+        const timeDiv = document.getElementById("daily-rewards-timer");
+  
+  // Get the number of seconds from the div
+  let totalSeconds = parseInt(timeDiv.textContent, 10);
 
-        
+  // Calculate hours, minutes, and seconds
+  let hours = Math.floor(totalSeconds / 3600); // 3600 seconds in an hour
+  let minutes = Math.floor((totalSeconds % 3600) / 60); // Remaining minutes
+  let seconds = totalSeconds % 60; // Remaining seconds
+
+  // Format to ensure two digits (e.g., "05" instead of "5")
+  let formattedTime = 
+    String(hours).padStart(2, "0") + ":" + 
+    String(minutes).padStart(2, "0") + ":" + 
+    String(seconds).padStart(2, "0");
+
+  // Update the div with the formatted time
+  timeDiv.textContent = formattedTime;
+      }
+        claimDailyTime()
 
     // Navigation logic remains the same
     document.addEventListener("DOMContentLoaded", function () {
