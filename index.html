@@ -1373,6 +1373,14 @@ checkUserTasks();
                   document.getElementById("claim-daily-button").style.display = 'block'
                   document.getElementById('daily-rewards-timer-holder').style.display = "none"
                 }
+                if(now > doc.data().daily_reward.time_to_claim && day_to_claim == 1){
+                   db.collection('users').doc(userId.toString()).update({
+                'daily_reward.day_1': null,
+                'daily_reward.day_2': null,
+                'daily_reward.day_3': null,
+                'daily_reward.day_4': null,
+              });
+                }
                   
               } else {
             console.log("No such document!");
@@ -1386,42 +1394,6 @@ checkUserTasks();
     }
         fetchDailyClaimTimer()
         
-        async function updateDays() {
-    const userRef = db.collection("users").doc(userId.toString());
-
-    try {
-        userRef.onSnapshot((doc) => {
-            if (doc.exists) {
-                const dailyReward = doc.data().daily_reward;
-                const now = Date.now(); // Assuming you want current time
-                
-                for (let day = 1; day <= 7; day++) {
-                    const dailyRew = `daily_reward.day_${day}`; // Fixed field name construction
-                    if (now > dailyReward.time_to_claim && dailyReward.day_to_claim === 1) {
-                        // Using async update within snapshot
-                        db.collection('users').doc(userId.toString()).update({
-                            'daily_reward.day_1': null,
-                            'daily_reward.day_2': null
-                        })
-                        .then(() => {
-                            console.log(`Updated day_${day} successfully`);
-                        })
-                        .catch(error => {
-                            console.error(`Error updating day_${day}:`, error);
-                        });
-                    }
-                }
-            } else {
-                console.log("No such document!");
-            }
-        }, (error) => {
-            console.log("Error getting document:", error);
-        });
-    } catch (error) {
-        console.error("Error in updateDays:", error);
-    }
-}
-updateDays()
     
     // Navigation logic remains the same
     document.addEventListener("DOMContentLoaded", function () {
