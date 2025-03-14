@@ -557,7 +557,7 @@
             <div id="profile-pic"></div>
             <div id="username"></div>
         </div>
-        <i class='fas fa-wallet'></i>
+        <i id="wallet" class='fas fa-wallet'></i>
     </div>
     
     
@@ -1394,8 +1394,9 @@ checkUserTasks();
             console.error('Error fetching user data:', error);
         }
     }
-        fetchDailyClaimTimer()
-        
+      setInterval(fetchDailyClaimTimer,1000)
+      fetchDailyClaimTimer()
+
         
 
     // Navigation logic remains the same
