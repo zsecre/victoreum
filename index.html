@@ -1368,21 +1368,21 @@ checkUserTasks();
                 if( now < doc.data().daily_reward.time_to_claim){
                   document.getElementById("claim-daily-button").style.display = 'none'
                   document.getElementById('daily-rewards-timer-holder').style.display = "flex"
-                  const timeToClaim = doc.data().daily_reward.time_to_claim;
-      
-      // Assuming 'now' is the current time in seconds (adjust if it's in milliseconds)
-      const now = Math.floor(Date.now() / 1000); // Convert current time to seconds
-      // Calculate the remaining seconds
-      let remainingSeconds = timeToClaim - now;
+              const timeToClaim = doc.data().daily_reward.time_to_claim;
 
-      // Ensure remainingSeconds is non-negative
+      // Get current time in milliseconds
+
+      // Calculate remaining time in milliseconds
+      let remainingTimeMs = timeToClaim - now;
+
+      // Convert to seconds and ensure non-negative
+      let remainingSeconds = Math.floor(remainingTimeMs / 1000);
       if (remainingSeconds < 0) remainingSeconds = 0;
 
       // Convert to hh:mm:ss
       let hours = Math.floor(remainingSeconds / 3600);
       let minutes = Math.floor((remainingSeconds % 3600) / 60);
       let seconds = remainingSeconds % 60;
-
       // Format with leading zeros
       let formattedTime = 
         String(hours).padStart(2, "0") + ":" + 
@@ -1390,7 +1390,7 @@ checkUserTasks();
         String(seconds).padStart(2, "0");
 
       // Update the div with the formatted time
-      document.getElementById("daily-rewards-timer").textContent = formattedTime;
+      document.getElementById("daily-rewards-timer").textContent = formattedTime
                   
                 }
                 if(now > doc.data().daily_reward.time_to_claim){
