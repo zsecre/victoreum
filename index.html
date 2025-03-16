@@ -656,6 +656,29 @@
   #send-copy-buttons-holder button:hover{
     background: white;
   }
+  .popup {
+  display: none; /* Hidden by default */
+  position: absolute; /* Position relative to #friends-cont */
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Offset to truly center */
+  width: 200px;
+  padding: 20px;
+  background-color: #333;
+  color: white;
+  text-align: center;
+  border-radius: 5px;
+  opacity: 0; /* Start invisible */
+  transition: opacity 0.3s ease; /* Fade in/out effect */
+}
+
+/* Class to show the popup */
+.popup.show {
+  display: block; /* Make visible */
+  opacity: 1; /* Fade in */
+  font-weight: 600;
+}
+
     </style>
     
     
@@ -878,6 +901,7 @@
                 <button id="copy-button">Copy link</button>
               </div>
             </div>
+            <div id="popup" class="popup">Copied!</div>
         </div>
         <!-- FRIENDS CODE END-->
         
@@ -1575,6 +1599,7 @@ checkUserTasks();
       
       
       // FRIENDS CODE START //
+        const popup = document.getElementById('popup');
       document.getElementById('copy-button').addEventListener('click', async () => {
         const userDoc = await db.collection('users').doc(userId.toString()).get();
       const userData = userDoc.data();
@@ -1582,11 +1607,22 @@ checkUserTasks();
       
       navigator.clipboard.writeText(referralLink)
         .then(() => {
-          alert('Referral link copied to clipboard!'+ referralLink);
+          
+            popup.classList.add('show');
+          setTimeout(() => {
+              popup.classList.remove('show');
+            }, 2000);
         })
         .catch(err => {
           console.error('Failed to copy: ', err);
         });
+    });
+    
+    document.getElementById('send-button').addEventListener('click', async () => {
+      const userDoc = await db.collection('users').doc(userId.toString()).get();
+      const userData = userDoc.data();
+      const referralLink = `https://t.me/VictoreumDrop_bot?start=${userData.referral_code}`;
+      tg.openTelegramLink(`https://t.me/share/url?url=${encodeURIComponent(referralLink)}&text=${encodeURIComponent('Join using my referral link! Get 5,000 Victoreum Points.')}`);
     });
         
     // Navigation logic remains the same
