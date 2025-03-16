@@ -38,7 +38,7 @@
       100% { opacity: 0; transform: scale(0.8); }
     }
         * {
-          font-family: Monospace;
+          font-family: Quicksand;
         }
         #join-holder {
             position: absolute;
@@ -245,8 +245,7 @@
     #victoreum-points-holder #victoreum-points{
       font-size: 22px;
       font-weight: 100;
-      font-family: Monospace;
-      font-style: italic;
+      
     }
     #start-claim-holder{
       display: flex;
@@ -610,11 +609,52 @@
     border: none;
     border-radius: 4px;
     font-weight: 500;
+    
   }
+  #invite-button-holder:hover ~ #inv-send-holder {
+  bottom: 0;
+}
+  
   #invite-text{
     text-align: center;
     padding: 20px 30px 17px 30px;
     font-weight: 500;
+  }
+  #inv-send-holder{
+    height: 300px;
+    border-radius: 30px 30px 0 0;
+    width: 100%;
+    background-color: #141417;
+    position: absolute;
+    bottom: -305px;
+    left: 0;
+    border-bottom: 1px solid black;
+    z-index: 3;
+    transition: bottom 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+  }
+  #send-copy-buttons-holder{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+  }
+  #send-copy-buttons-holder button{
+    width: 310px;
+    border: none;
+    background: #202227;
+    border-radius: 4px;
+    height: 47px;
+    color: white;
+    font-weight: 600;
+  }
+  #send-copy-buttons-holder button:hover{
+    background: white;
   }
     </style>
     
@@ -830,6 +870,13 @@
             </div>
             <div id="invite-button-holder">
               <button id="invite-button">Invite Friend</button>
+            </div>
+            <div id="inv-send-holder">
+              <div id="">Invite friends</div>
+              <div id="send-copy-buttons-holder">
+                <button id="send-button">Send</button>
+                <button id="copy-button">Copy link</button>
+              </div>
             </div>
         </div>
         <!-- FRIENDS CODE END-->
@@ -1527,6 +1574,20 @@ checkUserTasks();
       fetchDailyClaimTimer()
       
       
+      // FRIENDS CODE START //
+      document.getElementById('copy-button').addEventListener('click', async () => {
+        const userDoc = await db.collection('users').doc(userId.toString()).get();
+      const userData = userDoc.data();
+      const referralLink = `https://t.me/VictoreumDrop_bot?start=${userData.referral_code}`;
+      
+      navigator.clipboard.writeText(referralLink)
+        .then(() => {
+          alert('Referral link copied to clipboard!'+ referralLink);
+        })
+        .catch(err => {
+          console.error('Failed to copy: ', err);
+        });
+    });
         
     // Navigation logic remains the same
     document.addEventListener("DOMContentLoaded", function () {
