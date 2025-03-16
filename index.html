@@ -6,6 +6,9 @@
     <meta name="viewport" content= "width=device-width, user-scalable=no">
     <title>Victoreum Drop</title>
     <style>
+@import url('https://fonts.googleapis.com/css2?family=Albert+Sans:wght@100;200;300;400;500&family=Inter:wght@100;200;300;400;500;600;700&family=Montserrat:wght@100..900&family=Oswald:wght@300;400;500&family=Poppins:wght@100;300;400;500;700&family=Quicksand:wght@300..700&family=Roboto+Condensed:wght@300;400;700&family=Rubik:wght@300..900&display=swap');
+</style>
+    <style>
         body {
             margin: 0;
             background: black;
@@ -17,9 +20,25 @@
             flex-direction: column;
             justify-content: space-between;
             overflow: hidden;
+            z-index: 1;
         }
+        .firefly {
+          z-index: 0;
+      position: absolute;
+      background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 60%);
+      border-radius: 50%;
+      opacity: 0;
+      animation: blink 3s infinite ease-in-out;
+    }
+    
+    /* Animation keyframes for flickering effect */
+    @keyframes blink {
+      0%   { opacity: 0; transform: scale(0.8); }
+      50%  { opacity: 1; transform: scale(1.2); }
+      100% { opacity: 0; transform: scale(0.8); }
+    }
         * {
-          font-family: Trebuchet MS;
+          font-family: Monospace;
         }
         #join-holder {
             position: absolute;
@@ -184,7 +203,7 @@
     .cont{
     /*background: #272727; */
       
-      height: 82vh;
+      height: 79vh;
       margin-top: 60px;
       padding: 0;
     }
@@ -273,6 +292,7 @@
     }
     .home #timer-holder{
       color: #ff870b;
+      font-weight: 300;
     }
     #claim-in{
       position: absolute;
@@ -472,6 +492,23 @@
     
     
   }
+  #day-7{
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradient 5s ease infinite;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
   #daily-points{
     font-size: 12px;
     font-weight: 500;
@@ -532,6 +569,52 @@
     gap: 5px;
     font-weight: 300;
     color: #c25e00;
+  }
+  
+  /* FRIENDS STYLE */
+  #friends-cont{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 14px;
+    gap: 20px;
+  }
+  #referral-holder{
+    font-size: 22px;
+    padding: 15px;
+    height: 100%;
+    
+  }
+  #referrals-list{
+    box-sizing: border-box;
+    height: 100%;
+    padding: 10px;
+    background: #191b1d;
+    font-weight: 500;
+    border-radius: 10px;
+    font-size: 14px;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+  }
+  #invite-button-holder{
+    display: flex;
+    justify-content: center;
+    
+  }
+  #invite-button{
+    font-size: 15px;
+    padding: 15px;
+    width: 89%;
+    text-align: center;
+    border: none;
+    border-radius: 4px;
+    font-weight: 500;
+  }
+  #invite-text{
+    text-align: center;
+    padding: 20px 30px 17px 30px;
+    font-weight: 500;
   }
     </style>
     
@@ -729,9 +812,27 @@
         </div>
         <!-- DAILY CODE END END-->
         
+        
+        <!-- FRIENDS CODE START-->
         <div id="friends-cont" class="cont friends">
-            Friends
+          <div id="invite-text">
+            Invite and recieve 5,000 Victoreum Points for you and your friend.
+          </div>
+            <div id="referral-holder">
+              
+              <div id="referrals-text">Referrals</div>
+              <div id="referrals-list">
+                <div id="ref-name">Zsecre</div>
+                <div id="ref-name">ArtBeast</div>
+                <div id="ref-name">XBlum</div>
+                <div id="ref-name">Mr.Beast</div>
+              </div>
+            </div>
+            <div id="invite-button-holder">
+              <button id="invite-button">Invite Friend</button>
+            </div>
         </div>
+        <!-- FRIENDS CODE END-->
         
         <div id="games-cont" class="cont games">
             Games
@@ -846,7 +947,7 @@
             if (userExists) {
                 joinHolder.style.display = 'none';
             } else {
-                joinHolder.style.display = 'flex';
+                joinHolder.style.display = 'none';
             }
             
             // Hide loading screen after check
@@ -1446,6 +1547,37 @@ checkUserTasks();
             });
         });
         document.querySelector('[id*="btn"]')?.click();
+    });
+    
+    const numFireflies = 50; // Number of fireflies
+    const body = document.body;
+    
+    for (let i = 0; i < numFireflies; i++) {
+      const firefly = document.createElement("div");
+      firefly.className = "firefly";
+      
+      // Random initial position
+      firefly.style.left = Math.random() * window.innerWidth + "px";
+      firefly.style.top = Math.random() * window.innerHeight + "px";
+      
+      // Random animation delay for natural staggering
+      firefly.style.animationDelay = Math.random() * 3 + "s";
+      
+      // Random size for variation
+      const size = Math.random() * 4 + 2; // between 2px and 6px
+      firefly.style.width = size + "px";
+      firefly.style.height = size + "px";
+      
+      body.appendChild(firefly);
+    }
+    
+    // Optional: Update positions on window resize
+    window.addEventListener("resize", () => {
+      const fireflies = document.querySelectorAll(".firefly");
+      fireflies.forEach(firefly => {
+        firefly.style.left = Math.random() * window.innerWidth + "px";
+        firefly.style.top = Math.random() * window.innerHeight + "px";
+      });
     });
 </script>
 </body>
