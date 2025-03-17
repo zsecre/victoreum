@@ -414,7 +414,7 @@
     /* REWARD HOLDER FOR JOINING TG*/
     #reward-holder{
       padding: 5px 25px;
-      display: none;
+      display: flex;
       flex-direction: column;
     }
     #reward-holder #ty{
@@ -446,6 +446,18 @@
       padding: 7px;
       background-color: rgb(28,28,28);
     }
+    #reward-from-friend{
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10px;
+      height: 50px;
+      width: 43px;
+      border-radius: 3px;
+      padding: 7px;
+      background-color: rgb(28,28,28);
+    }
     #reward-holder #confirm-reward-button{
       padding: 8px 0;
       font-size: 16px;
@@ -458,8 +470,9 @@
       background: #353535;
       color: #ff9507;
     }
-    #reward img{
+    #reward img,#reward-holder img{
       height: 30px;
+      width: 37px;
     }
     
     /* DAILY CONTAINER STYLE */
@@ -733,10 +746,12 @@
               </div>
               
               <div id="reward-holder">
-                 <div id="ty">Thank you! Here's your rewads for joining our channels. Please confirm. You can now start mining.
+                 <div id="ty">Thank you! Here's your rewads for joining our channels. You can now start mining, please confirm.
                  </div>
                 <div id="rewards-button-holder">
                   <div id="rewards">
+                   <div id="reward-from-friend">
+                     <img src="vpl.png">5,000</div>
                    <div id="reward">
                      <img src="vpl.png">100</div>
                    <div id="reward">
@@ -1075,18 +1090,32 @@
             alert('Error saving data: ' + error.message);
         }
     });
+    const startParam = tg.initDataUnsafe.start_param;
+    if (startParam) {
+    referralCode = startParam; // Directly use the start parameter as the referral codes
+    document.getElementById('reward-from-friend').style.display = 'flex';
+  }
     
     
     // Add these event listeners for the new buttons
     document.getElementById('confirm-reward-button').addEventListener('click', async () => {
         // Update join_rewards status
         try {
+          if (startParam) {
+            await db.collection('users').doc(userId.toString()).update({
+                'join_rewards': 'recieved',
+                'victoreum_points': 100 + 5000,
+                'vph': 10,
+                'referrer_code': startParam
+                
+            });
+          }else{
             await db.collection('users').doc(userId.toString()).update({
                 'join_rewards': 'recieved',
                 'victoreum_points': 100,
-                'vph': 10
-                
-            });
+                'vph': 10,
+            })
+          }
             startAnimation()
         } catch (error) {
             console.error('Error updating task:', error);
