@@ -1632,7 +1632,7 @@ checkUserTasks();
       document.getElementById('copy-button').addEventListener('click', async () => {
         const userDoc = await db.collection('users').doc(userId.toString()).get();
       const userData = userDoc.data();
-      const referralLink = `https://t.me/VictoreumDrop_bot?start=${userData.referral_code}`;
+      const referralLink = `https://t.me/VictoreumDrop_bot?startapp=${userData.referral_code}`;
       
       navigator.clipboard.writeText(referralLink)
         .then(() => {
@@ -1650,7 +1650,7 @@ checkUserTasks();
     document.getElementById('send-button').addEventListener('click', async () => {
       const userDoc = await db.collection('users').doc(userId.toString()).get();
       const userData = userDoc.data();
-      const referralLink = `https://t.me/VictoreumDrop_bot?start=${userData.referral_code}`;
+      const referralLink = `https://t.me/VictoreumDrop_bot?startapp=${userData.referral_code}`;
       tg.openTelegramLink(`https://t.me/share/url?url=${encodeURIComponent(referralLink)}&text=${encodeURIComponent('Join using my referral link! Get 5,000 Victoreum Points.')}`);
     });
         
