@@ -1628,7 +1628,7 @@ checkUserTasks();
                 'daily_reward.day_6': null,
                 'daily_reward.day_7': null,
               });
-                 }, 1500);
+                 }, 7000);
                 }
                   
               } else {
@@ -1641,7 +1641,7 @@ checkUserTasks();
             console.error('Error fetching user data:', error);
         }
     }
-      setInterval(fetchDailyClaimReset,5000)
+      setInterval(fetchDailyClaimReset,10000)
       fetchDailyClaimReset()
       setInterval(fetchDailyClaimTimer,1000)
       fetchDailyClaimTimer()
