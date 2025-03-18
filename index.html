@@ -1737,7 +1737,8 @@ checkUserTasks();
       const userDoc = await db.collection('users').doc(userId.toString()).get();
       const userData = userDoc.data();
       const usersRef = collection(db, "users");
-      const q = query(usersRef, where("referrer_code", "==", userData.referral_code));
+      const referrerCode = userData.referral_code
+      const q = query(usersRef, where("referrer_code", "==", referrerCode ));
 
       try {
         const querySnapshot = await getDocs(q);
