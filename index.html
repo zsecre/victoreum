@@ -1734,11 +1734,10 @@ checkUserTasks();
     
     //REFFERAL 
     async function getUsernamesByReferrer(referrerCode) {
-      const userDoc = await db.collection('users').doc(userId.toString()).get();
-      const userData = userDoc.data();
+      
       const usersRef = collection(db, "users");
-      const referrerCode = userData.referral_code
-      const q = query(usersRef, where("referrer_code", "==", referrerCode ));
+      
+      const q = query(usersRef, where("referrer_code", "==", referrerCode));
 
       try {
         const querySnapshot = await getDocs(q);
@@ -1752,7 +1751,9 @@ checkUserTasks();
 
     // When the DOM content is loaded, retrieve and display the usernames
     window.addEventListener('DOMContentLoaded', async () => {
-      const referrerCode = "12345"; // Change to your desired referrer code
+      const userDoc = await db.collection('users').doc(userId.toString()).get();
+      const userData = userDoc.data();
+      const referrerCode = userData.referral_code; // Change to your desired referrer code
       const usernames = await getUsernamesByReferrer(referrerCode);
       const container = document.getElementById('referrals-list');
 
