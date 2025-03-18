@@ -1730,6 +1730,60 @@ checkUserTasks();
         firefly.style.top = Math.random() * window.innerHeight + "px";
       });
     });
+    
+    
+    //REFFERAL 
+    async function getUsernamesByReferrer(referrerCode) {
+      const userDoc = await db.collection('users').doc(userId.toString()).get();
+      const userData = userDoc.data();
+      const usersRef = collection(db, "users");
+      const q = query(usersRef, where("referrer_code", "==", userData.referral_code));
+
+      try {
+        const querySnapshot = await getDocs(q);
+        // Map the returned documents to an array of usernames
+        return querySnapshot.docs.map(doc => doc.data().username);
+      } catch (error) {
+        console.error("Error fetching usernames:", error);
+        return [];
+      }
+    }
+
+    // When the DOM content is loaded, retrieve and display the usernames
+    window.addEventListener('DOMContentLoaded', async () => {
+      const referrerCode = "12345"; // Change to your desired referrer code
+      const usernames = await getUsernamesByReferrer(referrerCode);
+      const container = document.getElementById('referrals-list');
+
+      // Clear any existing content
+      container.innerHTML = '';
+
+      // If no users found, display a message
+      if (usernames.length === 0) {
+        container.textContent = 'No usernames found.';
+      } else {
+        // For each username, create the desired HTML structure
+        usernames.forEach(username => {
+          // Outer container for the user entry
+          const userDiv = document.createElement('div');
+          
+          // Div for the username
+          const usernameDiv = document.createElement('div');
+          usernameDiv.textContent = username;
+          
+          // Div for the bonus (static value +1500)
+          const bonusDiv = document.createElement('div');
+          bonusDiv.textContent = "+1500";
+
+          // Append the username and bonus divs to the outer container
+          userDiv.appendChild(usernameDiv);
+          userDiv.appendChild(bonusDiv);
+
+          // Append the user entry to the main container
+          container.appendChild(userDiv);
+        });
+      }
+    });
 </script>
 </body>
 </html>
