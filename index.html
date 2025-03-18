@@ -1629,8 +1629,13 @@ checkUserTasks();
                 'daily_reward.day_7': null,
               });
                  }, 7000);
+                }if(doc.data().daily_reward.day_to_claim != 1){
+                   setTimeout( async function() { 
+                  await db.collection('users').doc(userId.toString()).update({
+                'daily_reward.day_1': 'Claimed',
+              });
+                 }, 7000);
                 }
-                  
               } else {
             console.log("No such document!");
           }
