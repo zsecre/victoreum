@@ -1597,6 +1597,26 @@ checkUserTasks();
                   document.getElementById("claim-daily-button").style.display = 'block'
                   document.getElementById('daily-rewards-timer-holder').style.display = "none"
                 }
+                  
+              } else {
+            console.log("No such document!");
+          }
+        }, (error) => {
+              console.log("Error getting document:", error);
+          });
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+        }
+    }
+        async function fetchDailyClaimReset() {
+        try {
+            /*const userDoc = await db.collection('users').doc(userId.toString()).get();*/
+            
+            const userRef = db.collection('users').doc(userId.toString());
+
+            userRef.onSnapshot((doc) => {
+              if (doc.exists) {
+                const now = Date.now()
                 if(now > doc.data().daily_reward.time_to_claim && doc.data().daily_reward.day_to_claim == 1){
                  setTimeout( async function() { 
                   await db.collection('users').doc(userId.toString()).update({
@@ -1608,7 +1628,7 @@ checkUserTasks();
                 'daily_reward.day_6': null,
                 'daily_reward.day_7': null,
               });
-                 }, 3100);
+                 }, 1500);
                 }
                   
               } else {
@@ -1621,6 +1641,8 @@ checkUserTasks();
             console.error('Error fetching user data:', error);
         }
     }
+      setInterval(fetching,5000)
+      fetchDailyClaimReset()
       setInterval(fetchDailyClaimTimer,1000)
       fetchDailyClaimTimer()
       
