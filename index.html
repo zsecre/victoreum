@@ -1,1735 +1,253 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="viewport" content= "width=device-width, user-scalable=no">
-    <title>Victoreum Drop</title>
-    <style>
-@import url('https://fonts.googleapis.com/css2?family=Albert+Sans:wght@100;200;300;400;500&family=Inter:wght@100;200;300;400;500;600;700&family=Montserrat:wght@100..900&family=Oswald:wght@300;400;500&family=Poppins:wght@100;300;400;500;700&family=Quicksand:wght@300..700&family=Roboto+Condensed:wght@300;400;700&family=Rubik:wght@300..900&display=swap');
-</style>
-    <style>
-        body {
-            margin: 0;
-            background: black;
-            box-shadow: border-box;
-            font-family: Monospace;
-            color: white;
-             width: 100%
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            overflow: hidden;
-            z-index: 1;
-        }
-        .firefly {
-          z-index: 0;
-      position: absolute;
-      background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 60%);
-      border-radius: 50%;
-      opacity: 0;
-      animation: blink 3s infinite ease-in-out;
-    }
-    
-    /* Animation keyframes for flickering effect */
-    @keyframes blink {
-      0%   { opacity: 0; transform: scale(0.8); }
-      50%  { opacity: 1; transform: scale(1.2); }
-      100% { opacity: 0; transform: scale(0.8); }
-    }
-        * {
-          font-family: Quicksand;
-        }
-        #join-holder {
-            position: absolute;
-            height: 100%;
-            width: 100%;
-            background: black;
-            z-index: 2;
-            top: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 10px 25px;
-            box-sizing: border-box;
-        }
-        #join-holder img {
-            height: 180px;
-        }
-        #join-holder button {
-            border: none;
-            font-size: 20px;
-            background-color: cyan;
-            color: #787d98;
-            padding: 8px 20px;
-            border-radius: 3px;
-            font-family: Courier New;
-            transition: .5s;
-            margin: 100px 0 0 0;
-        }
-        #join-holder p {
-            font-size: 8px;
-            text-align: center;
-        }
-        #join-holder button:hover {
-            background-color: #202020;
-            color: orange;
-        }
-        #nav-bar-top {
-            height: 60px;
-            width: 100%;
-            position: absolute;
-            top: 0;
-            
-            color: white;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
-            box-sizing: border-box;
-            overflow: auto;
-            padding: 0 12px;
-        }
-        #pic-name-holder {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        #nav-bar-top img {
-            height: 32px;
-            width: 32px;
-            border-radius: 50px;
-            border: .01px solid rgb(255,255,255, .1);
-        }
-        .fas {
-            font-size: 25px;
-        }
-        #nav-bar-bot {
-            height: 60px;
-            width: 100%;
-            background: black;
-            position: absolute;
-            bottom: 0;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            color: #9a9ca4a3;
-            border: .01px solid #111111;
-            box-sizing: border-box;
-            padding: 0 15px;
-            z-index: 0;
-        }
-        #nav-bar-bot i {
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            gap: 3px;
-        }
-        #nav-bar-bot p {
-            font-size: 3px;
-        }
-    </style>
-    <style>
-        /* Style for buttons */
-        [id*="btn"] {
-            text-align: center;
-            padding: 10px;
-            transition: color 0.3s ease;
-        }
-        /* Style for active button */
-        [id*="btn"].active {
-            color: white;
-        }
-        /* Style for content divs */
-        [id*="cont"] {
-            display: none; /* Initially hidden */
-            
-        }
-        /* Style for visible content */
-        [id*="cont"]:not([style*="display: none"]) {
-            display: block;
-        }
-        #loading-screen {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 1);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 9999;
-        flex-direction: column;
-        gap: 15px;
-    }
-    
-    .loader {
-        width: 48px;
-        height: 48px;
-        border: 3px solid #FFF;
-        border-radius: 50%;
-        display: inline-block;
-        position: relative;
-        box-sizing: border-box;
-        animation: rotation 1s linear infinite;
-    }
-    
-    .loader::after {
-        content: '';  
-        box-sizing: border-box;
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        width: 56px;
-        height: 56px;
-        border-radius: 50%;
-        border: 3px solid transparent;
-        border-bottom-color: cyan;
-    }
-    
-    @keyframes rotation {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
-    
-    #loading-text {
-        color: white;
-        font-family: Courier New;
-        font-size: 14px;
-    }
-    .cont{
-    /*background: #272727; */
-      
-      height: 79vh;
-      margin-top: 60px;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prize Animator</title>
+  <!-- AdsGram SDK Script -->
+  <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+  <style>
+    /* Dark Theme Global Styles */
+    body {
+      margin: 0;
       padding: 0;
-    }
-    .home{
+      background-color: #121212;
+      color: #e0e0e0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       display: flex;
       flex-direction: column;
-      position: relative;
-      height: 100%;
-    }
-    .home #logo-holder{
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: end;
-      align-items: center;
-      gap: 15px;
-      padding: 170px 0 40px;
-      
-    }
-    .home #victoreum-logo{
-      height: 160px;
-      pointer-events: none;
-      
-    }
-    #victoreum-points-holder{
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      gap: 5px;
-      align-items: center;
-      position: absolute;
-      top: 0px;
-      right: 22px;
-    }
-    #victoreum-points-holder #points-logo{
-      height: 27px;
-      width: 37px;
-    }
-    #victoreum-points-holder #victoreum-points{
-      font-size: 22px;
-      font-weight: 100;
-      
-    }
-    #start-claim-holder{
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      align-items: center;
-    }
-    #vph-holder{
-      display: flex;
-      flex-direction: row;
-      background: rgb(0,255,225, .1);
-      padding: 8px 15px;
-      justify-content: center;
-      align-items: center;
-      border-radius: 50px;
-      gap: 3px;
-      position: absolute;
-      top: 40px;
-      right: 10px;
-      font-size: 14px;
-    }
-    /* Start Claim Buttons */
-    #start-claim-button-holder{
-      height: 180px;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      flex-direction: column;
-      
-    }
-    #timer-holder-div{
-      position: relative;
-      background: #2b2b2b;
-      border-radius: 50px;
-      display: none;
-      justify-content: center;
-      align-items: center;
-      width: 210px;
-      height: 40px;
-      gap: 5px;
-      color: #c7c7c7;
-    }
-    .home #timer-holder{
-      color: #ff870b;
-      font-weight: 300;
-    }
-    #claim-in{
-      position: absolute;
-      top: -20px;
-      left: 15px;
-      font-weight: 500;
-      color: #757474;
-    }
-
-    .home #claim-button-holder{
-      display: none;
-      justify-content: center;
-      transition: .3s;
-      position: absolute;
-    }
-    #claim-code-input{
-      border: none;
-      outline: none;
-      margin-right: 2px;
-      border-radius: 3px 0;
-      font-size: 14px;
-      padding-left: 5px;
-      background-color: gray;
-      color: white;
-      font-weight: 500;
-    }
-    ::placeholder{
-      color: #bab8b8;
-    }
-    .home .button{
-      border: none;
-      height: 40px;
-      width: 80%;
-      background: cyan;
-      border-radius: 3px;
-      color: #ea6800;
-      font-weight: 600;
-      transition: .3s;
-      font-family: Monospace;
-    }
-    .home .button:hover {
-        background-color: #202020;
-        color: orange;
-        font-weight: 200;
-        width: 40%;
-      }
-    #invalid-code-holder{
-      
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      position: absolute;
-      bottom: -210px;
-      background: #ff0000;
-      padding: 50px 27px 50px 27px;
-      box-sizing: border-box;
-      font-size: 10px;
-      gap: 8px;
-      border-radius: 3px;
-      transition: .3s;
-      width: 100%;
-    }
-    #invalid-code-holder a{
-      color: gray;
-      padding: 10px 16px;
-      background: #37ffbb;
-      font-weight: 500;
-      text-decoration: none;
-      border-radius: 3px;
-    }
-    #invalid-code-holder #close-invalid-code{
-      position: absolute;
-      top: -10px;
-      right: 10px;
-      width: 25px;
-      height: 25px;
-      background: red;
-      display: flex;
       align-items: center;
       justify-content: center;
+      min-height: 100vh;
     }
     
-    /* CHANNEL JOIN HOLDER */
-    #channel-holder{
-      display: none;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 8px;
-      padding: 30px 25px;
-      background: black;
-      border-radius: 3px;
-    }
-    h7{
-      font-size: 10px;
-    }
-    #join-community-button, #join-code-button{
-      border: none;
-      width: 70px;
-      height: 32px;
-      border-radius: 50px;
-      background: #6dff02;
-      font-weight: 500;
-      font-size: 13px;
-    }
-    #channel-holder #community ,#codes{
-      font-size: 13px;
+    /* Prize display container */
+    .prize-container {
+      width: 200px;
+      height: 200px;
+      border: 4px solid #444;
+      border-radius: 20px;
+      background-color: #1e1e1e;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
       align-items: center;
-      gap: 20px;
-      font-weight: 300;
-      background-color: rgb(255,255,255, .09);
-      border-radius: 5px;
-      padding: 8px 12px;
+      justify-content: center;
+      margin-bottom: 30px;
     }
-    #channel-holder i{
+    
+    .prize-number {
+      font-size: 48px;
+      font-weight: bold;
+      color: #ffffff;
+    }
+    
+    /* Style for coin images */
+    .prize-image {
+      width: 80px;
+      height: 80px;
+      margin-top: 10px;
+    }
+    
+    /* Spin button styling */
+    .spin-button {
+      padding: 15px 40px;
       font-size: 20px;
-    }
-    
-    /* REWARD HOLDER FOR JOINING TG*/
-    #reward-holder{
-      padding: 5px 25px;
-      display: flex;
-      flex-direction: column;
-    }
-    #reward-holder #ty{
-      font-size: 11px;
-    }
-    #rewards-button-holder{
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      
-    }
-    #rewards{
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 0;
-    }
-    #reward{
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 10px;
-      height: 50px;
-      width: 43px;
-      border-radius: 3px;
-      padding: 7px;
-      background-color: rgb(28,28,28);
-    }
-    #reward-from-friend{
-      display: none;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 10px;
-      height: 50px;
-      width: 43px;
-      border-radius: 3px;
-      padding: 7px;
-      background-color: rgb(28,28,28);
-    }
-    #reward-holder #confirm-reward-button{
-      padding: 8px 0;
-      font-size: 16px;
+      background-color: #4caf50;
+      color: #ffffff;
       border: none;
-      background: cyan;
-      border-radius: 3px;
-      transition: .3s;
-    }
-    #reward-holder #confirm-reward-button:hover{
-      background: #353535;
-      color: #ff9507;
-    }
-    #reward img,#reward-holder img{
-      height: 30px;
-      width: 37px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
     }
     
-    /* DAILY CONTAINER STYLE */
-    #daily-cont{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    
+    .spin-button:disabled {
+      background-color: #777;
+      cursor: not-allowed;
     }
-    #daily-rewards-text{
-      padding: 15px;
-      margin-top: 70px;
-      font-size: 20px;
-      font-weight: 500;
+    
+    /* Popup modal styling for result */
+    .popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #1e1e1e;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+      text-align: center;
+      z-index: 1000;
     }
-  #day-1, #day-2, #day-3, #day-4, #day-5, #day-6, #day-7{
-    background: #151515;
-    display: flex;
-    flex-direction: column;
-    height: 100px;
-    width: 100px;
-    align-items: center;
-    justify-content: center;
-    border-radius: 8px;
-    gap: 8px;
-    font-size: 9px;
-    font-weight: 300;
-    color: #b4b4b4;
     
-    
-  }
-  #day-7{
-  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-    background-size: 400% 400%;
-    animation: gradient 5s ease infinite;
-}
-
-@keyframes gradient {
-    0% {
-        background-position: 0% 50%;
+    .popup-content {
+      font-size: 24px;
+      margin-bottom: 20px;
     }
-    50% {
-        background-position: 100% 50%;
+    
+    .close-popup {
+      padding: 10px 20px;
+      font-size: 18px;
+      background-color: #4caf50;
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
     }
-    100% {
-        background-position: 0% 50%;
+    
+    .close-popup:disabled {
+      background-color: #777;
+      cursor: not-allowed;
     }
-}
-  #daily-points{
-    font-size: 12px;
-    font-weight: 500;
-    width: 75px;
-    text-align: center;
-  }
-  .days img{
-    height: 25px;
-    width: 35px;
-    
-  }
-  #daily-buttons{
-    display: flex;
-    flex-direction: row;
-    gap: 8px;
-    padding: 15px;
-    overflow-y: auto;
-    
-    height: 90px;
-    align-items: center;
-    
-  }
-  #claim-daily-button{
-    align-self: center;
-    border: none;
-      height: 40px;
-      width: 80%;
-      background: white;
-      border-radius: 4px;
-      font-weight: 600;
-      transition: .3s;
-      font-family: Monospace;
-    color #2e2e2e
-  }
-  #claim-daily-button:hover{
-    background: #494949;
-    color: white;
-  }
-  #dr-button-timer{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 0 0 14px 0;
-  }
-  #daily-rewards-timer-holder{
-    display: flex;
-    justify-content: center;
-  }
-  #daily-rewards-icon-timer{
-    height: 41px;
-    width: 270px;
-    background: #252525;
-    border-radius: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: row;
-    gap: 5px;
-    font-weight: 300;
-    color: #c25e00;
-  }
-  
-  /* FRIENDS STYLE */
-  #friends-cont{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 14px;
-    gap: 20px;
-  }
-  #referral-holder{
-    font-size: 22px;
-    padding: 15px;
-    height: 100%;
-    
-  }
-  #referrals-list{
-    box-sizing: border-box;
-    height: 100%;
-    padding: 10px;
-    background: #191b1d;
-    font-weight: 500;
-    border-radius: 10px;
-    font-size: 14px;
-    display: flex;
-    gap: 10px;
-    flex-direction: column;
-  }
-  #invite-button-holder{
-    display: flex;
-    justify-content: center;
-    
-  }
-  #invite-button{
-    font-size: 15px;
-    padding: 15px;
-    width: 89%;
-    text-align: center;
-    border: none;
-    border-radius: 4px;
-    font-weight: 500;
-    
-  }
-  #invite-button-holder:hover ~ #inv-send-holder {
-  bottom: 0;
-}
-  
-  #invite-text{
-    text-align: center;
-    padding: 20px 30px 17px 30px;
-    font-weight: 500;
-  }
-  #inv-send-holder{
-    height: 300px;
-    border-radius: 30px 30px 0 0;
-    width: 100%;
-    background-color: #141417;
-    position: absolute;
-    bottom: -305px;
-    left: 0;
-    border-bottom: 1px solid black;
-    z-index: 3;
-    transition: bottom 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-  }
-  #send-copy-buttons-holder{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-  }
-  #send-copy-buttons-holder button{
-    width: 310px;
-    border: none;
-    background: #202227;
-    border-radius: 4px;
-    height: 47px;
-    color: white;
-    font-weight: 600;
-  }
-  #send-copy-buttons-holder button:hover{
-    background: white;
-  }
-  .popup {
-  display: none; /* Hidden by default */
-  position: absolute; /* Position relative to #friends-cont */
-  top: 50%; /* Center vertically */
-  left: 50%; /* Center horizontally */
-  transform: translate(-50%, -50%); /* Offset to truly center */
-  width: 200px;
-  padding: 20px;
-  background-color: #333;
-  color: white;
-  text-align: center;
-  border-radius: 5px;
-  opacity: 0; /* Start invisible */
-  transition: opacity 0.3s ease; /* Fade in/out effect */
-}
-
-/* Class to show the popup */
-.popup.show {
-  display: block; /* Make visible */
-  opacity: 1; /* Fade in */
-  font-weight: 600;
-}
-
-    </style>
-    
-    
-    <script src="https://kit.fontawesome.com/caf9999568.js" crossorigin="anonymous"></script>
+  </style>
 </head>
 <body>
+  <!-- Prize display area -->
+  <div class="prize-container">
+    <div class="prize-number" id="currentNumber">?</div>
+    <!-- Image element for coin image -->
+    <img class="prize-image" id="currentImage" src="" alt="Prize Image" />
+  </div>
   
-  <div id="loading-screen">
-    <div class="loader"></div>
-    <div id="loading-text">Loading...</div>
-</div>
-
-    <div id="join-holder">
-        <img src="victoreum-cyan.png">
-        <h3>Welcome to Victoreum</h3>
-        <p>Start farming your Victoreum tokens today and gear up for thrilling in-game adventures—your efforts now will unlock exclusive rewards and power your future gameplay. Dive in, collect your tokens, and get ready to conquer the Victoreum universe!</p>
-        <button id="join-button">Continue</button>
-    </div>
-
-    <!-- Nav Top -->
-    <div id="nav-bar-top">
-        <div id="pic-name-holder">
-            <div id="profile-pic"></div>
-            <div id="username"></div>
-        </div>
-        <i id="wallet" class='fas fa-wallet'></i>
-    </div>
+  <!-- Spin button -->
+  <button class="spin-button" id="spinButton">START</button>
+  
+  <!-- Result Popup -->
+  <div class="popup" id="resultPopup">
+    <div class="popup-content" id="popupContent"></div>
+    <button class="close-popup" id="closePopupButton">OK</button>
+  </div>
+  
+  <script>
+    // Initialize AdsGram SDK
+    // Replace 'your-block-id' with your actual block id from AdsGram.
+    const AdController = window.Adsgram.init({ blockId: "your-block-id" });
     
+    // Image sources for gold and silver coins
+    const goldCoinImage = "https://upload.wikimedia.org/wikipedia/commons/d/d6/Gold_coin_icon.png";
+    const silverCoinImage = "https://static.vecteezy.com/system/resources/thumbnails/022/030/315/small_2x/3d-coin-gold-bronze-silver-icon-png.png";
     
-   <!-- MIDDLE CONTAINERS -->
-    <div>
-        <div id="home-cont" class="cont home">
-            <div id="logo-holder">
-              <div id="vph-holder">
-                <i class="fa-solid fa-bolt"></i>
-                <div id="points-per-hour">0/h</div>
-              </div>
-              <img src="victoreum-cyan.png" id="victoreum-logo">
-              <div id="victoreum-points-holder">
-                <img src="vpl.png" id="points-logo">
-                <div id="victoreum-points">0</div>
-             </div>
-              </div>
-              
-            <div id="start-claim-holder">
-              <div id="channel-holder">
-                <h7>Join Victoreum Telegram Channels to start mining:</h7>
-                <div id="community"><i class="fa-brands fa-telegram"></i> Victoreum Community <button id="join-community-button">Join</button>
-                </div>
-                <div id="codes"><i class="fa-brands fa-telegram"></i> Victoreum Claim Code<button id="join-code-button">Join</button>
-                </div>
-              </div>
-              
-              <div id="reward-holder">
-                 <div id="ty">Thank you! Here's your rewads for joining our channels. You can now start mining, please confirm.
-                 </div>
-                <div id="rewards-button-holder">
-                  <div id="rewards">
-                   <div id="reward-from-friend">
-                     <img src="vpl.png">5,000</div>
-                   <div id="reward">
-                     <img src="vpl.png">100</div>
-                   <div id="reward">
-                     <i class="fas fa-bolt"></i>+10/h</div>
-                  </div>
-                  <button id="confirm-reward-button">Confirm</button>
-                </div>
-              </div>
-              
-              <div id="start-claim-button-holder">
-              <div id="timer-holder-div">
-              <div id="claim-in">Claim in:</div>
-              <i class="fa-solid fa-clock"></i>
-              <div id="timer-holder"></div>
-              </div>
-              <button id="start-button" class="button start">Start Farming</button>
-              <div id="claim-button-holder">
-              <input type="rext" id="claim-code-input" placeholder="Enter claim code">
-              <button id="claim-button" class="button claim">Claim</button>
-              <div id="invalid-code-holder">
-                <div id="close-invalid-code">×</div>
-                Claim code is incorrect. Please visit Victoreum Claim Code channel to get the correct code.
-                <a href="https://t.me/victoreumcodes">Go</a>
-              </div>
-              </div>
-              </div>
-            </div>
-            </div>
-        <!-- HOME END CODE-->
-        
-        <!-- DAILY CODE START-->
-        <div id="daily-cont" class="cont daily">
-          <div>
-          <div id="daily-rewards-text">Daily rewards</div>
-          <div id="daily-buttons">
-            
-          <div id="day-1" class="days one">
-            <div id="days">
-              Day 1
-            </div>
-            <img src="vpl.png">
-            <div id="daily-points">
-              1500
-            </div>
-            <div id="daily-status">
-              Unclaimed
-            </div>
-          </div>
-          <div id="day-2" class="days two">
-            <div id="days">
-              Day 2
-            </div>
-            <img src="vpl.png">
-            <div id="daily-points">
-              2500
-            </div>
-            <div id="daily-status">
-              Unclaimed
-            </div>
-          </div>
-          <div id="day-3" class="days three">
-            <div id="days">
-              Day 3
-            </div>
-            <img src="vpl.png">
-            <div id="daily-points">
-              3500
-            </div>
-            <div id="daily-status">
-              Unclaimed
-            </div>
-          </div>
-          <div id="day-4" class="days four">
-            <div id="days">
-              Day 4
-            </div>
-            <img src="vpl.png">
-            <div id="daily-points">
-              4500
-            </div>
-            <div id="daily-status">
-              Unclaimed
-            </div>
-          </div>
-          
-          <div id="day-5" class="days five">
-            <div id="days">
-              Day 5
-            </div>
-            <img src="vpl.png">
-            <div id="daily-points">
-              5500
-            </div>
-            <div id="daily-status">
-              Unclaimed
-            </div>
-          </div>
-          
-          <div id="day-6" class="days six">
-            <div id="days">
-              Day 6
-            </div>
-            <img src="vpl.png">
-            <div id="daily-points">
-              7500
-            </div>
-            <div id="daily-status">
-              Unclaimed
-            </div>
-          </div>
-          
-          <div id="day-7" class="days seven">
-            <div id="days">
-              Day 7
-            </div>
-            <img src="vpl.png">
-            <div id="daily-points">
-              10000
-            </div>
-            <div id="daily-status">
-              Unclaimed
-            </div>
-          </div>
-          
-          </div>
-          </div>
-          <div id="dr-button-timer">
-            <div id="daily-rewards-timer-holder">
-              <div id="daily-rewards-icon-timer">
-                <i class="fa-solid fa-clock"></i>
-                <div id="daily-rewards-timer"></div>
-              </div>
-            </div>
-            <button id="claim-daily-button">Claim Reward</button>
-          </div>
-        </div>
-        <!-- DAILY CODE END END-->
-        
-        
-        <!-- FRIENDS CODE START-->
-        <div id="friends-cont" class="cont friends">
-          <div id="invite-text">
-            Invite and recieve 5,000 Victoreum Points for you and your friend.
-          </div>
-            <div id="referral-holder">
-              
-              <div id="referrals-text">Referrals</div>
-              <div id="referrals-list">
-                <div id="ref-name">Zsecre</div>
-                <div id="ref-name">ArtBeast</div>
-                <div id="ref-name">XBlum</div>
-                <div id="ref-name">Mr.Beast</div>
-              </div>
-            </div>
-            <div id="invite-button-holder">
-              <button id="invite-button">Invite Friend</button>
-            </div>
-            <div id="inv-send-holder">
-              <div id="">Invite friends</div>
-              <div id="send-copy-buttons-holder">
-                <button id="send-button">Send</button>
-                <button id="copy-button">Copy link</button>
-              </div>
-            </div>
-            <div id="popup" class="popup">Copied!</div>
-        </div>
-        <!-- FRIENDS CODE END-->
-        
-        <div id="games-cont" class="cont games">
-            Games
-        </div>
-        <div id="airdrop-cont" class="cont airdrop">
-            Airdrop
-        </div>
-    </div>
-
-
-
-    <!-- Nav Bottom -->
-    <div id="nav-bar-bot">
-        <div id="home-btn">
-            <i class="fa-solid fa-house"></i>
-            <p>Home</p>
-        </div>
-        <div id="daily-btn">
-            <i class="fa-solid fa-calendar-days"></i>
-            <p>Daily</p>
-        </div>
-        <div id="friends-btn">
-            <i class="fa-solid fa-user-group"></i>
-            <p>Friends</p>
-        </div>
-        <div id="games-btn">
-            <i class="fa-solid fa-gamepad"></i>
-            <p>Games</p>
-        </div>
-        <div id="airdrop-btn">
-            <i class="fa-solid fa-parachute-box"></i>
-            <p>Airdrop</p>
-        </div>
-    </div>
-
-    <!-- SCRIPT TAG -->
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<!-- Include Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore-compat.js"></script>
-
-<!-- Your Custom JavaScript Code -->
-
-<script>
-    // Initialize the Telegram Web App
-    const tg = window.Telegram.WebApp;
-    tg.setBackgroundColor('#000000');
-    tg.setHeaderColor('#000000');
-    tg.expand();
-
-    // Get loading screen element
-    const loadingScreen = document.getElementById('loading-screen');
-
-    // Extract user data
-    const initData = tg.initDataUnsafe;
-    const userId = initData.user?.id;
-    const username = initData.user?.first_name;
-
-    // Display profile picture
-    const photoUrl = initData.user?.photo_url;
-    const profilePicContainer = document.getElementById('profile-pic');
-    if (photoUrl) {
-        const img = document.createElement('img');
-        img.src = photoUrl;
-        profilePicContainer.appendChild(img);
-    }
-
-    // Display username
-    document.getElementById('username').innerText = `${username}`;
-
-    // Firebase configuration and initialization
-    const firebaseConfig = {
-        apiKey: "AIzaSyBB3gfZtcvPBs1G4fbezMU9EdeK6u261To",
-        authDomain: "victoreumgames-drop.firebaseapp.com",
-        projectId: "victoreumgames-drop",
-        storageBucket: "victoreumgames-drop.appspot.com",
-        messagingSenderId: "396211397518",
-        appId: "1:396211397518:web:6f22a52c394ff3cdeebadf",
-        measurementId: "G-QMQ4E1WJQC"
-    };
-
-    // Initialize Firebase
-    const app = firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-
-    // Check if user exists in Firestore
-    async function checkUserExists() {
-        if (!userId) return false;
-        
-        try {
-            const docRef = db.collection('users').doc(userId.toString());
-            const doc = await docRef.get();
-            return doc.exists;
-        } catch (error) {
-            console.error('Error checking user:', error);
-            return false;
-        }
-    }
-
-    // Check user existence on page load
-    (async () => {
-        let userExists = false;
-        try {
-            userExists = await checkUserExists();
-        } catch (error) {
-            console.error('Error during user check:', error);
-        } finally {
-            const joinHolder = document.getElementById('join-holder');
-            
-            if (userExists) {
-                joinHolder.style.display = 'none';
-            } else {
-                joinHolder.style.display = 'flex';
-            }
-            
-            // Hide loading screen after check
-            loadingScreen.style.display = 'none';
-        }
-    })();
-
-    function generateReferralCode() {
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        return Array.from({length: 5}, () => characters[Math.floor(Math.random() * characters.length)]).join('');
+    // Prize data: Only the number is needed; the image is chosen based on the prize number.
+    const prizes = Array.from({ length: 15 }, (_, i) => ({ number: i + 1 }));
+    
+    // Animation configuration values
+    const duration = 4000;       // Total animation duration in milliseconds
+    const minInterval = 50;      // Minimum delay between prize updates (ms)
+    const maxInterval = 300;     // Maximum delay between prize updates (ms)
+    
+    // DOM elements
+    const currentNumber = document.getElementById('currentNumber');
+    const currentImage = document.getElementById('currentImage');
+    const spinButton = document.getElementById('spinButton');
+    const resultPopup = document.getElementById('resultPopup');
+    const popupContent = document.getElementById('popupContent');
+    const closePopupButton = document.getElementById('closePopupButton');
+    
+    /**
+     * Returns a random prize from the prizes array.
+     * @returns {Object} A prize object containing a number.
+     */
+    function getRandomPrize() {
+      const randomIndex = Math.floor(Math.random() * prizes.length);
+      return prizes[randomIndex];
     }
     
+    /**
+     * Determines the correct coin image URL based on the prize number.
+     * @param {number} prizeNumber - The prize number.
+     * @returns {string} The coin image URL.
+     */
+    function getCoinImage(prizeNumber) {
+      return prizeNumber <= 4 ? goldCoinImage : silverCoinImage;
+    }
     
-    document.getElementById('join-button').addEventListener('click', async () => {
-        if (!userId) {
-            alert('User ID not available. Please try again.');
-            return;
-        }
-
-        const userData = {
-            user_id: userId,
-            username: username,
-            join_rewards: null,
-            victoreum: 0,
-            victoreum_points: 0,
-            vph: 0,
-            start_mining_time: 0,
-            end_mining_time: 0,
-            referral_code: generateReferralCode(),
-            referrer_code: null,
-            tasks: {  // Add tasks field here
-                task_1: null,
-                task_2: null
-            },
-            daily_reward: {
-                day_to_claim : 1,
-                time_to_claim: 0,
-                day_1: null,
-                day_2: null,
-                day_3: null,
-                day_4: null,
-                day_5: null,
-                day_6: null,
-                day_7: null
-            }
-        };
-
-        try {
-            await db.collection('users').doc(userId.toString()).set(userData);
-            document.getElementById('join-holder').style.display = 'none';
-            alert('Successfully joined!');
-        } catch (error) {
-            console.error('Firebase error:', error);
-            alert('Error saving data: ' + error.message);
-        }
-    });
-    const startParam = tg.initDataUnsafe.start_param;
-    if (startParam) {
-    referralCode = startParam; // Directly use the start parameter as the referral codes
-    document.getElementById('reward-from-friend').style.display = 'flex';
-  }
+    /**
+     * Updates the prize display area with the given prize.
+     * @param {Object} prize - The prize object to display.
+     */
+    function updateDisplay(prize) {
+      currentNumber.textContent = prize.number;
+      currentImage.src = getCoinImage(prize.number);
+    }
     
-    
-    // Add these event listeners for the new buttons
-    document.getElementById('confirm-reward-button').addEventListener('click', async () => {
-        // Update join_rewards status
-        try {
-          if (startParam) {
-            await db.collection('users').doc(userId.toString()).update({
-                'join_rewards': 'recieved',
-                'victoreum_points': 5600,
-                'vph': 10,
-                'referrer_code': startParam
-                
-            });
-          }else{
-            await db.collection('users').doc(userId.toString()).update({
-                'join_rewards': 'recieved',
-                'victoreum_points': 100,
-                'vph': 10,
-            })
-          }
-            startAnimation()
-        } catch (error) {
-            console.error('Error updating task:', error);
-            alert('Error updating task status: ' + error.message);
-        }
-    });
-    // REWARD ANIMATION
-  async function startAnimation() {
-    
-      const userDoc = await db.collection('users').doc(userId.toString()).get();
-      const userData = userDoc.data();
-            const duration = 3000; // 3 seconds
-            const startValue = 0;
-            const endValue = 5600; // Change this to your target number
-            const startTime = Date.now();
+    /**
+     * Animates the prize display with a gradually slowing effect.
+     * Uses a recursive setTimeout based on elapsed time.
+     * @param {number} startTime - The timestamp when the animation started.
+     */
+    function animateSpin(startTime) {
+      const elapsed = Date.now() - startTime;
       
-            function update() {
-                const currentTime = Date.now();
-                const elapsed = currentTime - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                
-                // Update number with easing
-                const currentValue = Math.floor(progress * (endValue - startValue) + startValue);
-                document.getElementById("victoreum-points").textContent = currentValue;
-
-                if (progress < 1) {
-                    requestAnimationFrame(update);
-                } else {
-                    document.getElementById("victoreum-points").textContent = endValue; // Ensure final value is exact
-                }
-            }
-
-            requestAnimationFrame(update);
-        }
-    
-    document.getElementById('join-community-button').addEventListener('click', async () => {
-        // Open community channel
-        window.open('https://t.me/victoreumcommunity', '_blank');
+      if (elapsed < duration) {
+        // Calculate delay to gradually slow down the animation
+        const progress = elapsed / duration;
+        const delay = Math.floor(minInterval + (maxInterval - minInterval) * progress);
         
-        // Update task_1 status
-        try {
-            await db.collection('users').doc(userId.toString()).update({
-                'tasks.task_1': 'subscribed'
-            });
-        } catch (error) {
-            console.error('Error updating task:', error);
-            alert('Error updating task status: ' + error.message);
-        }
-    });
-
-    document.getElementById('join-code-button').addEventListener('click', async () => {
-        // Open codes channel
-        window.open('https://t.me/victoreumcodes', '_blank');
+        // Update the display with a random prize
+        updateDisplay(getRandomPrize());
         
-        // Update task_2 status
-        try {
-            await db.collection('users').doc(userId.toString()).update({
-                'tasks.task_2': 'subscribed'
-            });
-        } catch (error) {
-            console.error('Error updating task:', error);
-            alert('Error updating task status: ' + error.message);
-        }
-    });
-     // Add this function to fetch and display user data
-    async function fetchAndDisplayUserData() {
-        try {
-            /*const userDoc = await db.collection('users').doc(userId.toString()).get();*/
-            const userRef = db.collection('users').doc(userId.toString());
-
-            userRef.onSnapshot((doc) => {
-              if (doc.exists) {
-        // Get the new age value
-          //  const newAge = doc.data().age;
-        // Update the div content
-           // ageDiv.textContent = newAge;
-           // Update victoreum points
-                const pointsElement = document.getElementById('victoreum-points');
-                pointsElement.innerText = `${doc.data().victoreum_points}`;
-                const vphElement = document.getElementById('points-per-hour');
-                vphElement.innerText = `${doc.data().vph}/h`;
-                
-                if(doc.data().tasks.task_1 == "subscribed"){
-                const joinCommBtn = document.getElementById('join-community-button');
-                joinCommBtn.innerText = "✓";
-                joinCommBtn.style.backgroundColor = "rgb(42,42,42)"
-                joinCommBtn.style.color = "rgb(100,255,18)"
-                }
-                if(doc.data().tasks.task_2 == "subscribed"){
-                const joinCodeBtn = document.getElementById('join-code-button');
-                joinCodeBtn.innerText = "✓";
-                joinCodeBtn.style.backgroundColor = "rgb(42,42,42)"
-                joinCodeBtn.style.color = "rgb(100,255,18)"
-                }
-                if(doc.data().tasks.task_1 && doc.data().tasks.task_2 == "subscribed"){
-                  document.getElementById("channel-holder").style.display = "none"
-                  document.getElementById("reward-holder").style.display = "flex"
-                }
-                if(doc.data().tasks.task_1 != "subscribed" || doc.data().tasks.task_2 != "subscribed"){
-                  document.getElementById("channel-holder").style.display = "flex"
-                  document.getElementById("reward-holder").style.display = "none"
-                }
-                if( doc.data().join_rewards == "recieved"){
-                  document.getElementById("reward-holder").style.display = "none";
-                  document.getElementById("start-claim-button-holder").style.display = "flex";
-                }
-                const now = Date.now();
-           if( doc.data().end_mining_time == 0){
-              document.getElementById('start-button').style.display = "block"
-              document.getElementById('timer-holder-div').style.display = "none"
-              document.getElementById('claim-button-holder').style.display = "none"
-            }
-                if (now >= doc.data().end_mining_time && doc.data().end_mining_time != 0) {
-                  document.getElementById('claim-button-holder').style.display = 'flex';
-                   document.getElementById('timer-holder-div').style.display = "none";
-                  document.getElementById('start-button').style.display = "none"
-                }
-            if(now < doc.data().end_mining_time ){
-              document.getElementById('timer-holder-div').style.display = "flex"
-              document.getElementById('claim-button-holder').style.display = "none"
-              document.getElementById('start-button').style.display = "none"
-            }
-           
-        } else {
-            console.log("No such document!");
-          }
-        }, (error) => {
-              console.log("Error getting document:", error);
-          });
-        } catch (error) {
-            console.error('Error fetching user data:', error);
-        }
-    }
-    setInterval(fetchAndDisplayUserData, 1000);
-    fetchAndDisplayUserData();
-    
-    // START MIMING BUTTON CLICK
-    document.getElementById('start-button').addEventListener('click', async () => {
-    try {
-        // Get the current time as a Firestore Timestamp
-        const startTime = Date.now();
-        // Calculate the end time 5 hours later in milliseconds
-        const endTime = startTime + (5 * 60 * 60 * 1000);
-
-        // Update the Firestore document for the user
-        setTimeout( async function() {
-        await db.collection('users').doc(userId.toString()).update({
-            start_mining_time: startTime,
-            end_mining_time: endTime
-        });
-            }, 2000);
-    } catch (error) {
-        console.error('Error starting mining:', error);
-    }
-});
-    // CLAIM BUTTON click
-    document.getElementById('claim-button').addEventListener('click', async () => {
-      
-    try {
-      const codeDoc = await db.collection('claim-code').doc("code").get();
-      const userDoc = await db.collection('users').doc(userId.toString()).get();
-      const userData = userDoc.data();
-      const codeData = codeDoc.data();
-        // Update the Firestore document for the user
-      const codeInput = document.getElementById("claim-code-input").value
-      if(codeInput == codeData.code){
-        setTimeout( async function() {
-        await db.collection('users').doc(userId.toString()).update({
-            start_mining_time: 0,
-            end_mining_time: 0,
-            victoreum_points: userData.victoreum_points + ( userData.vph * 5 )
-        });
-      }, 2000);
-      startClaimAnimation()
-      }else{
-        document.getElementById("invalid-code-holder").style.bottom = "12px"
-        document.getElementById('invalid-code-holder').style.backgroundColor = "#212121"
-        document.getElementById('invalid-code-holder').style.display = "flex"
-      }
-
-    } catch (error) {
-        console.error('Error starting mining:', error);
-    }
-    
-});
-      // ANIMATION CLAIM POINTS
-async function startClaimAnimation() {
-    
-      const userDoc = await db.collection('users').doc(userId.toString()).get();
-      const userData = userDoc.data();
-            const duration = 3000; // 3 seconds
-            const startValue = userData.victoreum_points;
-            const endValue = userData.victoreum_points + ( userData.vph * 5 ); // Change this to your target number
-            const startTime = Date.now();
-      
-            function update() {
-                const currentTime = Date.now();
-                const elapsed = currentTime - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                
-                // Update number with easing
-                const currentValue = Math.floor(progress * (endValue - startValue) + startValue);
-                document.getElementById("victoreum-points").textContent = currentValue;
-
-                if (progress < 1) {
-                    requestAnimationFrame(update);
-                } else {
-                    document.getElementById("victoreum-points").textContent = endValue; // Ensure final value is exact
-                }
-            }
-
-            requestAnimationFrame(update);
-        }
-// CLOSE INVALID CODE
-    document.getElementById('close-invalid-code').addEventListener('click', async () => {
-      document.getElementById('invalid-code-holder').style.bottom = "-210px"
-      document.getElementById('invalid-code-holder').style.backgroundColor = "#ff0000"
-    })
-// Timer function that calculates remaining time and updates the timer-holder div
-let timerInterval;
-function startTimer(endTime) {
-  // Clear any previous timer
-  if (timerInterval) clearInterval(timerInterval);
-
-  function updateTimer() {
-    const now = Date.now();
-    const remaining = endTime - now;
-
-    if (remaining <= 0) {
-      clearInterval(timerInterval);
-      document.getElementById('timer-holder').innerText = "00:00:00";
-      // Optionally, you could display a claim button or take other action here.
-      return;
-    }
-
-    // Calculate hours, minutes, seconds
-    const hours = Math.floor(remaining / (1000 * 60 * 60));
-    const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
-
-    // Format the time as hh:mm:ss
-    const formattedTime = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-    document.getElementById('timer-holder').innerText = formattedTime;
-  }
-
-  // Run immediately and update every second
-  updateTimer();
-  timerInterval = setInterval(updateTimer, 1000);
-}
-
-// Function to fetch the user's end_mining_time from Firestore and start the timer
-async function updateRemainingTimeDisplay() {
-  try {
-    const userRef = db.collection('users').doc(userId.toString());
-
-            userRef.onSnapshot((doc) => {
-    if (doc.exists) {
-      const endTime = doc.data().end_mining_time;
-      // Ensure we have a valid endTime and it's in the future
-      if (endTime && endTime > Date.now()) {
-        // Make sure the timer-holder is visible
-        document.getElementById('timer-holder').style.display = "flex";
-        startTimer(endTime);
+        // Schedule the next update with the computed delay
+        setTimeout(() => animateSpin(startTime), delay);
       } else {
-        // If no active mining session or time is up, show 00:00:00
-        document.getElementById('timer-holder').innerText = "00:00:00";
+        // Animation complete: choose a final prize and show the result popup.
+        const finalPrize = getRandomPrize();
+        updateDisplay(finalPrize);
+        showResultPopup(finalPrize);
+        spinButton.disabled = false;
       }
     }
-  })
-  } catch (error) {
-    console.error("Error fetching user's end_mining_time:", error);
-  }
-}
-// Example: Call updateRemainingTimeDisplay() after user data is fetched 
-// or when a mining session is started.
-updateRemainingTimeDisplay();
-
-
-
-    const input = document.getElementById('claim-code-input');
-     const div2 = document.getElementById("nav-bar-bot");
-      input.addEventListener('mouseenter', () => {
-        div2.style.display = 'none';
-        document.body.style.overflow = 'scroll';
-        document.getElementById('invalid-code-holder').style.display = "none"
-        });
-      input.addEventListener('mouseleave', () => {
-          div2.style.display = 'flex'; // or restore its original display type
-          document.body.style.overflow = 'hidden';
-          
-        });
-        
-    document.getElementById('claim-daily-button').addEventListener('click', async () => {
-    try {
-          const now = new Date();
-          const tomorrowMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
-          const timestampTomorrow = tomorrowMidnight.getTime();
-          const userDoc = await db.collection('users').doc(userId.toString()).get();
-          const userData = userDoc.data();
-        // Timestamp in milliseconds, same as Date.now()
-        
-          if(userData.daily_reward.day_to_claim == 1){
-        await db.collection('users').doc(userId.toString()).update({
-                'daily_reward.day_1': 'Claimed',
-                'daily_reward.day_to_claim': '2',
-                'daily_reward.time_to_claim': timestampTomorrow,
-                'victoreum_points' : userData.victoreum_points + 1000
-              });
-          }
-          if(userData.daily_reward.day_to_claim == 2){
-            await db.collection('users').doc(userId.toString()).update({
-                'daily_reward.day_2': 'Claimed',
-                'daily_reward.day_to_claim': '3',
-                'daily_reward.time_to_claim': timestampTomorrow,
-                'victoreum_points' : userData.victoreum_points + 2000
-            })
-          }
-          if(userData.daily_reward.day_to_claim == 3){
-            await db.collection('users').doc(userId.toString()).update({
-                'daily_reward.day_3': 'Claimed',
-                'daily_reward.day_to_claim': '4',
-                'daily_reward.time_to_claim': timestampTomorrow,
-                'victoreum_points' : userData.victoreum_points + 3000
-            })
-          }
-          if(userData.daily_reward.day_to_claim == 4){
-            await db.collection('users').doc(userId.toString()).update({
-                'daily_reward.day_4': 'Claimed',
-                'daily_reward.day_to_claim': '5',
-                'daily_reward.time_to_claim': timestampTomorrow,
-                'victoreum_points' : userData.victoreum_points + 4000
-            })
-          }
-          if(userData.daily_reward.day_to_claim == 5){
-            await db.collection('users').doc(userId.toString()).update({
-                'daily_reward.day_5': 'Claimed',
-                'daily_reward.day_to_claim': '6',
-                'daily_reward.time_to_claim': timestampTomorrow,
-                'victoreum_points' : userData.victoreum_points + 5000
-            })
-          }
-          if(userData.daily_reward.day_to_claim == 6){
-            await db.collection('users').doc(userId.toString()).update({
-                'daily_reward.day_6': 'Claimed',
-                'daily_reward.day_to_claim': '7',
-                'daily_reward.time_to_claim': timestampTomorrow,
-                'victoreum_points' : userData.victoreum_points + 6000
-            })
-          }
-          if(userData.daily_reward.day_to_claim == 7){
-            await db.collection('users').doc(userId.toString()).update({
-                'daily_reward.day_7': 'Claimed',
-                'daily_reward.day_to_claim': '1',
-                'daily_reward.time_to_claim': timestampTomorrow,
-                'victoreum_points' : userData.victoreum_points + 7000
-            })
-          }
-            
-        }catch (error) {
-            console.error('Error updating task:', error);
-            alert('Error updating task status: ' + error.message);
-        }
-    })
     
-    // DAILY CLAIM CODE end_mining_time
-    //SHOW DAILY REWARD code
-    /*
-    async function fetchAndDisplayReward() {
-    try {
-      const userDoc = await db.collection('users').doc(userId.toString()).get();
-        const userRef = db.collection('users').doc(userId.toString());
-        
-        // Use a single snapshot listener instead of creating one per iteration
-        userRef.onSnapshot((doc) => {
-            if (doc.exists) {
-                // Get the data once to avoid repeated calls
-                    // Check if element exists and the reward status
-          const dailyReward = doc.data().daily_reward.day_;
-         const num = [1,2,3,4,5,6,7]
-          for (let i = 0; i <= 6; i++) {
-            const key = "day_";
-              if (doc.data().daily_reward.day_+num[i] == 'Claimed') {
-                  document.getElementById('day-2').style.backgroundColor = '#04ff6c20';
-                /*  document.querySelector(`${daysDiv[i]} #daily-status`).style.color = "#16c900"
-                  document.querySelector(`${daysDiv[i]} #daily-status`).textContent = "Received"
-                        }
-            }
-            } else {
-                console.log("No such document!");
-            }
-        }, (error) => {
-            console.log("Error getting document:", error);
-        });
-        
-    } catch (error) {
-        console.error('Error fetching user data:', error);
+    /**
+     * Displays the result popup with the final prize details.
+     * @param {Object} prize - The final prize object.
+     */
+    function showResultPopup(prize) {
+      popupContent.innerHTML = `
+        <div>Congratulations!</div>
+        <div>You won:</div>
+        <div class="prize-number">${prize.number}</div>
+        <img class="prize-image" src="${getCoinImage(prize.number)}" alt="Prize Image" />
+      `;
+      resultPopup.style.display = 'block';
     }
-}
-    fetchAndDisplayReward()
-    */
-
-
-async function checkUserTasks() {
     
-const userRef = db.collection("users").doc(userId.toString());
-
-userRef.onSnapshot((doc) => {
-  if (doc.exists) {
-    const dailyReward = doc.data().daily_reward; // Get the map field
-
-    for (let day = 1; day <= 7; day++) {
-      const key = `day_${day}`;
-      if (dailyReward[key] === "Claimed") {
-        document.getElementById(`day-${day}`).style.backgroundColor = '#00110d';
-        document.getElementById(`day-${day}`).style.width = '85px';
-        document.getElementById(`day-${day}`).style.color = '#ffffff';
-        document.querySelector(`#day-${day} #daily-status`).style.color = "#17b903";
-        document.querySelector(`#day-${day} #daily-status`).textContent = " ✓ "
+    /**
+     * Closes the result popup.
+     */
+    function closePopup() {
+      resultPopup.style.display = 'none';
+      spinButton.disabled = false;
+    }
+    
+    // Event listener for spin button click:
+    spinButton.addEventListener('click', () => {
+      spinButton.disabled = true;
+      // Reset the prize display
+      currentNumber.textContent = '?';
+      currentImage.src = '';
+      
+      // Use AdsGram's ad functionality with the initialized AdController.
+      if (AdController && typeof AdController.show === 'function') {
+        AdController.show().then((result) => {
+          // The promise resolves when the ad is watched until the end or closed.
+          console.log('Ad result:', result);
+          // Start the spin animation after the ad.
+          animateSpin(Date.now());
+        }).catch((result) => {
+          console.error('AdsGram ad error:', result);
+          // If the ad fails, start the spin animation immediately.
+          animateSpin(Date.now());
+        });
+      } else {
+        // If AdsGram isn't available, start the spin immediately.
+        animateSpin(Date.now());
       }
-      if(dailyReward[key] != "Claimed"){
-        document.getElementById(`day-${day}`).style.backgroundColor = '#151515';
-        document.getElementById(`day-${day}`).style.width = '85px';
-        document.querySelector(`#day-${day} #daily-status`).style.color = "#ffffff"
-        document.querySelector(`#day-${day} #daily-status`).textContent = "Unclaimed"
-      }
-      if(dailyReward.day_to_claim  == day && dailyReward[key] != "Claimed"){
-        document.getElementById(`day-${day}`).style.backgroundColor = '#a4a4a4';
-        document.getElementById(`day-${day}`).style.color = 'black';
-      }
-    }
-  } else {
-    console.log("User document not found.");
-  }
-}, (error) => {
-  console.error("Error getting real-time updates:", error);
-});
-
-
-}
-
-checkUserTasks();
-// Call the function
-        async function fetchDailyClaimTimer() {
-        try {
-            /*const userDoc = await db.collection('users').doc(userId.toString()).get();*/
-            
-            const userRef = db.collection('users').doc(userId.toString());
-
-            userRef.onSnapshot((doc) => {
-              if (doc.exists) {
-                const now = Date.now()
-                if( now < doc.data().daily_reward.time_to_claim){
-                  document.getElementById("claim-daily-button").style.display = 'none'
-                  document.getElementById('daily-rewards-timer-holder').style.display = "flex"
-              const timeToClaim = doc.data().daily_reward.time_to_claim;
-
-      // Get current time in milliseconds
-
-      // Calculate remaining time in milliseconds
-      let remainingTimeMs = timeToClaim - now;
-
-      // Convert to seconds and ensure non-negative
-      let remainingSeconds = Math.floor(remainingTimeMs / 1000);
-      if (remainingSeconds < 0) remainingSeconds = 0;
-
-      // Convert to hh:mm:ss
-      let hours = Math.floor(remainingSeconds / 3600);
-      let minutes = Math.floor((remainingSeconds % 3600) / 60);
-      let seconds = remainingSeconds % 60;
-      // Format with leading zeros
-      let formattedTime = 
-        String(hours).padStart(2, "0") + ":" + 
-        String(minutes).padStart(2, "0") + ":" + 
-        String(seconds).padStart(2, "0");
-      // Update the div with the formatted time
-      document.getElementById("daily-rewards-timer").textContent = formattedTime
-                }
-                if(now > doc.data().daily_reward.time_to_claim){
-                  document.getElementById("claim-daily-button").style.display = 'block'
-                  document.getElementById('daily-rewards-timer-holder').style.display = "none"
-                }
-                  
-              } else {
-            console.log("No such document!");
-          }
-        }, (error) => {
-              console.log("Error getting document:", error);
-          });
-        } catch (error) {
-            console.error('Error fetching user data:', error);
-        }
-    }
-        async function fetchDailyClaimReset() {
-        try {
-            /*const userDoc = await db.collection('users').doc(userId.toString()).get();*/
-            
-            const userRef = db.collection('users').doc(userId.toString());
-
-            userRef.onSnapshot((doc) => {
-              if (doc.exists) {
-                const now = Date.now()
-                if(now > doc.data().daily_reward.time_to_claim && doc.data().daily_reward.day_to_claim == 1){
-                 setTimeout( async function() { 
-                  await db.collection('users').doc(userId.toString()).update({
-                'daily_reward.day_1': null,
-                'daily_reward.day_2': null,
-                'daily_reward.day_3': null,
-                'daily_reward.day_4': null,
-                'daily_reward.day_5': null,
-                'daily_reward.day_6': null,
-                'daily_reward.day_7': null,
-              });
-                 }, 7000);
-                }if(doc.data().daily_reward.day_to_claim != 1){
-                   setTimeout( async function() { 
-                  await db.collection('users').doc(userId.toString()).update({
-                'daily_reward.day_1': 'Claimed',
-              });
-                 }, 1000);
-                }
-              } else {
-            console.log("No such document!");
-          }
-        }, (error) => {
-              console.log("Error getting document:", error);
-          });
-        } catch (error) {
-            console.error('Error fetching user data:', error);
-        }
-    }
-      setInterval(fetchDailyClaimReset,1000)
-      fetchDailyClaimReset()
-      setInterval(fetchDailyClaimTimer,1000)
-      fetchDailyClaimTimer()
-      
-      
-      // FRIENDS CODE START //
-        const popup = document.getElementById('popup');
-      document.getElementById('copy-button').addEventListener('click', async () => {
-        const userDoc = await db.collection('users').doc(userId.toString()).get();
-      const userData = userDoc.data();
-      const referralLink = `https://t.me/VictoreumDrop_bot?startapp=${userData.referral_code}`;
-      
-      navigator.clipboard.writeText(referralLink)
-        .then(() => {
-          
-            popup.classList.add('show');
-          setTimeout(() => {
-              popup.classList.remove('show');
-            }, 2000);
-        })
-        .catch(err => {
-          console.error('Failed to copy: ', err);
-        });
     });
     
-    document.getElementById('send-button').addEventListener('click', async () => {
-      const userDoc = await db.collection('users').doc(userId.toString()).get();
-      const userData = userDoc.data();
-      const referralLink = `https://t.me/VictoreumDrop_bot?startapp=${userData.referral_code}`;
-      tg.openTelegramLink(`https://t.me/share/url?url=${encodeURIComponent(referralLink)}&text=${encodeURIComponent('Join using my referral link! Get 5,000 Victoreum Points.')}`);
-    });
-        
-    // Navigation logic remains the same
-    document.addEventListener("DOMContentLoaded", function () {
-        const buttons = document.querySelectorAll('[id*="btn"]');
-        buttons.forEach(button => {
-            button.addEventListener("click", function () {
-                buttons.forEach(btn => {
-                    btn.style.color = "#9a9ca4a3";
-                    btn.classList.remove("active");
-                });
-                this.style.color = "cyan";
-                this.classList.add("active");
-                document.querySelectorAll('[id*="cont"]').forEach(content => {
-                    content.style.display = "none";
-                });
-                const targetContent = document.getElementById(this.id.replace("-btn", "-cont"));
-                if (targetContent) targetContent.style.display = "flex";
-            });
-        });
-        document.querySelector('[id*="btn"]')?.click();
-    });
-    
-    const numFireflies = 50; // Number of fireflies
-    const body = document.body;
-    
-    for (let i = 0; i < numFireflies; i++) {
-      const firefly = document.createElement("div");
-      firefly.className = "firefly";
-      
-      // Random initial position
-      firefly.style.left = Math.random() * window.innerWidth + "px";
-      firefly.style.top = Math.random() * window.innerHeight + "px";
-      
-      // Random animation delay for natural staggering
-      firefly.style.animationDelay = Math.random() * 3 + "s";
-      
-      // Random size for variation
-      const size = Math.random() * 4 + 2; // between 2px and 6px
-      firefly.style.width = size + "px";
-      firefly.style.height = size + "px";
-      
-      body.appendChild(firefly);
-    }
-    
-    // Optional: Update positions on window resize
-    window.addEventListener("resize", () => {
-      const fireflies = document.querySelectorAll(".firefly");
-      fireflies.forEach(firefly => {
-        firefly.style.left = Math.random() * window.innerWidth + "px";
-        firefly.style.top = Math.random() * window.innerHeight + "px";
-      });
-    });
-</script>
+    // Event listener for closing the result popup.
+    closePopupButton.addEventListener('click', closePopup);
+  </script>
 </body>
 </html>
