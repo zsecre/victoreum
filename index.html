@@ -1634,7 +1634,7 @@ checkUserTasks();
                   await db.collection('users').doc(userId.toString()).update({
                 'daily_reward.day_1': 'Claimed',
               });
-                 }, 7000);
+                 }, 1000);
                 }
               } else {
             console.log("No such document!");
@@ -1646,7 +1646,7 @@ checkUserTasks();
             console.error('Error fetching user data:', error);
         }
     }
-      setInterval(fetchDailyClaimReset,10000)
+      setInterval(fetchDailyClaimReset,1000)
       fetchDailyClaimReset()
       setInterval(fetchDailyClaimTimer,1000)
       fetchDailyClaimTimer()
