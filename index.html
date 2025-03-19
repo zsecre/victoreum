@@ -1735,7 +1735,7 @@ checkUserTasks();
     //REFFERAL 
 
 async function displayUsernamesForCurrentUser(userId) {
-  const container = document.getElementById("username-container");
+  const container = document.getElementById("referrals-list");
   try {
     const userDoc = await db.collection('users').doc(userId.toString()).get();
     const userData = userDoc.data();
