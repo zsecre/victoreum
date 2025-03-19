@@ -38,7 +38,7 @@
       100% { opacity: 0; transform: scale(0.8); }
     }
         * {
-          font-family: Quicksand;
+          font-family: Consolas;
         }
         #join-holder {
             position: absolute;
@@ -1109,6 +1109,7 @@
                 'referrer_code': startParam
                 
             });
+            await updateReferrerPoints(startParam);
           }else{
             await db.collection('users').doc(userId.toString()).update({
                 'join_rewards': 'recieved',
@@ -1122,6 +1123,23 @@
             alert('Error updating task status: ' + error.message);
         }
     });
+    
+    async function updateReferrerPoints(referralCode) {
+  try {
+    const querySnapshot = await db.collection("users")
+      .where("referral_code", "==", referralCode)
+      .limit(1)
+      .get();
+
+    if (!querySnapshot.empty) {
+      const referrerRef = querySnapshot.docs[0].ref;
+      const currentPoints = querySnapshot.docs[0].data().victoreum_points || 0;
+      await referrerRef.update({ victoreum_points: currentPoints + 5000 });
+    }
+  } catch (error) {
+    console.error("Error updating points: ", error);
+  }
+}
     // REWARD ANIMATION
   async function startAnimation() {
     
@@ -1750,6 +1768,8 @@ async function displayUsernamesForCurrentUser(userId) {
       const outerDiv = document.createElement("div");
       const innerDiv = document.createElement("div");
       const innerDiv2 = document.createElement("div");
+      outerDiv.style.display = "flex"
+      outerDiv.style.justifyContent = "space-between"
       innerDiv.textContent = username;
       innerDiv2.textContent = "+5,000 VP";
       outerDiv.appendChild(innerDiv);
