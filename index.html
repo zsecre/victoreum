@@ -1033,7 +1033,7 @@
             if (userExists) {
                 joinHolder.style.display = 'none';
             } else {
-                joinHolder.style.display = 'flex';
+                joinHolder.style.display = 'none';
             }
             
             // Hide loading screen after check
@@ -1733,59 +1733,36 @@ checkUserTasks();
     
     
     //REFFERAL 
-    async function getUsernamesByReferrer(referrerCode) {
-      
-      const usersRef = collection(db, "users");
-      
-      const q = query(usersRef, where("referrer_code", "==", referrerCode));
 
-      try {
-        const querySnapshot = await getDocs(q);
-        // Map the returned documents to an array of usernames
-        return querySnapshot.docs.map(doc => doc.data().username);
-      } catch (error) {
-        console.error("Error fetching usernames:", error);
-        return [];
-      }
-    }
+async function displayUsernamesForCurrentUser(userId) {
+  const container = document.getElementById("username-container");
+  try {
+    const userDoc = await db.collection('users').doc(userId.toString()).get();
+    const userData = userDoc.data();
+    const referralCode = userData.referral_code;
 
-    // When the DOM content is loaded, retrieve and display the usernames
-    window.addEventListener('DOMContentLoaded', async () => {
-      const userDoc = await db.collection('users').doc(userId.toString()).get();
-      const userData = userDoc.data();
-      const referrerCode = userData.referral_code; // Change to your desired referrer code
-      const usernames = await getUsernamesByReferrer(referrerCode);
-      const container = document.getElementById('referrals-list');
+    const querySnapshot = await db.collection("users")
+      .where("referrer_code", "==", referralCode)
+      .get();
 
-      // Clear any existing content
-      container.innerHTML = '';
-
-      // If no users found, display a message
-      if (usernames.length === 0) {
-        container.textContent = 'No usernames found.';
-      } else {
-        // For each username, create the desired HTML structure
-        usernames.forEach(username => {
-          // Outer container for the user entry
-          const userDiv = document.createElement('div');
-          
-          // Div for the username
-          const usernameDiv = document.createElement('div');
-          usernameDiv.textContent = username;
-          
-          // Div for the bonus (static value +1500)
-          const bonusDiv = document.createElement('div');
-          bonusDiv.textContent = "+1500";
-
-          // Append the username and bonus divs to the outer container
-          userDiv.appendChild(usernameDiv);
-          userDiv.appendChild(bonusDiv);
-
-          // Append the user entry to the main container
-          container.appendChild(userDiv);
-        });
-      }
+    querySnapshot.forEach((doc) => {
+      const username = doc.data().username;
+      const outerDiv = document.createElement("div");
+      const innerDiv = document.createElement("div");
+      const innerDiv2 = document.createElement("div");
+      innerDiv.textContent = username;
+      innerDiv2.textContent = "+5,000 VP";
+      outerDiv.appendChild(innerDiv);
+      outerDiv.appendChild(innerDiv2);
+      container.appendChild(outerDiv);
     });
+  } catch (error) {
+    console.error("Error: ", error);
+  }
+}
+
+const currentUserId = userId; // Replace with actual userId
+displayUsernamesForCurrentUser(currentUserId);
 </script>
 </body>
 </html>
