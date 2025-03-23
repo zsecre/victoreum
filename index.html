@@ -279,13 +279,12 @@
     }
     /* Start Claim Buttons */
     #start-claim-button-holder{
-      height: 180px;
+      height: 160px;
       width: 100%;
       display: flex;
       align-items: center;
       justify-content: flex-end;
       flex-direction: column;
-      
     }
     #timer-holder-div{
       position: relative;
@@ -312,7 +311,7 @@
     }
 
     .home #claim-button-holder{
-      display: none;
+      display: flex;
       justify-content: center;
       transition: .3s;
       position: absolute;
@@ -424,7 +423,8 @@
     /* REWARD HOLDER FOR JOINING TG*/
     #reward-holder{
       padding: 5px 25px;
-      display: flex;
+      display: none;
+      background: red;
       flex-direction: column;
     }
     #reward-holder #ty{
@@ -747,6 +747,7 @@
       bottom: -90%;
       transition: .1s;
       border-radius: 14px 14px 0 0;
+      border-top: 1px solid gray;
     }
     details {
       
@@ -1659,19 +1660,24 @@ updateRemainingTimeDisplay();
         div2.style.display = 'none';
         document.body.style.overflow = 'scroll';
         document.getElementById('invalid-code-holder').style.display = "none"
+        document.getElementById('faq-holder').style.display = "none"
         });
       input.addEventListener('mouseleave', () => {
           div2.style.display = 'flex'; // or restore its original display type
+        document.getElementById('faq-holder').style.display = "none"
           document.body.style.overflow = 'hidden';
           
         });
         // FAQ BUTTON
         const faqButton = document.getElementById('circle-faq');
      const faqSection = document.getElementById("faq-section");
+     const closeFaq = document.getElementById("close-faq");
+     
       faqButton.addEventListener('click', () => {
         faqSection.style.bottom = "0"
+        document.getElementById('faq-holder').style.display = "block"
         });
-      faqButton.addEventListener('mouseleave', () => {
+      closeFaq.addEventListener('click', () => {
         faqSection.style.bottom = "-90%"
           
         });
