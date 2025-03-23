@@ -38,7 +38,7 @@
       100% { opacity: 0; transform: scale(0.8); }
     }
         * {
-          font-family: Consolas;
+          font-family: Rubik;
         }
         #join-holder {
             position: absolute;
@@ -215,18 +215,33 @@
     }
     .home #logo-holder{
       width: 100%;
+      height: 395px;
       display: flex;
       flex-direction: column;
       justify-content: end;
       align-items: center;
-      gap: 15px;
-      padding: 170px 0 40px;
-      
+      padding-bottom: 50px;
+      box-sizing: border-box;
     }
     .home #victoreum-logo{
-      height: 160px;
+      height: 280px;
       pointer-events: none;
+    }
+    #points-ph-faq{
       
+      display: flex;
+      flex-direction: column;
+      
+      align-items: end;
+      gap: 10px;
+      position: absolute;
+      top: 5px;
+      right: 16px;
+    }
+    #points-ph-faq .fa-circle-question{
+      font-size: 22px;
+      margin-right: 8px;
+      opacity: .7;
     }
     #victoreum-points-holder{
       display: flex;
@@ -234,9 +249,7 @@
       justify-content: center;
       gap: 5px;
       align-items: center;
-      position: absolute;
-      top: 0px;
-      right: 22px;
+      padding: 0 5px;
     }
     #victoreum-points-holder #points-logo{
       height: 27px;
@@ -244,7 +257,7 @@
     }
     #victoreum-points-holder #victoreum-points{
       font-size: 22px;
-      font-weight: 100;
+      font-weight: 400;
       
     }
     #start-claim-holder{
@@ -262,9 +275,6 @@
       align-items: center;
       border-radius: 50px;
       gap: 3px;
-      position: absolute;
-      top: 40px;
-      right: 10px;
       font-size: 14px;
     }
     /* Start Claim Buttons */
@@ -691,7 +701,82 @@
   opacity: 1; /* Fade in */
   font-weight: 600;
 }
-
+/* GAMES STYLE */
+#games-holder{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+}
+#games-holder img{
+  height: 50px;
+  border-radius: 8px;
+}
+/*AIRDROP STYLE*/
+#roadmap-main-holder{
+  padding: 10px;
+}
+#roadmap-text{
+  font-size: 25px;
+}
+#roadmap-holder{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70%;
+  flex-direction: column;
+}
+#roadmap-holder img{
+  height: 250px;
+}
+#faq-holder{
+}
+.faq-section {
+  background-color: #171717;
+      overflow-x: scroll;
+      box-sizing: border-box;
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+      height: 90%;
+      display: block;
+      position: absolute;
+      z-index: 5;
+      bottom: -90%;
+      transition: .1s;
+      border-radius: 14px 14px 0 0;
+    }
+    details {
+      
+      border-radius: 4px;
+      margin-bottom: 10px;
+      padding: 10px;
+    }
+    summary {
+      font-weight: bold;
+      cursor: pointer;
+      outline: none;
+    }
+    details[open] summary {
+      color: #007BFF;
+    }
+    .answer {
+      margin-top: 10px;
+      padding-left: 15px;
+    }
+    #close-faq{
+      display: flex;
+      justify-content: center;
+    }
+    #close-faq div{
+      height: 5px;
+      width: 100px;
+      background: white;
+      border-radius: 50px;
+      di
+    }
     </style>
     
     
@@ -720,20 +805,164 @@
         <i id="wallet" class='fas fa-wallet'></i>
     </div>
     
+   <!-- FAQ CONTAINERS -->
     
    <!-- MIDDLE CONTAINERS -->
-    <div>
+    
+   <div id="faq-holder">
+     
+    <div id="faq-section" class="faq-section">
+      <div id="close-faq"><div></div></div>
+    <h1>Victoreum - FAQ</h1>
+
+    <details>
+      <summary>What is Victoreum?</summary>
+      <div class="answer">
+        <p>Victoreum is a digital token designed for use in games developed by Victoreum Games. Users can mine Victoreum Points in the Victoreum Mini App, which will be convertible into Victoreum Tokens in the future.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>How does the Victoreum Mini App work?</summary>
+      <div class="answer">
+        <p>The mini app allows users to mine Victoreum Points over time. These points will later be converted into Victoreum Tokens once the token is officially listed.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>Is Victoreum a cryptocurrency?</summary>
+      <div class="answer">
+        <p>Victoreum is currently an airdrop-based token. While it is not yet listed on exchanges, it will become a tradable cryptocurrency once officially launched.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>When will Victoreum Tokens be available for trading?</summary>
+      <div class="answer">
+        <p>The official listing date for Victoreum Tokens has not been announced yet. Stay updated through our official channels for the latest information.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>How can I use Victoreum Tokens?</summary>
+      <div class="answer">
+        <p>Victoreum Tokens will be used in upcoming games developed by Victoreum Games. They may also have additional utilities in the future, such as in-game purchases or trading.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>How do I mine Victoreum Points?</summary>
+      <div class="answer">
+        <p>Simply open the Victoreum Mini App and start mining. Points accumulate over time as long as you have an active session.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>Is there a limit to how many Victoreum Points I can mine?</summary>
+      <div class="answer">
+        <p>There may be a daily or session-based limit to ensure fair distribution. Check the app for specific details.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>Can I mine Victoreum Points while offline?</summary>
+      <div class="answer">
+        <p>No, mining requires an active session in the app. However, mining progress will continue as long as you are logged in and have an active connection.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>Can I transfer my Victoreum Points to another user?</summary>
+      <div class="answer">
+        <p>Currently, Victoreum Points are non-transferable. However, future updates may introduce new features for transactions or trading.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>How will my Victoreum Points be converted into Victoreum Tokens?</summary>
+      <div class="answer">
+        <p>Once the token is officially listed, a conversion system will be introduced, allowing users to swap their points for tokens at a specified rate.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>Will there be a fee for converting Victoreum Points to Tokens?</summary>
+      <div class="answer">
+        <p>The conversion process will be announced later, including any potential fees or requirements.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>What happens to my Victoreum Points if I don’t convert them immediately?</summary>
+      <div class="answer">
+        <p>Your points will remain in your account and can be converted once the token is available. However, there may be a deadline for conversion, so stay updated.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>Is Victoreum safe to use?</summary>
+      <div class="answer">
+        <p>Yes, the Victoreum Mini App is designed with security in mind. However, users should never share their login credentials with anyone.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>Can I use multiple accounts to mine more Victoreum Points?</summary>
+      <div class="answer">
+        <p>No, multi-account mining is not allowed. Users found violating this rule may have their accounts restricted or banned.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>What should I do if I lose access to my account?</summary>
+      <div class="answer">
+        <p>If you have trouble accessing your account, contact the support team through the app or the official Victoreum community channels.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>Will there be other ways to earn Victoreum Tokens in the future?</summary>
+      <div class="answer">
+        <p>Yes! In addition to mining, users may be able to earn tokens through in-game activities, events, or promotions once Victoreum Games are released.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>What games will support Victoreum Tokens?</summary>
+      <div class="answer">
+        <p>Victoreum Games is developing several games that will integrate Victoreum Tokens. More details will be announced as development progresses.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>Where can I get updates about Victoreum?</summary>
+      <div class="answer">
+        <p>Follow the official Victoreum social media channels, website, and Telegram community for the latest news and updates.</p>
+      </div>
+    </details>
+
+  </div>
+   </div>
+   <div id="wallet-holder">
+     
+   </div>
         <div id="home-cont" class="cont home">
             <div id="logo-holder">
-              <div id="vph-holder">
-                <i class="fa-solid fa-bolt"></i>
-                <div id="points-per-hour">0/h</div>
-              </div>
-              <img src="victoreum-cyan.png" id="victoreum-logo">
+              <div id="points-ph-faq">
+                
               <div id="victoreum-points-holder">
                 <img src="vpl.png" id="points-logo">
                 <div id="victoreum-points">0</div>
              </div>
+              <div id="vph-holder">
+                <i class="fa-solid fa-bolt"></i>
+                <div id="points-per-hour">0/h</div>
+              </div>
+             <i id="circle-faq" class="fa-solid fa-circle-question"></i>
+              </div>
+          <div id="logo-anim">
+            <img src="logoa.gif" id="victoreum-logo">
+            </div>
               </div>
               
             <div id="start-claim-holder">
@@ -917,10 +1146,25 @@
         <!-- FRIENDS CODE END-->
         
         <div id="games-cont" class="cont games">
-            Games
+            <div id="games-holder">
+              <div>
+                <img src="https://yt3.googleusercontent.com/PJh5BeCRze4_08Qp8zOtb2bV6JGLiqmmc9QIRTVeTlrVmC2828C7gw5KIOU8uk70jN__SSY5Ug=s900-c-k-c0x00ffffff-no-rj">
+                <img src="https://www.apple.com/v/app-store/b/images/overview/icon_appstore__ev0z770zyxoy_large_2x.png">
+              </div>
+              SOON!
+              </div>
         </div>
         <div id="airdrop-cont" class="cont airdrop">
-            Airdrop
+            <div id="roadmap-main-holder">
+              <div id="roadmap-text"></div>
+              <div id="roadmap-holder">
+            <!--    <div id="roadmap">Victoreum Mini App Launch</div>
+                <div id="roadmap">Victoreum Mini App Launch</div>
+                -->
+                <img src="airdrop-icon.png">
+                Soon
+              </div>
+            </div>
         </div>
     </div>
 
@@ -1029,7 +1273,7 @@
             if (userExists) {
                 joinHolder.style.display = 'none';
             } else {
-                joinHolder.style.display = 'flex';
+                joinHolder.style.display = 'none';
             }
             
             // Hide loading screen after check
@@ -1419,6 +1663,16 @@ updateRemainingTimeDisplay();
       input.addEventListener('mouseleave', () => {
           div2.style.display = 'flex'; // or restore its original display type
           document.body.style.overflow = 'hidden';
+          
+        });
+        // FAQ BUTTON
+        const faqButton = document.getElementById('circle-faq');
+     const faqSection = document.getElementById("faq-section");
+      faqButton.addEventListener('click', () => {
+        faqSection.style.bottom = "0"
+        });
+      faqButton.addEventListener('mouseleave', () => {
+        faqSection.style.bottom = "-90%"
           
         });
         
