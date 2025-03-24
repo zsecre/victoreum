@@ -506,7 +506,7 @@
     align-items: center;
     justify-content: center;
     border-radius: 8px;
-    gap: 8px;
+    gap: 5px;
     font-size: 9px;
     font-weight: 300;
     color: #b4b4b4;
@@ -1011,14 +1011,14 @@
        <div id="wallet-balance"><img src="vctmp.png">
        <div id="name-balance-holder">
          <div id="name">Victoreum Points</div>
-         <div id="balance">2778888 VP</div>
+         <div id="vp-balance">2778888 VP</div>
        </div>
        <div id="balance-price">$0.00</div>
        </div>
        <div id="wallet-balance"><img src="victoreum-cyan.png">
        <div id="name-balance-holder">
          <div id="name">Victoreum</div>
-         <div id="balance">0 VCTRM</div>
+         <div id="vctrm-balance">0 VCTRM</div>
        </div>
        <div id="balance-price">$0.00</div>
        </div>
@@ -1115,9 +1115,9 @@
             <div id="days">
               Day 2
             </div>
-            <img src="vctmp.png">
+            <i class="fas fa-bolt"></i>
             <div id="daily-points">
-              2500
+              +3/h
             </div>
             <div id="daily-status">
               Unclaimed
@@ -1139,9 +1139,9 @@
             <div id="days">
               Day 4
             </div>
-            <img src="vctmp.png">
+            <i class="fas fa-bolt"></i>
             <div id="daily-points">
-              4500
+              +6/h
             </div>
             <div id="daily-status">
               Unclaimed
@@ -1165,9 +1165,9 @@
             <div id="days">
               Day 6
             </div>
-            <img src="vctmp.png">
+            <i class="fas fa-bolt"></i>
             <div id="daily-points">
-              7500
+              +10/h
             </div>
             <div id="daily-status">
               Unclaimed
@@ -1180,7 +1180,7 @@
             </div>
             <img src="vctmp.png">
             <div id="daily-points">
-              10000
+              1
             </div>
             <div id="daily-status">
               Unclaimed
@@ -1537,6 +1537,9 @@
                 pointsElement.innerText = `${doc.data().victoreum_points}`;
                 const vphElement = document.getElementById('points-per-hour');
                 vphElement.innerText = `${doc.data().vph}/h`;
+                document.getElementById('vp-balance').textContent = `${doc.data().victoreum_points} VP`;
+                document.getElementById('vctrm-balance').textContent =
+                `${doc.data().victoreum} VCTRM`;
                 
                 if(doc.data().tasks.task_1 == "subscribed"){
                 const joinCommBtn = document.getElementById('join-community-button');
@@ -1788,7 +1791,7 @@ updateRemainingTimeDisplay();
                 'daily_reward.day_1': 'Claimed',
                 'daily_reward.day_to_claim': '2',
                 'daily_reward.time_to_claim': timestampTomorrow,
-                'victoreum_points' : userData.victoreum_points + 1000
+                'victoreum_points' : userData.victoreum_points + 1500
               });
           }
           if(userData.daily_reward.day_to_claim == 2){
@@ -1796,7 +1799,7 @@ updateRemainingTimeDisplay();
                 'daily_reward.day_2': 'Claimed',
                 'daily_reward.day_to_claim': '3',
                 'daily_reward.time_to_claim': timestampTomorrow,
-                'victoreum_points' : userData.victoreum_points + 2000
+                'vph' : userData.vph + 3
             })
           }
           if(userData.daily_reward.day_to_claim == 3){
@@ -1804,7 +1807,7 @@ updateRemainingTimeDisplay();
                 'daily_reward.day_3': 'Claimed',
                 'daily_reward.day_to_claim': '4',
                 'daily_reward.time_to_claim': timestampTomorrow,
-                'victoreum_points' : userData.victoreum_points + 3000
+                'victoreum_points' : userData.victoreum_points + 3500
             })
           }
           if(userData.daily_reward.day_to_claim == 4){
@@ -1812,7 +1815,7 @@ updateRemainingTimeDisplay();
                 'daily_reward.day_4': 'Claimed',
                 'daily_reward.day_to_claim': '5',
                 'daily_reward.time_to_claim': timestampTomorrow,
-                'victoreum_points' : userData.victoreum_points + 4000
+                'vph' : userData.vph + 6
             })
           }
           if(userData.daily_reward.day_to_claim == 5){
@@ -1820,7 +1823,7 @@ updateRemainingTimeDisplay();
                 'daily_reward.day_5': 'Claimed',
                 'daily_reward.day_to_claim': '6',
                 'daily_reward.time_to_claim': timestampTomorrow,
-                'victoreum_points' : userData.victoreum_points + 5000
+                'victoreum_points' : userData.victoreum_points + 5500
             })
           }
           if(userData.daily_reward.day_to_claim == 6){
@@ -1828,7 +1831,7 @@ updateRemainingTimeDisplay();
                 'daily_reward.day_6': 'Claimed',
                 'daily_reward.day_to_claim': '7',
                 'daily_reward.time_to_claim': timestampTomorrow,
-                'victoreum_points' : userData.victoreum_points + 6000
+                'vph' : userData.vph + 10
             })
           }
           if(userData.daily_reward.day_to_claim == 7){
@@ -1836,7 +1839,7 @@ updateRemainingTimeDisplay();
                 'daily_reward.day_7': 'Claimed',
                 'daily_reward.day_to_claim': '1',
                 'daily_reward.time_to_claim': timestampTomorrow,
-                'victoreum_points' : userData.victoreum_points + 7000
+                'victoreum' : userData.victoreum + 1
             })
           }
             
