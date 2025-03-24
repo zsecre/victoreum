@@ -745,9 +745,9 @@
       position: absolute;
       z-index: 5;
       bottom: -90%;
-      transition: .1s;
+      transition: .25s;
       border-radius: 14px 14px 0 0;
-      border-top: 1px solid gray;
+      border-top: 1px solid #5d5a5a;
     }
     details {
       
@@ -776,7 +776,69 @@
       width: 100px;
       background: white;
       border-radius: 50px;
-      di
+      
+    }
+    #wallet-holder{
+      width: 100%;
+      height: 100%;
+      background: black;
+      z-index: 5;
+      position: absolute;
+      top: 0;
+      box-sizing: border-box;
+      display: none;
+    }
+    #wallet-balance{
+      display: flex;
+      flex-direction: row;
+      gap: 8px;
+      height: 57px;
+      align-items: center;
+      width: 100%;
+      padding: 20px;
+      box-sizing: border-box;
+      font-size: 15px;
+    }
+    #wallet-balance-holder{
+      margin-top: 100px;
+    }
+    #balance-price{
+      margin-left: auto;
+      font-weight: 500;
+    }
+    #wallet-balance #name{
+      font-weight: 500;
+    }
+    #wallet-balance #balance{
+      font-weight: 400;
+      color: gray;
+    }
+    #wallet-balance img{
+      height: 30px;
+      width: 42px;
+      
+    }
+    #wallet-holder #button-holder{
+      display: flex;
+      justify-content: center;
+      margin-top: 97px;
+      
+    }
+    #wallet-holder #button-holder button{
+      border: none;
+      padding: 10px 12px;
+      font-size: 19px;
+      background: #292929;
+      border-radius: 5px;
+    }
+    #wallet-holder #button-holder button:hover{
+      background: #1a1919;
+      transition: .3s;
+    }
+    #close-wallet{
+      padding: 10px 15px;
+      font-weight: 500;
+      font-size: 17px;
     }
     </style>
     
@@ -945,7 +1007,27 @@
   </div>
    </div>
    <div id="wallet-holder">
-     
+     <div id="close-wallet"><i class="fa-solid fa-arrow-left"></i> Back</div>
+     <div id="wallet-balance-holder">
+       <div id="wallet-balance"><img src="vpl.png">
+       <div id="name-balance-holder">
+         <div id="name">Victoreum Points</div>
+         <div id="balance">2778888 VP</div>
+       </div>
+       <div id="balance-price">$0.00</div>
+       </div>
+       <div id="wallet-balance"><img src="victoreum-cyan.png">
+       <div id="name-balance-holder">
+         <div id="name">Victoreum</div>
+         <div id="balance">0 VCTRM</div>
+       </div>
+       <div id="balance-price">$0.00</div>
+       </div>
+     </div>
+     <div id="button-holder">
+       
+     <button id="create-wallet-tbutton">Create Wallet</button>
+     </div>
    </div>
         <div id="home-cont" class="cont home">
             <div id="logo-holder">
@@ -1274,7 +1356,7 @@
             if (userExists) {
                 joinHolder.style.display = 'none';
             } else {
-                joinHolder.style.display = 'none';
+                joinHolder.style.display = 'flex';
             }
             
             // Hide loading screen after check
@@ -1681,7 +1763,18 @@ updateRemainingTimeDisplay();
         faqSection.style.bottom = "-90%"
           
         });
+
+      document.getElementById('wallet').addEventListener('click', () => {
+        document.getElementById('wallet-holder').style.display = "block"
+        });
+      document.getElementById('close-wallet').addEventListener('click', () => {
+        document.getElementById('wallet-holder').style.display = "none"
+        });
+      document.getElementById('create-wallet-tbutton').addEventListener('click', () => {
+        document.getElementById('create-wallet-tbutton').textContent = "Soon"
+        });
         
+        // CLAIM DAILY BUTTON
     document.getElementById('claim-daily-button').addEventListener('click', async () => {
     try {
           const now = new Date();
