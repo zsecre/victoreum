@@ -252,8 +252,8 @@
       padding: 0 5px;
     }
     #victoreum-points-holder #points-logo{
-      height: 27px;
-      width: 37px;
+      height: 30px;
+      width: 30px;
     }
     #victoreum-points-holder #victoreum-points{
       font-size: 22px;
@@ -424,7 +424,6 @@
     #reward-holder{
       padding: 5px 25px;
       display: none;
-      background: red;
       flex-direction: column;
     }
     #reward-holder #ty{
@@ -482,7 +481,7 @@
     }
     #reward img,#reward-holder img{
       height: 30px;
-      width: 37px;
+      width: 30px;
     }
     
     /* DAILY CONTAINER STYLE */
@@ -538,8 +537,8 @@
     text-align: center;
   }
   .days img{
-    height: 25px;
-    width: 35px;
+    height: 30px;
+    width: 30px;
     
   }
   #daily-buttons{
@@ -814,7 +813,7 @@
       color: gray;
     }
     #wallet-balance img{
-      height: 30px;
+      height: 42px;
       width: 42px;
       
     }
@@ -1009,7 +1008,7 @@
    <div id="wallet-holder">
      <div id="close-wallet"><i class="fa-solid fa-arrow-left"></i> Back</div>
      <div id="wallet-balance-holder">
-       <div id="wallet-balance"><img src="vpl.png">
+       <div id="wallet-balance"><img src="vctmp.png">
        <div id="name-balance-holder">
          <div id="name">Victoreum Points</div>
          <div id="balance">2778888 VP</div>
@@ -1034,7 +1033,7 @@
               <div id="points-ph-faq">
                 
               <div id="victoreum-points-holder">
-                <img src="vpl.png" id="points-logo">
+                <img src="vctmp.png" id="points-logo">
                 <div id="victoreum-points">0</div>
              </div>
               <div id="vph-holder">
@@ -1063,9 +1062,9 @@
                 <div id="rewards-button-holder">
                   <div id="rewards">
                    <div id="reward-from-friend">
-                     <img src="vpl.png">5,000</div>
+                     <img src="vctmp.png">5,000</div>
                    <div id="reward">
-                     <img src="vpl.png">100</div>
+                     <img src="vctmp.png">100</div>
                    <div id="reward">
                      <i class="fas fa-bolt"></i>+10/h</div>
                   </div>
@@ -1104,7 +1103,7 @@
             <div id="days">
               Day 1
             </div>
-            <img src="vpl.png">
+            <img src="vctmp.png">
             <div id="daily-points">
               1500
             </div>
@@ -1116,7 +1115,7 @@
             <div id="days">
               Day 2
             </div>
-            <img src="vpl.png">
+            <img src="vctmp.png">
             <div id="daily-points">
               2500
             </div>
@@ -1128,7 +1127,7 @@
             <div id="days">
               Day 3
             </div>
-            <img src="vpl.png">
+            <img src="vctmp.png">
             <div id="daily-points">
               3500
             </div>
@@ -1140,7 +1139,7 @@
             <div id="days">
               Day 4
             </div>
-            <img src="vpl.png">
+            <img src="vctmp.png">
             <div id="daily-points">
               4500
             </div>
@@ -1153,7 +1152,7 @@
             <div id="days">
               Day 5
             </div>
-            <img src="vpl.png">
+            <img src="vctmp.png">
             <div id="daily-points">
               5500
             </div>
@@ -1166,7 +1165,7 @@
             <div id="days">
               Day 6
             </div>
-            <img src="vpl.png">
+            <img src="vctmp.png">
             <div id="daily-points">
               7500
             </div>
@@ -1179,7 +1178,7 @@
             <div id="days">
               Day 7
             </div>
-            <img src="vpl.png">
+            <img src="vctmp.png">
             <div id="daily-points">
               10000
             </div>
@@ -1356,7 +1355,7 @@
             if (userExists) {
                 joinHolder.style.display = 'none';
             } else {
-                joinHolder.style.display = 'flex';
+                joinHolder.style.display = 'none';
             }
             
             // Hide loading screen after check
@@ -1427,7 +1426,7 @@
           if (startParam) {
             await db.collection('users').doc(userId.toString()).update({
                 'join_rewards': 'recieved',
-                'victoreum_points': 5600,
+                'victoreum_points': 6000,
                 'vph': 10,
                 'referrer_code': startParam
                 
@@ -1436,7 +1435,7 @@
           }else{
             await db.collection('users').doc(userId.toString()).update({
                 'join_rewards': 'recieved',
-                'victoreum_points': 100,
+                'victoreum_points': 1000,
                 'vph': 10,
             })
           }
