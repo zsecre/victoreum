@@ -22,6 +22,10 @@
             overflow: hidden;
             z-index: 1;
         }
+        img{
+          pointer-events: none;
+        }
+
         .firefly {
           z-index: 0;
       position: absolute;
@@ -45,7 +49,7 @@
             height: 100%;
             width: 100%;
             background: black;
-            z-index: 2;
+            z-index: 5;
             top: 0;
             display: flex;
             flex-direction: column;
@@ -225,7 +229,7 @@
     }
     .home #victoreum-logo{
       height: 280px;
-      pointer-events: none;
+      
       position: absolute;
       bottom: 0;
       transition: 1.5s;
@@ -1425,7 +1429,7 @@
         try {
             await db.collection('users').doc(userId.toString()).set(userData);
             document.getElementById('join-holder').style.display = 'none';
-            alert('Successfully joined!');
+            
         } catch (error) {
             console.error('Firebase error:', error);
             alert('Error saving data: ' + error.message);
@@ -1593,7 +1597,7 @@
             }
                 if (now >= doc.data().end_mining_time && doc.data().end_mining_time != 0) {
                   document.getElementById('claim-button-holder').style.display = 'flex';
-                  document.getElementById('victoreum-logo').style.opacity = "1"
+                  document.getElementById('victoreum-logo').style.opacity = "0"
                    document.getElementById('timer-holder-div').style.display = "none";
                   document.getElementById('start-button').style.display = "none"
                 }
