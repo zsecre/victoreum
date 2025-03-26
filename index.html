@@ -226,12 +226,27 @@
     .home #victoreum-logo{
       height: 280px;
       pointer-events: none;
+      position: absolute;
+      bottom: 0;
+      transition: .7s;
+    }
+    .home #victoreum-logo-stopped{
+      height: 280px;
+      width: 280px;
+      position: absolute;
+      bottom: 0;
+    /*  filter: brightness(5); */
+    }
+    #logo-anim{
+      padding: 5px;
+      position: relative;
+      height: 280px;
+      width: 280px;
     }
     #points-ph-faq{
-      
       display: flex;
       flex-direction: column;
-      
+      z-index: 2;
       align-items: end;
       gap: 10px;
       position: absolute;
@@ -1045,10 +1060,11 @@
               </div>
              <i id="circle-faq" class="fa-solid fa-circle-question"></i>
               </div>
-          <div id="logo-anim">
-            <img src="logoa.gif" id="victoreum-logo">
-            </div>
+              <div id="logo-anim">
+              <img src="stopped-mining.png" id="victoreum-logo-stopped">
+              <img src="logoa.gif" id="victoreum-logo">
               </div>
+            </div>
               
             <div id="start-claim-holder">
               <div id="channel-holder">
@@ -1571,16 +1587,19 @@
                 const now = Date.now();
            if( doc.data().end_mining_time == 0){
               document.getElementById('start-button').style.display = "block"
+              document.getElementById('victoreum-logo').style.opacity = "0"
               document.getElementById('timer-holder-div').style.display = "none"
               document.getElementById('claim-button-holder').style.display = "none"
             }
                 if (now >= doc.data().end_mining_time && doc.data().end_mining_time != 0) {
                   document.getElementById('claim-button-holder').style.display = 'flex';
+                  document.getElementById('victoreum-logo').style.opacity = "1"
                    document.getElementById('timer-holder-div').style.display = "none";
                   document.getElementById('start-button').style.display = "none"
                 }
             if(now < doc.data().end_mining_time ){
               document.getElementById('timer-holder-div').style.display = "flex"
+              document.getElementById('victoreum-logo').style.opacity = "1"
               document.getElementById('claim-button-holder').style.display = "none"
               document.getElementById('start-button').style.display = "none"
             }
