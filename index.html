@@ -1391,18 +1391,18 @@
         return Array.from({length: 5}, () => characters[Math.floor(Math.random() * characters.length)]).join('');
     }
     
-    
+    const usersRefs = db.collection("users");
+usersRefs.get().then(snapshot => {
+  const numberOfUsers = snapshot.size;
+  console.log("Number of users:", numberOfUsers);
+});
     document.getElementById('join-button').addEventListener('click', async () => {
         if (!userId) {
             alert('User ID not available. Please try again.');
             return;
         }
 
-      const usersRef = db.collection("users");
-usersRef.get().then(snapshot => {
-  const numberOfUsers = snapshot.size;
-  console.log("Number of users:", numberOfUsers);
-});
+      
         const userData = {
             user_id: userId,
             username: username,
