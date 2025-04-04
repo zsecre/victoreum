@@ -1391,10 +1391,8 @@
         return Array.from({length: 5}, () => characters[Math.floor(Math.random() * characters.length)]).join('');
     }
     
-    const usersRefs = db.collection("users");
-usersRefs.get().then(snapshot => {
-  const numberOfUsers = snapshot.size;
-  console.log("Number of users:", numberOfUsers);
+    db.collection("users").where("username", "!=", null).get().then((snapshot) => {
+ // alert(`Number of usernames:" ${snapshot.size}`);
 });
     document.getElementById('join-button').addEventListener('click', async () => {
         if (!userId) {
@@ -1414,7 +1412,7 @@ usersRefs.get().then(snapshot => {
             end_mining_time: 0,
             referral_code: generateReferralCode(),
             referrer_code: null,
-            join_number: numberOfUsers + 1,
+            join_number: snapshot.size + 1,
             companion_nft: null,
             tasks: {  // Add tasks field here
                 task_1: null,
