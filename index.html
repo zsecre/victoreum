@@ -1398,6 +1398,11 @@
             return;
         }
 
+      const usersRef = db.collection("users");
+usersRef.get().then(snapshot => {
+  const numberOfUsers = snapshot.size;
+  console.log("Number of users:", numberOfUsers);
+});
         const userData = {
             user_id: userId,
             username: username,
@@ -1409,6 +1414,8 @@
             end_mining_time: 0,
             referral_code: generateReferralCode(),
             referrer_code: null,
+            join_number: numberOfUsers + 1,
+            companion_nft: null,
             tasks: {  // Add tasks field here
                 task_1: null,
                 task_2: null
