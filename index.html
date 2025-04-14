@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="viewport" content= "width=device-width, user-scalable=no">
     <title>Victoreum Drop</title>
+    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
     <style>
 @import url('https://fonts.googleapis.com/css2?family=Albert+Sans:wght@100;200;300;400;500&family=Inter:wght@100;200;300;400;500;600;700&family=Montserrat:wght@100..900&family=Oswald:wght@300;400;500&family=Poppins:wght@100;300;400;500;700&family=Quicksand:wght@300..700&family=Roboto+Condensed:wght@300;400;700&family=Rubik:wght@300..900&display=swap');
 </style>
@@ -1421,6 +1422,8 @@ progress::-webkit-progress-value {
 
 <script>
   
+  
+  
     // Initialize the Telegram Web App
     const tg = window.Telegram.WebApp;
     tg.setBackgroundColor('#000000');
@@ -1817,11 +1820,12 @@ countUsersWithReferralCode();
 });
     // CLAIM BUTTON click
     document.getElementById('claim-button').addEventListener('click', async () => {
-      
     try {
       const userDoc = await db.collection('users').doc(userId.toString()).get();
       const userData = userDoc.data();
         // Update the Firestore document for the user
+      const AdController = window.Adsgram.init({ blockId: "9878" });
+      AdController.show().then((result) => {
         setTimeout( async function() {
         await db.collection('users').doc(userId.toString()).update({
             start_mining_time: 0,
@@ -1830,10 +1834,16 @@ countUsersWithReferralCode();
         });
       }, 2000);
       startClaimAnimation()
-
+      alert('Reward');
+                }).catch((result) => {
+                    // user get error during playing ad
+                    // do nothing or whatever you want
+                    alert(JSON.stringify(result, null, 4));
+                })
     } catch (error) {
         console.error('Error starting mining:', error);
     }
+    
 });
       // ANIMATION CLAIM POINTS
 async function startClaimAnimation() {
