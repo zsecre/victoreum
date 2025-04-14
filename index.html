@@ -330,25 +330,14 @@
     }
 
     .home #claim-button-holder{
-      display: flex;
+      display: block;
       justify-content: center;
       transition: .3s;
       position: absolute;
+      
+      width: 95%;
     }
-    #claim-code-input{
-      border: none;
-      outline: none;
-      margin-right: 2px;
-      border-radius: 3px 0;
-      font-size: 14px;
-      padding-left: 5px;
-      background-color: gray;
-      color: white;
-      font-weight: 500;
-    }
-    ::placeholder{
-      color: #bab8b8;
-    }
+
     .home .button{
       border: none;
       height: 40px;
@@ -364,7 +353,7 @@
         background-color: #202020;
         color: orange;
         font-weight: 200;
-        width: 40%;
+        width: 44%;
       }
     #invalid-code-holder{
       
@@ -735,6 +724,20 @@
 /*AIRDROP STYLE*/
 #roadmap-main-holder{
   padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+#check-eligibility{
+  background: #2f2f82;
+  padding: 10px 15px;
+  border-radius: 4px;
+  transition: .3s;
+}
+#check-eligibility:hover{
+  background: #18181c;
+  color: gray;
 }
 #roadmap-text{
   font-size: 25px;
@@ -748,6 +751,64 @@
 }
 #roadmap-holder img{
   height: 250px;
+}
+#eligibility-holder{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: black;
+  top: 0;
+  z-index: 3;
+  padding: 15px;
+  box-sizing: border-box;
+  display: none;
+  flex-direction: column;
+  gap: 25px;
+}
+#eligibility-list-holder{
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 7px;
+}
+#eligibility{
+  padding: 10px;
+  background: #181a1c;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+}
+#eligibility progress{
+  webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: lightgray; /* Background of the bar (Firefox fallback) */
+    height: 100%;
+    width: 100%;
+  
+}
+#eligibility #progress-holder{
+  height: 22px;
+  width: 100%;
+  position: relative;
+}
+progress::-webkit-progress-bar {
+    background-color: #253130; /* Background of the bar */
+}
+progress::-webkit-progress-value {
+    background: linear-gradient(to right, #00a200, #009100,#00b700, #01c501,
+    #39ff39, yellow);
+     /* Filled value portion */
+}
+.eligibility-values{
+  position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 12px;
 }
 #faq-holder{
 }
@@ -818,12 +879,17 @@
       font-size: 15px;
     }
     #wallet-balance-holder{
-      margin-top: 100px;
+      margin-top: 10px;
+    }
+    #balance-usd{
+      text-align: center;
+      font-size: 30px;
+      padding: 40px 0;
     }
     .balance{
       color: #9b9b9b;
     }
-    #balance-price{
+    #balance-price, #vctrm-balance-price{
       margin-left: auto;
       font-weight: 500;
     }
@@ -860,6 +926,10 @@
       padding: 10px 15px;
       font-weight: 500;
       font-size: 17px;
+    }
+    #gift-icon{
+      font-size: 25px;
+      margin: 15px 8px 0;
     }
     </style>
     
@@ -1030,19 +1100,20 @@
    <div id="wallet-holder">
      <div id="close-wallet"><i class="fa-solid fa-arrow-left"></i> Back</div>
      <div id="wallet-balance-holder">
+       <div id="balance-usd">$0.00</div>
        <div id="wallet-balance"><img src="vctmp.png">
        <div id="name-balance-holder">
          <div id="name">Victoreum Points</div>
          <div id="vp-balance" class="balance">2778888 VP</div>
        </div>
-       <div id="balance-price">$0.00</div>
+       <div id="balance-price">Exchange</div>
        </div>
        <div id="wallet-balance"><img src="victoreum-cyan.png">
        <div id="name-balance-holder">
          <div id="name">Victoreum</div>
          <div id="vctrm-balance"class="balance">0 VCTRM</div>
        </div>
-       <div id="balance-price">$0.00</div>
+       <div id="vctrm-balance-price">$0.00</div>
        </div>
      </div>
      <div id="button-holder">
@@ -1063,6 +1134,7 @@
                 <div id="points-per-hour">0/h</div>
               </div>
              <i id="circle-faq" class="fa-solid fa-circle-question"></i>
+             <i id="gift-icon" class="fa-solid fa-gift"></i>
               </div>
               <div id="logo-anim">
               <img src="stopped-mining.png" id="victoreum-logo-stopped">
@@ -1075,7 +1147,8 @@
                 <h7>Join Victoreum Telegram Channels to start mining:</h7>
                 <div id="community"><i class="fa-brands fa-telegram"></i> Victoreum Community <button id="join-community-button">Join</button>
                 </div>
-                <div id="codes"><i class="fa-brands fa-telegram"></i> Victoreum Claim Code<button id="join-code-button">Join</button>
+                <div id="codes"><i class="fa-brands fa-telegram"></i> Follow
+                Victoreum X Account<button id="join-code-button">Join</button>
                 </div>
               </div>
               
@@ -1103,13 +1176,7 @@
               </div>
               <button id="start-button" class="button start">Start Farming</button>
               <div id="claim-button-holder">
-              <input type="rext" id="claim-code-input" placeholder="Enter claim code">
               <button id="claim-button" class="button claim">Claim</button>
-              <div id="invalid-code-holder">
-                <div id="close-invalid-code">×</div>
-                Claim code is incorrect. Please visit Victoreum Claim Code channel to get the correct code.
-                <a href="https://t.me/victoreumcodes">Go</a>
-              </div>
               </div>
               </div>
             </div>
@@ -1259,6 +1326,7 @@
               SOON!
               </div>
         </div>
+        
         <div id="airdrop-cont" class="cont airdrop">
             <div id="roadmap-main-holder">
               <div id="roadmap-text"></div>
@@ -1269,7 +1337,49 @@
                 <img src="airdrop-icon.png">
                 Soon
               </div>
+              <div id="check-eligibility">Check Eligibility</div>
             </div>
+        <div id="eligibility-holder">
+          <div id="close-elegibiliy-holder">Close</div>
+          <div id="eligibility-list-holder">
+          <div style="font-size:25px">ELIGIBILITY</div>
+             <div id="eligibility">
+               
+          <label for="friends-progress">Invited Friends:</label>
+          <div id="progress-holder">
+          <progress id="friends-progress" value="0" max="2"></progress>
+          <div id="friends-eligibility-values" class="eligibility-values">0/2</div>
+          </div>
+             </div>
+             <div id="eligibility">
+          <label for="points-progress">Victoreum Points:</label>
+          <div id="progress-holder">
+          <progress id="points-progress" value="12982" max="100000">1000</progress>
+          <div id="points-eligibility-values"
+          class="eligibility-values">0/100000</div>
+          </div>
+             </div>
+             <div id="eligibility">
+          <label for="channel-community-progress">Subscribe to Victoreum Community Channel:</label>
+          <div id="progress-holder">
+          <progress id="channel-community-progress" value="0"
+          max="1">0/1</progress>
+          <div id="community-eligibility-values"
+          class="eligibility-values">0/1</div>
+          </div>
+             </div>
+
+             <div id="eligibility">
+          <label for="follow-x-progress">Follow to Victoreum X Account:</label>
+          <div id="progress-holder">
+          <progress id="follow-x-progress" value=""
+          max="1">0/1</progress>
+          <div id="x-eligibility-values"
+          class="eligibility-values">0/1</div>
+          </div>
+             </div>
+          </div>
+        </div>
         </div>
     </div>
 
@@ -1310,6 +1420,7 @@
 <!-- Your Custom JavaScript Code -->
 
 <script>
+  
     // Initialize the Telegram Web App
     const tg = window.Telegram.WebApp;
     tg.setBackgroundColor('#000000');
@@ -1321,8 +1432,8 @@
 
     // Extract user data
     const initData = tg.initDataUnsafe;
-    const userId = initData.user?.id;
-    const username = initData.user?.first_name;
+    const userId = /*'5955847290'*/ initData.user?.id;
+    const username = /*'test'*/ initData.user?.first_name;
 
     // Display profile picture
     const photoUrl = initData.user?.photo_url;
@@ -1391,16 +1502,31 @@
         return Array.from({length: 5}, () => characters[Math.floor(Math.random() * characters.length)]).join('');
     }
     
+    
+    
+/*
+// Execute the query and count the results
+async function countUsersWithReferralCode() {
+  try {
+    const querySnapshot = await getDocs(q);
+    const count = querySnapshot.size; // Number of matching documents
+    console.log(`Number of users with referral code ${referralCode}: ${count}`);
+    return count;
+  } catch (error) {
+    console.error("Error counting users:", error);
+    throw error;
+  }
+}
+countUsersWithReferralCode();
+    */
+    // JOIN BUTTON START CODE
     db.collection("users").where("username", "!=", null).get().then((snapshot) => {
- // alert(`Number of usernames:" ${snapshot.size}`);
-});
+ const numberOfUser = snapshot.size
     document.getElementById('join-button').addEventListener('click', async () => {
         if (!userId) {
             alert('User ID not available. Please try again.');
             return;
         }
-
-      
         const userData = {
             user_id: userId,
             username: username,
@@ -1412,7 +1538,7 @@
             end_mining_time: 0,
             referral_code: generateReferralCode(),
             referrer_code: null,
-            join_number: snapshot.size + 1,
+            join_number: numberOfUser + 1,
             companion_nft: null,
             tasks: {  // Add tasks field here
                 task_1: null,
@@ -1440,6 +1566,9 @@
             alert('Error saving data: ' + error.message);
         }
     });
+    });
+     // JOIN BUTTON END CODE
+    
     const startParam = tg.initDataUnsafe.start_param;
     if (startParam) {
     referralCode = startParam; // Directly use the start parameter as the referral codes
@@ -1536,7 +1665,7 @@
 
     document.getElementById('join-code-button').addEventListener('click', async () => {
         // Open codes channel
-        window.open('https://t.me/victoreumcodes', '_blank');
+        window.open('https://x.com/VictoreumDrop?t=op-kNQqLRcHJDQc_MSfX5w&s=09', '_blank');
         
         // Update task_2 status
         try {
@@ -1552,7 +1681,11 @@
     async function fetchAndDisplayUserData() {
         try {
             /*const userDoc = await db.collection('users').doc(userId.toString()).get();*/
+            const vctrmPriceGet = await db.collection('victoreum').doc("vctrm").get();
+            const vctrmPrice = vctrmPriceGet.data()
             const userRef = db.collection('users').doc(userId.toString());
+            
+            
 
             userRef.onSnapshot((doc) => {
               if (doc.exists) {
@@ -1561,6 +1694,17 @@
         // Update the div content
            // ageDiv.textContent = newAge;
            // Update victoreum points
+           const referralCode = doc.data().referral_code
+            db.collection("users").where("referrer_code", "==", referralCode).get().then((snapshot) => {
+ const numRef = snapshot.size
+    console.log(`Number of users with referral code ${referralCode}: ${numRef}`);
+    document.getElementById("friends-progress").value = numRef
+    document.getElementById("friends-eligibility-values").textContent = numRef +
+    "/2"
+    })
+                document.getElementById('claim-button').innerHTML = "Claim "
+                + (doc.data().vph * 5) + `VP <i class='fa-solid
+                fa-rectangle-ad'></i>`
                 const pointsElement = document.getElementById('victoreum-points');
                 pointsElement.innerText = `${doc.data().victoreum_points}`;
                 const vphElement = document.getElementById('points-per-hour');
@@ -1569,17 +1713,43 @@
                 document.getElementById('vctrm-balance').textContent =
                 `${doc.data().victoreum} VCTRM`;
                 
+                //ELIGIBILITY Data
+                document.getElementById('points-progress').max = '100000'
+                document.getElementById('points-progress').value =
+                `${doc.data().victoreum_points}`;
+                document.getElementById('points-eligibility-values').textContent =
+                `${doc.data().victoreum_points}/100000`;
+                //wallet
+                const bal = vctrmPrice.price_usd*doc.data().victoreum
+                document.getElementById('balance-usd').textContent =
+                `$${bal.toFixed(2)}`;
+                if(doc.data().victoreum == 0){
+                  document.getElementById('balance-usd').textContent = '$0.00'
+                }
+                document.getElementById('vctrm-balance-price').textContent =
+                `$${vctrmPrice.price_usd}`;
+
+                ////
+                
                 if(doc.data().tasks.task_1 == "subscribed"){
                 const joinCommBtn = document.getElementById('join-community-button');
                 joinCommBtn.innerText = "✓";
                 joinCommBtn.style.backgroundColor = "rgb(42,42,42)"
                 joinCommBtn.style.color = "rgb(100,255,18)"
+                document.getElementById('community-eligibility-values').textContent
+                = '1/1'
+                document.getElementById('channel-community-progress').value
+                = '1'
                 }
                 if(doc.data().tasks.task_2 == "subscribed"){
                 const joinCodeBtn = document.getElementById('join-code-button');
                 joinCodeBtn.innerText = "✓";
                 joinCodeBtn.style.backgroundColor = "rgb(42,42,42)"
                 joinCodeBtn.style.color = "rgb(100,255,18)"
+                document.getElementById('x-eligibility-values').textContent
+                = '1/1'
+                document.getElementById('follow-x-progress').value
+                = '1'
                 }
                 if(doc.data().tasks.task_1 && doc.data().tasks.task_2 == "subscribed"){
                   document.getElementById("channel-holder").style.display = "none"
@@ -1649,13 +1819,9 @@
     document.getElementById('claim-button').addEventListener('click', async () => {
       
     try {
-      const codeDoc = await db.collection('claim-code').doc("code").get();
       const userDoc = await db.collection('users').doc(userId.toString()).get();
       const userData = userDoc.data();
-      const codeData = codeDoc.data();
         // Update the Firestore document for the user
-      const codeInput = document.getElementById("claim-code-input").value
-      if(codeInput == codeData.code){
         setTimeout( async function() {
         await db.collection('users').doc(userId.toString()).update({
             start_mining_time: 0,
@@ -1664,16 +1830,10 @@
         });
       }, 2000);
       startClaimAnimation()
-      }else{
-        document.getElementById("invalid-code-holder").style.bottom = "12px"
-        document.getElementById('invalid-code-holder').style.backgroundColor = "#212121"
-        document.getElementById('invalid-code-holder').style.display = "flex"
-      }
 
     } catch (error) {
         console.error('Error starting mining:', error);
     }
-    
 });
       // ANIMATION CLAIM POINTS
 async function startClaimAnimation() {
@@ -1703,11 +1863,7 @@ async function startClaimAnimation() {
 
             requestAnimationFrame(update);
         }
-// CLOSE INVALID CODE
-    document.getElementById('close-invalid-code').addEventListener('click', async () => {
-      document.getElementById('invalid-code-holder').style.bottom = "-210px"
-      document.getElementById('invalid-code-holder').style.backgroundColor = "#ff0000"
-    })
+
 // Timer function that calculates remaining time and updates the timer-holder div
 let timerInterval;
 function startTimer(endTime) {
@@ -1769,20 +1925,24 @@ updateRemainingTimeDisplay();
 
 
 
-    const input = document.getElementById('claim-code-input');
+ /*   const input = document.getElementById('claim-code-input');
      const div2 = document.getElementById("nav-bar-bot");
       input.addEventListener('mouseenter', () => {
         div2.style.display = 'none';
+        
+        
         document.body.style.overflow = 'scroll';
         document.getElementById('invalid-code-holder').style.display = "none"
-        document.getElementById('faq-holder').style.display = "none"
+        
         });
-      input.addEventListener('mouseleave', () => {
+        */
+        document.getElementById('faq-holder').style.display = "none"
+    /*  input.addEventListener('mouseleave', () => {
           div2.style.display = 'flex'; // or restore its original display type
         document.getElementById('faq-holder').style.display = "none"
           document.body.style.overflow = 'hidden';
           
-        });
+        }); */
         // FAQ BUTTON
         const faqButton = document.getElementById('circle-faq');
      const faqSection = document.getElementById("faq-section");
@@ -2078,6 +2238,14 @@ checkUserTasks();
       const referralLink = `https://t.me/VictoreumDrop_bot/?startapp=${userData.referral_code}`;
       tg.openTelegramLink(`https://t.me/share/url?url=${encodeURIComponent(referralLink)}&text=${encodeURIComponent('Join using my referral link! Get 5,000 Victoreum Points.')}`);
     });
+        document.getElementById('check-eligibility').addEventListener('click',
+        async () => {
+          document.getElementById('eligibility-holder').style.display = 'flex'
+        })
+        document.getElementById('close-elegibiliy-holder').addEventListener('click',
+        async () => {
+          document.getElementById('eligibility-holder').style.display = 'none'
+        })
         
     // Navigation logic remains the same
     document.addEventListener("DOMContentLoaded", function () {
