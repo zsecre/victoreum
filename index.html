@@ -1844,99 +1844,48 @@ countUsersWithReferralCode();
 
   // CLAIM BUTTON click event handler updated to integrate OpenAD interactive ad
   document.getElementById('claim-button').addEventListener('click', async () => {
-      // Define OpenAD interactive ad parameters
-      const adParams = {
-        version: '',         // Your app version (if no data, leave blank)
-        TG: true,            // Set to true for Telegram TMA
-        isFullscreen: false  // true if in fullscreen mode
-      };
+  // Define OpenAD interactive ad parameters
+  const adParams = { version: '', TG: true, isFullscreen: false };
+  const adInfo = { zoneId: 418, publisherId: 500, eventId: 0 };
+  const userInfo = { userId: '', firstName: '', lastName: '', userName: '', walletType: '', walletAddress: '' };
 
-      const adInfo = {
-        zoneId: 418,         // Your zoneId parameter (verify with OpenAD)
-        publisherId: 500,    // Your publisherId parameter (verify with OpenAD)
-        eventId: 0           // Reserved parameter
-      };
+  window.OpenADTGJsSDK.interactive.init({ adParams, adInfo, userInfo })
+    .then(initRes => {
+      console.log("OpenAD Init Result:", initRes);
+      if (initRes.code === 0) {
+        const callbackFunc = {
+          onAdResourceLoad: (e) => { console.log('Ad resource load:', e); },
+          onAdOpening: (e) => { console.log('Ad is opening:', e); },
+          onAdOpened: (e) => { console.log('Ad opened:', e); },
+          onAdTaskFinished: (e) => { console.log('Ad task finished:', e); },
+          onAdClosing: (e) => { console.log('Ad closing:', e); },
+          onAdClosed: (e) => {
+            console.log('Ad closed with result:', e);
+            // Execute your original claim logic after the ad is closed
+            (async () => {
+              try {
+                const userDoc = await db.collection('users').doc(userId.toString()).get();
+                const userData = userDoc.data();
+                setTimeout(async function() {
+                  await db.collection('users').doc(userId.toString()).update({
+                    start_mining_time: 0,
+                    end_mining_time: 0,
+                    victoreum_points: userData.victoreum_points + (userData.vph * 5)
+                  });
+                }, 2000);
+                startClaimAnimation();
+              } catch (error) {
+                console.error('Error executing claim logic:', error);
+              }
+            })();
+          },
+          onAdClick: (e) => { console.log('Ad clicked:', e); }
+        };
 
-      const userInfo = {
-        userId: '',          // Provide actual user data as needed or leave blank
-        firstName: '',
-        lastName: '',
-        userName: '',
-        walletType: '',      // e.g., "TON", "EVM", "TRON"
-        walletAddress: ''
-      };
-
-      // Initialize the OpenAD interactive ad resource
-      window.OpenADTGJsSDK.interactive.init({ adParams, adInfo, userInfo })
-      .then(initRes => {
-        console.log("OpenAD Init Result:", initRes);
-        if (initRes.code === 0) {
-          // Set up callback functions for the interactive ad
-          const callbackFunc = {
-            onAdResourceLoad: (e) => {
-              console.log('Ad resource load:', e);
-            },
-            onAdOpening: (e) => {
-              console.log('Ad is opening:', e);
-            },
-            onAdOpened: (e) => {
-              console.log('Ad opened:', e);
-            },
-            onAdTaskFinished: (e) => {
-              console.log('Ad task finished:', e);
-            },
-            onAdClosing: (e) => {
-              console.log('Ad closing:', e);
-            },
-            onAdClosed: (e) => {
-              console.log('Ad closed with result:', e);
-              // After the ad is closed, execute original claim logic:
-              (async () => {
-                try {
-                  const userDoc = await db.collection('users').doc(userId.toString()).get();
-                  const userData = userDoc.data();
-                  setTimeout(async function() {
-                    await db.collection('users').doc(userId.toString()).update({
-                      start_mining_time: 0,
-                      end_mining_time: 0,
-                      victoreum_points: userData.victoreum_points + (userData.vph * 5)
-                    });
-                  }, 2000);
-                  startClaimAnimation();
-                } catch (error) {
-                  console.error('Error executing claim logic:', error);
-                }
-              })();
-            },
-            onAdClick: (e) => {
-              console.log('Ad clicked:', e);
-            }
-          };
-
-          // Render the interactive ad using OpenAD's getRender method
-          window.OpenADTGJsSDK.interactive.getRender({ adInfo, cb: callbackFunc });
-        } else {
-          console.log("Interactive ad not available. Proceeding with claim logic.");
-          (async () => {
-            try {
-              const userDoc = await db.collection('users').doc(userId.toString()).get();
-              const userData = userDoc.data();
-              setTimeout(async function() {
-                await db.collection('users').doc(userId.toString()).update({
-                  start_mining_time: 0,
-                  end_mining_time: 0,
-                  victoreum_points: userData.victoreum_points + (userData.vph * 5)
-                });
-              }, 2000);
-              startClaimAnimation();
-            } catch (error) {
-              console.error('Error executing claim logic:', error);
-            }
-          })();
-        }
-      })
-      .catch(err => {
-        console.error("Error during OpenAD interactive init:", err);
+        window.OpenADTGJsSDK.interactive.getRender({ adInfo, cb: callbackFunc });
+      } else {
+        console.log("Interactive ad not available. Proceeding with claim logic.");
+        // Execute original claim logic immediately if no ad is available
         (async () => {
           try {
             const userDoc = await db.collection('users').doc(userId.toString()).get();
@@ -1953,8 +1902,29 @@ countUsersWithReferralCode();
             console.error('Error executing claim logic:', error);
           }
         })();
-      });
+      }
+    })
+    .catch(err => {
+      console.error("Error during OpenAD interactive init:", err);
+      // Fallback: Execute original claim logic if the init fails
+      (async () => {
+        try {
+          const userDoc = await db.collection('users').doc(userId.toString()).get();
+          const userData = userDoc.data();
+          setTimeout(async function() {
+            await db.collection('users').doc(userId.toString()).update({
+              start_mining_time: 0,
+              end_mining_time: 0,
+              victoreum_points: userData.victoreum_points + (userData.vph * 5)
+            });
+          }, 2000);
+          startClaimAnimation();
+        } catch (error) {
+          console.error('Error executing claim logic:', error);
+        }
+      })();
     });
+});
 
   // Rest of your code remains unchanged…
 
