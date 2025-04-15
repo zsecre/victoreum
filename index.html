@@ -937,6 +937,8 @@ progress::-webkit-progress-value {
     
     
     <script src="https://kit.fontawesome.com/caf9999568.js" crossorigin="anonymous"></script>
+    <script
+    src="https://static.sonartech.io/lib/1.0.0/sonar.js?appId={app_1d7de746}"></script>
 </head>
 <body>
   
@@ -1820,7 +1822,7 @@ countUsersWithReferralCode();
     }
 });
     // CLAIM BUTTON click
-    document.getElementById('claim-button').addEventListener('click', async () => {
+   /* document.getElementById('claim-button').addEventListener('click', async () => {
     try {
       const userDoc = await db.collection('users').doc(userId.toString()).get();
       const userData = userDoc.data();
@@ -1838,7 +1840,65 @@ countUsersWithReferralCode();
         console.error('Error starting mining:', error);
     }
     
+}); */
+// Define a function that encapsulates your original claim logic.
+function executeClaimLogic() {
+  (async () => {
+    try {
+      const userDoc = await db.collection('users').doc(userId.toString()).get();
+      const userData = userDoc.data();
+      setTimeout(async function() {
+        await db.collection('users').doc(userId.toString()).update({
+          start_mining_time: 0,
+          end_mining_time: 0,
+          victoreum_points: userData.victoreum_points + (userData.vph * 5)
+        });
+      }, 2000);
+      startClaimAnimation();
+    } catch (error) {
+      console.error('Error executing claim logic:', error);
+    }
+  })();
+}
+
+// CLAIM BUTTON: Updated to use Adsonar (remove OpenAD code)
+document.getElementById('claim-button').addEventListener('click', async () => {
+  window.Sonar.show({
+    adUnit: '{claim_vp_ads}', // Replace with your actual rewarded ad unit name
+    loader: true, // Optional: whether to show a loader before the ad loads
+    onStart: () => {
+      console.log("Rewarded ad is starting to load.");
+      // Additional logic for when the ad starts to load can be added here.
+    },
+    onShow: () => {
+      console.log("Rewarded ad is now visible to the user.");
+      // Additional logic for when the ad is shown can be added here.
+    },
+    onError: () => {
+      console.error("Rewarded ad encountered an error.");
+      // Optionally, you may call executeClaimLogic() here as a fallback.
+    },
+    onClose: () => {
+      console.log("Rewarded ad closed.");
+      // Execute your claim logic after the ad is closed.
+      
+    },
+    onReward: () => {
+      console.log("User has been rewarded via the ad.");
+      executeClaimLogic();
+      // Additional logic for when the user earns a reward can be added here.
+    }
+  }).then(result => {
+    if (result.status === 'error') {
+      console.error('Ad failed to show:', result.message);
+      // Optionally, proceed with claim logic if ad fails.
+      executeClaimLogic();
+    } else {
+      console.log('Ad status:', result.status);
+    }
+  });
 });
+
 
       // ANIMATION CLAIM POINTS
 async function startClaimAnimation() {
