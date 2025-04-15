@@ -1844,35 +1844,34 @@ countUsersWithReferralCode();
 
   // CLAIM BUTTON click event handler updated to integrate OpenAD interactive ad
   document.getElementById('claim-button').addEventListener('click', async () => {
-    // Define OpenAD initialization parameters
-    const adParams = {
-      version: '',              // Fill in your app version (or leave blank)
-      TG: true,                // true if required for Telegram TMA
-      isFullscreen: false      // true if in fullscreen mode
-    };
+      // Define OpenAD interactive ad parameters
+      const adParams = {
+        version: '',         // Your app version (if no data, leave blank)
+        TG: true,            // Set to true for Telegram TMA
+        isFullscreen: false  // true if in fullscreen mode
+      };
 
-    // Define ad information (update zoneId and publisherId as per your configuration)
-    const adInfo = {
-      zoneId: 418,             // Your zoneId parameter
-      publisherId: 500,        // Your publisherId parameter
-      eventId: 0               // Reserved parameter (usually 0)
-    };
+      const adInfo = {
+        zoneId: 418,         // Your zoneId parameter (verify with OpenAD)
+        publisherId: 500,    // Your publisherId parameter (verify with OpenAD)
+        eventId: 0           // Reserved parameter
+      };
 
-    // Define user information; update these as needed or leave blank if not available.
-    const userInfo = {
-      userId: '',              // Provide your end-user's ID or leave blank if not applicable
-      firstName: '',
-      lastName: '',
-      userName: '',
-      walletType: '',          // e.g. "TON" or other blockchain project
-      walletAddress: ''
-    };
+      const userInfo = {
+        userId: '',          // Provide actual user data as needed or leave blank
+        firstName: '',
+        lastName: '',
+        userName: '',
+        walletType: '',      // e.g., "TON", "EVM", "TRON"
+        walletAddress: ''
+      };
 
-    // Initialize the OpenAD interactive ad resource
-    window.OpenADTGJsSDK.interactive.init({ adParams, adInfo, userInfo })
+      // Initialize the OpenAD interactive ad resource
+      window.OpenADTGJsSDK.interactive.init({ adParams, adInfo, userInfo })
       .then(initRes => {
+        console.log("OpenAD Init Result:", initRes);
         if (initRes.code === 0) {
-          // If the ad resource is ready, define the callbacks and render the interactive ad
+          // Set up callback functions for the interactive ad
           const callbackFunc = {
             onAdResourceLoad: (e) => {
               console.log('Ad resource load:', e);
@@ -1891,13 +1890,12 @@ countUsersWithReferralCode();
             },
             onAdClosed: (e) => {
               console.log('Ad closed with result:', e);
-              // After the interactive ad is closed, execute your original claim logic:
+              // After the ad is closed, execute original claim logic:
               (async () => {
                 try {
                   const userDoc = await db.collection('users').doc(userId.toString()).get();
                   const userData = userDoc.data();
-                  // Delay of 2 seconds before updating the user document
-                  setTimeout(async function () {
+                  setTimeout(async function() {
                     await db.collection('users').doc(userId.toString()).update({
                       start_mining_time: 0,
                       end_mining_time: 0,
@@ -1915,16 +1913,15 @@ countUsersWithReferralCode();
             }
           };
 
-          // Render the interactive ad with the defined callbacks
+          // Render the interactive ad using OpenAD's getRender method
           window.OpenADTGJsSDK.interactive.getRender({ adInfo, cb: callbackFunc });
         } else {
           console.log("Interactive ad not available. Proceeding with claim logic.");
-          // If ad initialization did not succeed, immediately execute your claim logic.
           (async () => {
             try {
               const userDoc = await db.collection('users').doc(userId.toString()).get();
               const userData = userDoc.data();
-              setTimeout(async function () {
+              setTimeout(async function() {
                 await db.collection('users').doc(userId.toString()).update({
                   start_mining_time: 0,
                   end_mining_time: 0,
@@ -1940,12 +1937,11 @@ countUsersWithReferralCode();
       })
       .catch(err => {
         console.error("Error during OpenAD interactive init:", err);
-        // If initialization fails, immediately execute your claim logic.
         (async () => {
           try {
             const userDoc = await db.collection('users').doc(userId.toString()).get();
             const userData = userDoc.data();
-            setTimeout(async function () {
+            setTimeout(async function() {
               await db.collection('users').doc(userId.toString()).update({
                 start_mining_time: 0,
                 end_mining_time: 0,
@@ -1958,7 +1954,7 @@ countUsersWithReferralCode();
           }
         })();
       });
-  });
+    });
 
   // Rest of your code remains unchanged…
 
