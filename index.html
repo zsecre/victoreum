@@ -937,7 +937,13 @@ progress::-webkit-progress-value {
     
     
     <script src="https://kit.fontawesome.com/caf9999568.js" crossorigin="anonymous"></script>
-    <script src="https://protocol.openad.network/tg/sdk.loader.js?v=1.0.0"> </script>
+    <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    console.log("OpenADTGJsSDK:", window.OpenADTGJsSDK);
+  });
+</script>
+
+    <script name="OpenADTGJsSDK" version="4.0" type="text/javascript" src="https://protocol.openad.network/tg/sdk.loader.js?v=1.0.0"> </script>
 </head>
 <body>
   
@@ -1845,7 +1851,7 @@ countUsersWithReferralCode();
   // CLAIM BUTTON click event handler updated to integrate OpenAD interactive ad
   document.getElementById('claim-button').addEventListener('click', async () => {
   // Define OpenAD interactive ad parameters
-  const adParams = { version: '', TG: true, isFullscreen: false };
+  const adParams = { version: '', TG: false, isFullscreen: false };
   const adInfo = { zoneId: 418, publisherId: 500, eventId: 0 };
   const userInfo = { userId: '', firstName: '', lastName: '', userName: '', walletType: '', walletAddress: '' };
 
