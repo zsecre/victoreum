@@ -937,13 +937,6 @@ progress::-webkit-progress-value {
     
     
     <script src="https://kit.fontawesome.com/caf9999568.js" crossorigin="anonymous"></script>
-    <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    console.log("OpenADTGJsSDK:", window.OpenADTGJsSDK);
-  });
-</script>
-
-    <script name="OpenADTGJsSDK" version="4.0" type="text/javascript" src="https://protocol.openad.network/tg/sdk.loader.js?v=1.0.0"> </script>
 </head>
 <body>
   
@@ -1827,7 +1820,7 @@ countUsersWithReferralCode();
     }
 });
     // CLAIM BUTTON click
-   /* document.getElementById('claim-button').addEventListener('click', async () => {
+    document.getElementById('claim-button').addEventListener('click', async () => {
     try {
       const userDoc = await db.collection('users').doc(userId.toString()).get();
       const userData = userDoc.data();
@@ -1845,94 +1838,7 @@ countUsersWithReferralCode();
         console.error('Error starting mining:', error);
     }
     
-});*/
-  // Existing code above … 
-
-  // CLAIM BUTTON click event handler updated to integrate OpenAD interactive ad
-  document.getElementById('claim-button').addEventListener('click', async () => {
-  // Define OpenAD interactive ad parameters
-  const adParams = { version: '6.0', TG: true, isFullscreen: true };
-  const adInfo = { zoneId: 418, publisherId: 500, eventId: 0 };
-  const userInfo = { userId: '', firstName: '', lastName: '', userName: '', walletType: '', walletAddress: '' };
-
-  window.OpenADTGJsSDK.interactive.init({ adParams, adInfo, userInfo })
-    .then(initRes => {
-      console.log("OpenAD Init Result:", initRes);
-      if (initRes.code === 0) {
-        const callbackFunc = {
-          onAdResourceLoad: (e) => { console.log('Ad resource load:', e); },
-          onAdOpening: (e) => { console.log('Ad is opening:', e); },
-          onAdOpened: (e) => { console.log('Ad opened:', e); },
-          onAdTaskFinished: (e) => { console.log('Ad task finished:', e); },
-          onAdClosing: (e) => { console.log('Ad closing:', e); },
-          onAdClosed: (e) => {
-            console.log('Ad closed with result:', e);
-            // Execute your original claim logic after the ad is closed
-            (async () => {
-              try {
-                const userDoc = await db.collection('users').doc(userId.toString()).get();
-                const userData = userDoc.data();
-                setTimeout(async function() {
-                  await db.collection('users').doc(userId.toString()).update({
-                    start_mining_time: 0,
-                    end_mining_time: 0,
-                    victoreum_points: userData.victoreum_points + (userData.vph * 5)
-                  });
-                }, 2000);
-                startClaimAnimation();
-              } catch (error) {
-                console.error('Error executing claim logic:', error);
-              }
-            })();
-          },
-          onAdClick: (e) => { console.log('Ad clicked:', e); }
-        };
-
-        window.OpenADTGJsSDK.interactive.getRender({ adInfo, cb: callbackFunc });
-      } else {
-        console.log("Interactive ad not available. Proceeding with claim logic.");
-        // Execute original claim logic immediately if no ad is available
-        (async () => {
-          try {
-            const userDoc = await db.collection('users').doc(userId.toString()).get();
-            const userData = userDoc.data();
-            setTimeout(async function() {
-              await db.collection('users').doc(userId.toString()).update({
-                start_mining_time: 0,
-                end_mining_time: 0,
-                victoreum_points: userData.victoreum_points + (userData.vph * 5)
-              });
-            }, 2000);
-            startClaimAnimation();
-          } catch (error) {
-            console.error('Error executing claim logic:', error);
-          }
-        })();
-      }
-    })
-    .catch(err => {
-      console.error("Error during OpenAD interactive init:", err);
-      // Fallback: Execute original claim logic if the init fails
-      (async () => {
-        try {
-          const userDoc = await db.collection('users').doc(userId.toString()).get();
-          const userData = userDoc.data();
-          setTimeout(async function() {
-            await db.collection('users').doc(userId.toString()).update({
-              start_mining_time: 0,
-              end_mining_time: 0,
-              victoreum_points: userData.victoreum_points + (userData.vph * 5)
-            });
-          }, 2000);
-          startClaimAnimation();
-        } catch (error) {
-          console.error('Error executing claim logic:', error);
-        }
-      })();
-    });
 });
-
-  // Rest of your code remains unchanged…
 
       // ANIMATION CLAIM POINTS
 async function startClaimAnimation() {
