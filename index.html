@@ -1438,8 +1438,8 @@ progress::-webkit-progress-value {
 
     // Extract user data
     const initData = tg.initDataUnsafe;
-    const userId = '5955847290'// initData.user?.id;
-    const username = 'test' //initData.user?.first_name;
+    const userId = /*'5955847290'*/ initData.user?.id;
+    const username = /*'test'*/initData.user?.first_name;
 
     // Display profile picture
     const photoUrl = initData.user?.photo_url;
