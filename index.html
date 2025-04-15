@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="viewport" content= "width=device-width, user-scalable=no">
     <title>Victoreum Drop</title>
-    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
     <style>
 @import url('https://fonts.googleapis.com/css2?family=Albert+Sans:wght@100;200;300;400;500&family=Inter:wght@100;200;300;400;500;600;700&family=Montserrat:wght@100..900&family=Oswald:wght@300;400;500&family=Poppins:wght@100;300;400;500;700&family=Quicksand:wght@300..700&family=Roboto+Condensed:wght@300;400;700&family=Rubik:wght@300..900&display=swap');
 </style>
@@ -1435,8 +1434,8 @@ progress::-webkit-progress-value {
 
     // Extract user data
     const initData = tg.initDataUnsafe;
-    const userId = /*'5955847290'*/ initData.user?.id;
-    const username = /*'test'*/ initData.user?.first_name;
+    const userId = '5955847290'// initData.user?.id;
+    const username = 'test' //initData.user?.first_name;
 
     // Display profile picture
     const photoUrl = initData.user?.photo_url;
@@ -1819,13 +1818,12 @@ countUsersWithReferralCode();
     }
 });
     // CLAIM BUTTON click
-    document.getElementById('claim-button').addEventListener('click', async () => {
+   /* document.getElementById('claim-button').addEventListener('click', async () => {
     try {
       const userDoc = await db.collection('users').doc(userId.toString()).get();
       const userData = userDoc.data();
         // Update the Firestore document for the user
-      const AdController = window.Adsgram.init({ blockId: "9878" });
-      AdController.show().then((result) => {
+      
         setTimeout( async function() {
         await db.collection('users').doc(userId.toString()).update({
             start_mining_time: 0,
@@ -1834,17 +1832,133 @@ countUsersWithReferralCode();
         });
       }, 2000);
       startClaimAnimation()
-      alert('Reward');
-                }).catch((result) => {
-                    // user get error during playing ad
-                    // do nothing or whatever you want
-                    alert(JSON.stringify(result, null, 4));
-                })
     } catch (error) {
         console.error('Error starting mining:', error);
     }
     
-});
+});*/
+  // Existing code above … 
+
+  // CLAIM BUTTON click event handler updated to integrate OpenAD interactive ad
+  document.getElementById('claim-button').addEventListener('click', async () => {
+    // Define OpenAD initialization parameters
+    const adParams = {
+      version: '',              // Fill in your app version (or leave blank)
+      TG: true,                // true if required for Telegram TMA
+      isFullscreen: false      // true if in fullscreen mode
+    };
+
+    // Define ad information (update zoneId and publisherId as per your configuration)
+    const adInfo = {
+      zoneId: 418,             // Your zoneId parameter
+      publisherId: 500,        // Your publisherId parameter
+      eventId: 0               // Reserved parameter (usually 0)
+    };
+
+    // Define user information; update these as needed or leave blank if not available.
+    const userInfo = {
+      userId: '',              // Provide your end-user's ID or leave blank if not applicable
+      firstName: '',
+      lastName: '',
+      userName: '',
+      walletType: '',          // e.g. "TON" or other blockchain project
+      walletAddress: ''
+    };
+
+    // Initialize the OpenAD interactive ad resource
+    window.OpenADTGJsSDK.interactive.init({ adParams, adInfo, userInfo })
+      .then(initRes => {
+        if (initRes.code === 0) {
+          // If the ad resource is ready, define the callbacks and render the interactive ad
+          const callbackFunc = {
+            onAdResourceLoad: (e) => {
+              console.log('Ad resource load:', e);
+            },
+            onAdOpening: (e) => {
+              console.log('Ad is opening:', e);
+            },
+            onAdOpened: (e) => {
+              console.log('Ad opened:', e);
+            },
+            onAdTaskFinished: (e) => {
+              console.log('Ad task finished:', e);
+            },
+            onAdClosing: (e) => {
+              console.log('Ad closing:', e);
+            },
+            onAdClosed: (e) => {
+              console.log('Ad closed with result:', e);
+              // After the interactive ad is closed, execute your original claim logic:
+              (async () => {
+                try {
+                  const userDoc = await db.collection('users').doc(userId.toString()).get();
+                  const userData = userDoc.data();
+                  // Delay of 2 seconds before updating the user document
+                  setTimeout(async function () {
+                    await db.collection('users').doc(userId.toString()).update({
+                      start_mining_time: 0,
+                      end_mining_time: 0,
+                      victoreum_points: userData.victoreum_points + (userData.vph * 5)
+                    });
+                  }, 2000);
+                  startClaimAnimation();
+                } catch (error) {
+                  console.error('Error executing claim logic:', error);
+                }
+              })();
+            },
+            onAdClick: (e) => {
+              console.log('Ad clicked:', e);
+            }
+          };
+
+          // Render the interactive ad with the defined callbacks
+          window.OpenADTGJsSDK.interactive.getRender({ adInfo, cb: callbackFunc });
+        } else {
+          console.log("Interactive ad not available. Proceeding with claim logic.");
+          // If ad initialization did not succeed, immediately execute your claim logic.
+          (async () => {
+            try {
+              const userDoc = await db.collection('users').doc(userId.toString()).get();
+              const userData = userDoc.data();
+              setTimeout(async function () {
+                await db.collection('users').doc(userId.toString()).update({
+                  start_mining_time: 0,
+                  end_mining_time: 0,
+                  victoreum_points: userData.victoreum_points + (userData.vph * 5)
+                });
+              }, 2000);
+              startClaimAnimation();
+            } catch (error) {
+              console.error('Error executing claim logic:', error);
+            }
+          })();
+        }
+      })
+      .catch(err => {
+        console.error("Error during OpenAD interactive init:", err);
+        // If initialization fails, immediately execute your claim logic.
+        (async () => {
+          try {
+            const userDoc = await db.collection('users').doc(userId.toString()).get();
+            const userData = userDoc.data();
+            setTimeout(async function () {
+              await db.collection('users').doc(userId.toString()).update({
+                start_mining_time: 0,
+                end_mining_time: 0,
+                victoreum_points: userData.victoreum_points + (userData.vph * 5)
+              });
+            }, 2000);
+            startClaimAnimation();
+          } catch (error) {
+            console.error('Error executing claim logic:', error);
+          }
+        })();
+      });
+  });
+
+  // Rest of your code remains unchanged…
+
       // ANIMATION CLAIM POINTS
 async function startClaimAnimation() {
     
@@ -2049,43 +2163,6 @@ updateRemainingTimeDisplay();
             alert('Error updating task status: ' + error.message);
         }
     })
-    
-    // DAILY CLAIM CODE end_mining_time
-    //SHOW DAILY REWARD code
-    /*
-    async function fetchAndDisplayReward() {
-    try {
-      const userDoc = await db.collection('users').doc(userId.toString()).get();
-        const userRef = db.collection('users').doc(userId.toString());
-        
-        // Use a single snapshot listener instead of creating one per iteration
-        userRef.onSnapshot((doc) => {
-            if (doc.exists) {
-                // Get the data once to avoid repeated calls
-                    // Check if element exists and the reward status
-          const dailyReward = doc.data().daily_reward.day_;
-         const num = [1,2,3,4,5,6,7]
-          for (let i = 0; i <= 6; i++) {
-            const key = "day_";
-              if (doc.data().daily_reward.day_+num[i] == 'Claimed') {
-                  document.getElementById('day-2').style.backgroundColor = '#04ff6c20';
-                /*  document.querySelector(`${daysDiv[i]} #daily-status`).style.color = "#16c900"
-                  document.querySelector(`${daysDiv[i]} #daily-status`).textContent = "Received"
-                        }
-            }
-            } else {
-                console.log("No such document!");
-            }
-        }, (error) => {
-            console.log("Error getting document:", error);
-        });
-        
-    } catch (error) {
-        console.error('Error fetching user data:', error);
-    }
-}
-    fetchAndDisplayReward()
-    */
 
 
 async function checkUserTasks() {
