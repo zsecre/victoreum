@@ -1851,7 +1851,7 @@ countUsersWithReferralCode();
   // CLAIM BUTTON click event handler updated to integrate OpenAD interactive ad
   document.getElementById('claim-button').addEventListener('click', async () => {
   // Define OpenAD interactive ad parameters
-  const adParams = { version: '', TG: true, isFullscreen: false };
+  const adParams = { version: '6.0', TG: true, isFullscreen: false };
   const adInfo = { zoneId: 418, publisherId: 500, eventId: 0 };
   const userInfo = { userId: '', firstName: '', lastName: '', userName: '', walletType: '', walletAddress: '' };
 
