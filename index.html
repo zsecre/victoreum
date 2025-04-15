@@ -938,7 +938,7 @@ progress::-webkit-progress-value {
     
     <script src="https://kit.fontawesome.com/caf9999568.js" crossorigin="anonymous"></script>
     <script
-    src="https://static.sonartech.io/lib/1.0.0/sonar.js?appId={app_1d7de746}"></script>
+    src="https://static.sonartech.io/lib/1.0.0/sonar.js?appId=app_1d7de746"></script>
 </head>
 <body>
   
@@ -1864,7 +1864,7 @@ function executeClaimLogic() {
 // CLAIM BUTTON: Updated to use Adsonar (remove OpenAD code)
 document.getElementById('claim-button').addEventListener('click', async () => {
   window.Sonar.show({
-    adUnit: '{claim_vp_ads}', // Replace with your actual rewarded ad unit name
+    adUnit: 'claim_vp_ads', // Replace with your actual rewarded ad unit name
     loader: true, // Optional: whether to show a loader before the ad loads
     onStart: () => {
       console.log("Rewarded ad is starting to load.");
