@@ -1850,107 +1850,88 @@ countUsersWithReferralCode();
     
 }); */
 
-// OpenAD Configuration
+// After Firebase config
 const openADConfig = {
     adParams: {
-        version: '4.0',
+        version: '1.0',
         TG: true,
         isFullscreen: false
     },
     adInfo: {
-        zoneId: 418,      // Replace with your actual zone ID
-        publisherId: 500    // Replace with your actual publisher ID
-    },
-    userInfo: {
-        userId: '',        // Populate from your user data
-        firstName: '',
-        lastName: '',
-        userName: '',
-        walletType: '',
-        walletAddress: ''
+        zoneId: 418,       // Replace with your actual zone ID
+        publisherId: 500   // Replace with your actual publisher ID
     }
 };
-
-// Initialize OpenAD on page load
-document.addEventListener('DOMContentLoaded', async () => {
-    try {
-        // Populate user info from your app
-        openADConfig.userInfo = {
+async function showInteractiveAd() {
+    return new Promise((resolve) => {
+        const userInfo = {
             userId: userId.toString(),
-            firstName: username || '',
+            firstName: username,
             lastName: '',
-            userName: username || '',
+            userName: username,
             walletType: '', 
             walletAddress: ''
         };
 
-        const initResult = await window.OpenADTGJsSDK.interactive.init({
+        window.OpenADTGJsSDK.interactive.init({
             adParams: openADConfig.adParams,
             adInfo: openADConfig.adInfo,
-            userInfo: openADConfig.userInfo
-        });
-
-        console.log('OpenAD Init Result:', initResult);
-    } catch (error) {
-        console.error('OpenAD Initialization Error:', error);
-    }
-});
-
-// Ad callback handlers
-const openADCallbacks = {
-    onAdResourceLoad: (e) => console.log('Ad resource loaded:', e),
-    onAdOpening: (e) => console.log('Ad opening:', e),
-    onAdOpened: (e) => console.log('Ad opened:', e),
-    onAdTaskFinished: (e) => console.log('Ad task finished:', e),
-    onAdClosing: (e) => console.log('Ad closing:', e),
-    onAdClosed: (e) => {
-        console.log('Ad closed with status:', e);
-        if(e === 'view' || e === 'click') {
-            handleSuccessfulAdView();
-        }
-    },
-    onAdClick: (e) => console.log('Ad clicked:', e)
-};
-
-// Modified claim button handler
+            userInfo
+        }).then(res => {
+            if(res.code === 0) {
+                const callbackFunc = {
+                    onAdClosed: (e) => {
+                        if(e === 'view' || e === 'click') {
+                            resolve(true);
+                        } else {
+                            resolve(false);
+                        }
+                    },
+                    // Add other callbacks if needed
+                    onAdResourceLoad: () => {},
+                    onAdOpening: () => {},
+                    onAdOpened: () => {},
+                    onAdTaskFinished: () => {},
+                    onAdClosing: () => {},
+                    onAdClick: () => {}
+                };
+                window.OpenADTGJsSDK.interactive.getRender({ 
+                    adInfo: openADConfig.adInfo, 
+                    cb: callbackFunc 
+                });
+            } else {
+                resolve(false);
+            }
+        }).catch(() => resolve(false));
+    });
+}
 document.getElementById('claim-button').addEventListener('click', async () => {
-    try {
-        // Show loading state
-        loadingScreen.style.display = 'flex';
-        
-        // Show the ad
-        window.OpenADTGJsSDK.interactive.getRender({
-            adInfo: openADConfig.adInfo,
-            cb: openADCallbacks
-        });
-
-    } catch (error) {
-        console.error('Ad Error:', error);
-        loadingScreen.style.display = 'none';
-        alert('Error showing ad');
+    // Show ad first
+    const adSuccess = await showInteractiveAd();
+    
+    if(!adSuccess) {
+        alert('Please complete the ad to claim your rewards');
+        return;
     }
-});
 
-// Handle successful ad view
-async function handleSuccessfulAdView() {
+    // Proceed with original claim logic
     try {
-        // Your original claim logic
         const userDoc = await db.collection('users').doc(userId.toString()).get();
         const userData = userDoc.data();
         
-        await db.collection('users').doc(userId.toString()).update({
-            start_mining_time: 0,
-            end_mining_time: 0,
-            victoreum_points: userData.victoreum_points + (userData.vph * 5)
-        });
+        setTimeout(async function() {
+            await db.collection('users').doc(userId.toString()).update({
+                start_mining_time: 0,
+                end_mining_time: 0,
+                victoreum_points: userData.victoreum_points + (userData.vph * 5)
+            });
+        }, 2000);
         
         startClaimAnimation();
     } catch (error) {
-        console.error('Claim Error:', error);
-    } finally {
-        loadingScreen.style.display = 'none';
+        console.error('Error claiming rewards:', error);
     }
-}
+});
 
       // ANIMATION CLAIM POINTS
 async function startClaimAnimation() {
