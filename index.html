@@ -1440,7 +1440,7 @@ progress::-webkit-progress-value {
 
     // Extract user data
     const initData = tg.initDataUnsafe;
-    const userId = /*'5955847290'*/ initData.user?.id;
+    const userId = /*'5955847290' */initData.user?.id;
     const username = /*'test'*/ initData.user?.first_name;
 
     // Display profile picture
@@ -1467,7 +1467,13 @@ progress::-webkit-progress-value {
     };
     
     
-    // After Firebase config
+
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    
+    // Add this after Firebase initialization
 const openADConfig = {
     adParams: {
         version: '1.0',
@@ -1476,58 +1482,80 @@ const openADConfig = {
     },
     adInfo: {
         zoneId: 418,       // Replace with your actual zone ID
-        publisherId: 500   // Replace with your actual publisher ID
+        publisherId: 500,  // Replace with your actual publisher ID
+        eventId: 0
+    },
+    userInfo: {
+        userId: userId,
+        firstName: username || '',
+        lastName: '',
+        userName: username || '',
+        walletType: '', 
+        walletAddress: ''
     }
 };
-      async function showInteractiveAd() {
-    return new Promise((resolve) => {
-        const userInfo = {
-            userId: userId.toString(),
-            firstName: username,
-            lastName: '',
-            userName: username,
-            walletType: '', 
-            walletAddress: ''
-        };
 
+// Initialize OpenAD once at app start
+let openADInitialized = false;
+
+function initializeOpenAD() {
+    return new Promise((resolve) => {
+        if(openADInitialized) return resolve(true);
+        
         window.OpenADTGJsSDK.interactive.init({
             adParams: openADConfig.adParams,
             adInfo: openADConfig.adInfo,
-            userInfo
+            userInfo: openADConfig.userInfo
         }).then(res => {
+            console.log('OpenAD init response:', res);
             if(res.code === 0) {
-                const callbackFunc = {
-                    onAdClosed: (e) => {
-                        if(e === 'view' || e === 'click') {
-                            resolve(true);
-                        } else {
-                            resolve(false);
-                        }
-                    },
-                    // Add other callbacks if needed
-                    onAdResourceLoad: () => {},
-                    onAdOpening: () => {},
-                    onAdOpened: () => {},
-                    onAdTaskFinished: () => {},
-                    onAdClosing: () => {},
-                    onAdClick: () => {}
-                };
-                window.OpenADTGJsSDK.interactive.getRender({ 
-                    adInfo: openADConfig.adInfo, 
-                    cb: callbackFunc 
-                });
+                openADInitialized = true;
+                resolve(true);
             } else {
                 resolve(false);
             }
-        }).catch(() => resolve(false));
+        }).catch(error => {
+            console.error('OpenAD init error:', error);
+            resolve(false);
+        });
     });
 }
 
+async function showInteractiveAd() {
+    try {
+        // Initialize OpenAD if not already initialized
+        const initSuccess = await initializeOpenAD();
+        if(!initSuccess) {
+            console.error('OpenAD initialization failed');
+            return false;
+        }
 
+        return new Promise((resolve) => {
+            const callbackFunc = {
+                onAdResourceLoad: (e) => console.log('Ad resource load:', e),
+                onAdOpening: (e) => console.log('Ad opening:', e),
+                onAdOpened: (e) => console.log('Ad opened:', e),
+                onAdTaskFinished: (e) => console.log('Ad task finished:', e),
+                onAdClosing: (e) => console.log('Ad closing:', e),
+                onAdClosed: (e) => {
+                    console.log('Ad closed with status:', e);
+                    resolve(e === 'view' || e === 'click');
+                },
+                onAdClick: (e) => console.log('Ad clicked:', e)
+            };
 
-    // Initialize Firebase
-    const app = firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
+            console.log('Attempting to render ad...');
+            window.OpenADTGJsSDK.interactive.getRender({
+                adInfo: openADConfig.adInfo,
+                cb: callbackFunc
+            });
+        });
+    } catch (error) {
+        console.error('Ad show error:', error);
+        return false;
+    }
+}
+
 
     // Check if user exists in Firestore
     async function checkUserExists() {
@@ -1904,30 +1932,35 @@ countUsersWithReferralCode();
 }); */
 
 document.getElementById('claim-button').addEventListener('click', async () => {
-    // Show ad first
-    const adSuccess = await showInteractiveAd();
+    // Show loading state
+    loadingScreen.style.display = 'flex';
     
-    if(!adSuccess) {
-        alert('Please complete the ad to claim your rewards');
-        return;
-    }
-
-    // Proceed with original claim logic
     try {
+        // Show the ad
+        const adSuccess = await showInteractiveAd();
+        
+        if(!adSuccess) {
+            loadingScreen.style.display = 'none';
+            alert('Please watch the ad completely to claim your rewards');
+            return;
+        }
+
+        // Proceed with claim logic
         const userDoc = await db.collection('users').doc(userId.toString()).get();
         const userData = userDoc.data();
         
-        setTimeout(async function() {
-            await db.collection('users').doc(userId.toString()).update({
-                start_mining_time: 0,
-                end_mining_time: 0,
-                victoreum_points: userData.victoreum_points + (userData.vph * 5)
-            });
-        }, 2000);
+        await db.collection('users').doc(userId.toString()).update({
+            start_mining_time: 0,
+            end_mining_time: 0,
+            victoreum_points: userData.victoreum_points + (userData.vph * 5)
+        });
         
         startClaimAnimation();
     } catch (error) {
-        console.error('Error claiming rewards:', error);
+        console.error('Claim error:', error);
+        alert('Error processing claim');
+    } finally {
+        loadingScreen.style.display = 'none';
     }
 });
 
