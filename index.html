@@ -937,8 +937,9 @@ progress::-webkit-progress-value {
     
     
     <script src="https://kit.fontawesome.com/caf9999568.js" crossorigin="anonymous"></script>
-    <script
-    src="https://static.sonartech.io/lib/1.0.0/sonar.js?appId=app_1d7de746"></script>
+    
+    <!-- Existing scripts -->
+    <script name="OpenADTGJsSDK" version="4.0" type="text/javascript" src="https://protocol.openad.network/tg/sdk.loader.js"></script>
 </head>
 <body>
   
@@ -1438,8 +1439,8 @@ progress::-webkit-progress-value {
 
     // Extract user data
     const initData = tg.initDataUnsafe;
-    const userId = /*'5955847290'*/ initData.user?.id;
-    const username = /*'test'*/initData.user?.first_name;
+    const userId = /*'5955847290'*/  initData.user?.id;
+    const username = /*'test'*/ initData.user?.first_name;
 
     // Display profile picture
     const photoUrl = initData.user?.photo_url;
@@ -1463,6 +1464,65 @@ progress::-webkit-progress-value {
         appId: "1:396211397518:web:6f22a52c394ff3cdeebadf",
         measurementId: "G-QMQ4E1WJQC"
     };
+    
+    
+    // After Firebase config
+const openADConfig = {
+    adParams: {
+        version: '1.0',
+        TG: true,
+        isFullscreen: false
+    },
+    adInfo: {
+        zoneId: 418,       // Replace with your actual zone ID
+        publisherId: 500   // Replace with your actual publisher ID
+    }
+};
+      async function showInteractiveAd() {
+    return new Promise((resolve) => {
+        const userInfo = {
+            userId: userId.toString(),
+            firstName: username,
+            lastName: '',
+            userName: username,
+            walletType: '', 
+            walletAddress: ''
+        };
+
+        window.OpenADTGJsSDK.interactive.init({
+            adParams: openADConfig.adParams,
+            adInfo: openADConfig.adInfo,
+            userInfo
+        }).then(res => {
+            if(res.code === 0) {
+                const callbackFunc = {
+                    onAdClosed: (e) => {
+                        if(e === 'view' || e === 'click') {
+                            resolve(true);
+                        } else {
+                            resolve(false);
+                        }
+                    },
+                    // Add other callbacks if needed
+                    onAdResourceLoad: () => {},
+                    onAdOpening: () => {},
+                    onAdOpened: () => {},
+                    onAdTaskFinished: () => {},
+                    onAdClosing: () => {},
+                    onAdClick: () => {}
+                };
+                window.OpenADTGJsSDK.interactive.getRender({ 
+                    adInfo: openADConfig.adInfo, 
+                    cb: callbackFunc 
+                });
+            } else {
+                resolve(false);
+            }
+        }).catch(() => resolve(false));
+    });
+}
+
+
 
     // Initialize Firebase
     const app = firebase.initializeApp(firebaseConfig);
@@ -1822,7 +1882,7 @@ countUsersWithReferralCode();
     }
 });
     // CLAIM BUTTON click
-   /* document.getElementById('claim-button').addEventListener('click', async () => {
+/*    document.getElementById('claim-button').addEventListener('click', async () => {
     try {
       const userDoc = await db.collection('users').doc(userId.toString()).get();
       const userData = userDoc.data();
@@ -1841,62 +1901,33 @@ countUsersWithReferralCode();
     }
     
 }); */
-// Define a function that encapsulates your original claim logic.
-function executeClaimLogic() {
-  (async () => {
-    try {
-      const userDoc = await db.collection('users').doc(userId.toString()).get();
-      const userData = userDoc.data();
-      setTimeout(async function() {
-        await db.collection('users').doc(userId.toString()).update({
-          start_mining_time: 0,
-          end_mining_time: 0,
-          victoreum_points: userData.victoreum_points + (userData.vph * 5)
-        });
-      }, 2000);
-      startClaimAnimation();
-    } catch (error) {
-      console.error('Error executing claim logic:', error);
-    }
-  })();
-}
 
-// CLAIM BUTTON: Updated to use Adsonar (remove OpenAD code)
 document.getElementById('claim-button').addEventListener('click', async () => {
-  window.Sonar.show({
-    adUnit: 'claim_vp_ads', // Replace with your actual rewarded ad unit name
-    loader: true, // Optional: whether to show a loader before the ad loads
-    onStart: () => {
-      console.log("Rewarded ad is starting to load.");
-      // Additional logic for when the ad starts to load can be added here.
-    },
-    onShow: () => {
-      console.log("Rewarded ad is now visible to the user.");
-      // Additional logic for when the ad is shown can be added here.
-    },
-    onError: () => {
-      console.error("Rewarded ad encountered an error.");
-      // Optionally, you may call executeClaimLogic() here as a fallback.
-    },
-    onClose: () => {
-      console.log("Rewarded ad closed.");
-      // Execute your claim logic after the ad is closed.
-      
-    },
-    onReward: () => {
-      console.log("User has been rewarded via the ad.");
-      executeClaimLogic();
-      // Additional logic for when the user earns a reward can be added here.
+    // Show ad first
+    const adSuccess = await showInteractiveAd();
+    
+    if(!adSuccess) {
+        alert('Please complete the ad to claim your rewards');
+        return;
     }
-  }).then(result => {
-    if (result.status === 'error') {
-      console.error('Ad failed to show:', result.message);
-      // Optionally, proceed with claim logic if ad fails.
-      executeClaimLogic();
-    } else {
-      console.log('Ad status:', result.status);
+
+    // Proceed with original claim logic
+    try {
+        const userDoc = await db.collection('users').doc(userId.toString()).get();
+        const userData = userDoc.data();
+        
+        setTimeout(async function() {
+            await db.collection('users').doc(userId.toString()).update({
+                start_mining_time: 0,
+                end_mining_time: 0,
+                victoreum_points: userData.victoreum_points + (userData.vph * 5)
+            });
+        }, 2000);
+        
+        startClaimAnimation();
+    } catch (error) {
+        console.error('Error claiming rewards:', error);
     }
-  });
 });
 
 
@@ -2361,6 +2392,7 @@ async function displayUsernamesForCurrentUser(userId) {
 
 const currentUserId = userId; // Replace with actual userId
 displayUsernamesForCurrentUser(currentUserId);
+
 </script>
 </body>
 </html>
