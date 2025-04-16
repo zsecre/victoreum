@@ -940,7 +940,7 @@ progress::-webkit-progress-value {
     
     <!-- Existing scripts -->
     <script name="OpenADTGJsSDK" version="4.0" type="text/javascript"
-    src="https://protocol.openad.network/tg/sdk.loader.js?v=1.0.0"></script>
+    src="https://protocol.openad.network/tg/sdk.loader.js?t=20250416"></script>
 </head>
 <body>
   
@@ -1440,10 +1440,10 @@ progress::-webkit-progress-value {
 
     // Extract user data
     const initData = tg.initDataUnsafe;
-    const username = 'test'
-    const userId = '5955847290'
-   // const userId =   initData.user?.id;
-   // const username =  initData.user?.first_name;
+  //  const username = 'test'
+  //  const userId = '5955847290'
+    const userId =   initData.user?.id;
+    const username =  initData.user?.first_name;
 
     // Display profile picture
     const photoUrl = initData.user?.photo_url;
