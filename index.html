@@ -938,9 +938,8 @@ progress::-webkit-progress-value {
     
     <script src="https://kit.fontawesome.com/caf9999568.js" crossorigin="anonymous"></script>
     
-    <!-- Existing scripts -->
-    <script name="OpenADTGJsSDK" version="4.0" type="text/javascript"
-    src="https://protocol.openad.network/tg/sdk.loader.js?t=20250416"></script>
+    <script src='//whephiwums.com/sdk.js' data-zone='9222843'
+    data-sdk='show_9222843'></script>
 </head>
 <body>
   
@@ -1850,88 +1849,37 @@ countUsersWithReferralCode();
     
 }); */
 
-// After Firebase config
-const openADConfig = {
-    adParams: {
-        version: '1.0',
-        TG: true,
-        isFullscreen: false
-    },
-    adInfo: {
-        zoneId: 418,       // Replace with your actual zone ID
-        publisherId: 500   // Replace with your actual publisher ID
-    }
-};
-async function showInteractiveAd() {
-    return new Promise((resolve) => {
-        const userInfo = {
-            userId: userId.toString(),
-            firstName: username,
-            lastName: '',
-            userName: username,
-            walletType: '', 
-            walletAddress: ''
-        };
 
-        window.OpenADTGJsSDK.interactive.init({
-            adParams: openADConfig.adParams,
-            adInfo: openADConfig.adInfo,
-            userInfo
-        }).then(res => {
-            if(res.code === 0) {
-                const callbackFunc = {
-                    onAdClosed: (e) => {
-                        if(e === 'view' || e === 'click') {
-                            resolve(true);
-                        } else {
-                            resolve(false);
-                        }
-                    },
-                    // Add other callbacks if needed
-                    onAdResourceLoad: () => {},
-                    onAdOpening: () => {},
-                    onAdOpened: () => {},
-                    onAdTaskFinished: () => {},
-                    onAdClosing: () => {},
-                    onAdClick: () => {}
-                };
-                window.OpenADTGJsSDK.interactive.getRender({ 
-                    adInfo: openADConfig.adInfo, 
-                    cb: callbackFunc 
-                });
-            } else {
-                resolve(false);
-            }
-        }).catch(() => resolve(false));
-    });
-}
-document.getElementById('claim-button').addEventListener('click', async () => {
-    // Show ad first
-    const adSuccess = await showInteractiveAd();
-    
-    if(!adSuccess) {
-        alert('Please complete the ad to claim your rewards');
-        return;
-    }
 
-    // Proceed with original claim logic
+    // Rewarded interstitial
+    document.getElementById('claim-button').addEventListener('click', async () => {
     try {
-        const userDoc = await db.collection('users').doc(userId.toString()).get();
-        const userData = userDoc.data();
-        
-        setTimeout(async function() {
-            await db.collection('users').doc(userId.toString()).update({
-                start_mining_time: 0,
-                end_mining_time: 0,
-                victoreum_points: userData.victoreum_points + (userData.vph * 5)
-            });
-        }, 2000);
-        
-        startClaimAnimation();
+      const userDoc = await db.collection('users').doc(userId.toString()).get();
+      const userData = userDoc.data();
+        // Update the Firestore document for the user
+      show_9222843().then(() => {
+        setTimeout( async function() {
+        await db.collection('users').doc(userId.toString()).update({
+            start_mining_time: 0,
+            end_mining_time: 0,
+            victoreum_points: userData.victoreum_points + ( userData.vph * 5 )
+        });
+      }, 2000);
+      startClaimAnimation()
+      alert('You have seen an ad!');
+})
     } catch (error) {
-        console.error('Error claiming rewards:', error);
+        console.error('Error starting mining:', error);
     }
+    
 });
+
+    // You need to add your user reward function here, which will be executed after the user watches the ad.
+    // For more details, please refer to the detailed instructions.
+    
+
+                     
+
 
       // ANIMATION CLAIM POINTS
 async function startClaimAnimation() {
