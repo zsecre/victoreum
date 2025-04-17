@@ -279,7 +279,7 @@
     #victoreum-points-holder #victoreum-points{
       font-size: 22px;
       font-weight: 400;
-      
+      transition: color .4s ease-in-out;
     }
     #start-claim-holder{
       display: flex;
@@ -933,11 +933,32 @@ progress::-webkit-progress-value {
       font-size: 25px;
       margin: 15px 8px 0;
     }
-    </style>
+.swal2-container.custom-alert {
+  width: 300px !important; /* Adjust the width as needed */
+}
+
+.swal2-popup.custom-alert {
+  background-color: lightblue !important; /* Change to your desired color */
+}
+
+/* You can also target other elements within the popup */
+.swal2-title.custom-alert {
+  color: darkblue;
+}
+
+.swal2-content.custom-alert {
+  font-size: 14px;
+}
+
+.swal2-confirm.custom-alert {
+  background-color: green;
+  color: white;
+}
+</style>
+
     
     
     <script src="https://kit.fontawesome.com/caf9999568.js" crossorigin="anonymous"></script>
-    
     <script src='//whephiwums.com/sdk.js' data-zone='9222843'
     data-sdk='show_9222843'></script>
 </head>
@@ -1415,6 +1436,8 @@ progress::-webkit-progress-value {
     </div>
 
     <!-- SCRIPT TAG -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -1439,7 +1462,7 @@ progress::-webkit-progress-value {
 
     // Extract user data
     const initData = tg.initDataUnsafe;
-  //  const username = 'test'
+ //   const username = 'test'
   //  const userId = '5955847290'
     const userId =   initData.user?.id;
     const username =  initData.user?.first_name;
@@ -1866,13 +1889,30 @@ countUsersWithReferralCode();
         });
       }, 2000);
       startClaimAnimation()
-      alert('You have seen an ad!');
+      startColorTransition()
 })
     } catch (error) {
         console.error('Error starting mining:', error);
     }
     
 });
+
+let timeoutId;
+
+    function startColorTransition() {
+        const pointsDiv = document.getElementById('victoreum-points');
+        
+        // Clear any existing timeout to reset the timer
+        if (timeoutId) clearTimeout(timeoutId);
+        
+        // Immediately change to green
+        pointsDiv.style.color = '#00ff00';
+        
+        // Set timeout to revert after 3 seconds
+        timeoutId = setTimeout(() => {
+            pointsDiv.style.color = ''; // Revert to original CSS color
+        }, 3000);
+    }
 
     // You need to add your user reward function here, which will be executed after the user watches the ad.
     // For more details, please refer to the detailed instructions.
