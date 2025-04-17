@@ -773,14 +773,15 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  gap: 7px;
+  gap: 15px;
 }
 #eligibility{
-  padding: 10px;
+  padding: 18px 10px;
   background: #181a1c;
   border-radius: 4px;
   width: 100%;
   box-sizing: border-box;
+  border: .1px dashed white;
 }
 #eligibility progress{
   webkit-appearance: none;
@@ -810,7 +811,7 @@ progress::-webkit-progress-value {
     left: 50%;
     transform: translate(-50%, -50%);
     color: white;
-    font-size: 12px;
+    font-size: 10px;
 }
 #faq-holder{
 }
@@ -1186,7 +1187,7 @@ progress::-webkit-progress-value {
                    <div id="reward-from-friend">
                      <img src="vctmp.png">5,000</div>
                    <div id="reward">
-                     <img src="vctmp.png">100</div>
+                     <img src="vctmp.png">1,000</div>
                    <div id="reward">
                      <i class="fas fa-bolt"></i>+10/h</div>
                   </div>
@@ -1377,14 +1378,7 @@ progress::-webkit-progress-value {
           <div id="friends-eligibility-values" class="eligibility-values">0/2</div>
           </div>
              </div>
-             <div id="eligibility">
-          <label for="points-progress">Victoreum Points:</label>
-          <div id="progress-holder">
-          <progress id="points-progress" value="12982" max="100000">1000</progress>
-          <div id="points-eligibility-values"
-          class="eligibility-values">0/100000</div>
-          </div>
-             </div>
+
              <div id="eligibility">
           <label for="channel-community-progress">Subscribe to Victoreum Community Channel:</label>
           <div id="progress-holder">
@@ -1402,6 +1396,23 @@ progress::-webkit-progress-value {
           max="1">0/1</progress>
           <div id="x-eligibility-values"
           class="eligibility-values">0/1</div>
+          </div>
+             </div>
+             <div id="eligibility">
+          <label for="mining-session-progress">Mining Session:</label>
+          <div id="progress-holder">
+          <progress id="mining-session-progress" value=""
+          max="100">0/100</progress>
+          <div id="mining-session-values"
+          class="eligibility-values">0/100</div>
+          </div>
+             </div>
+             <div id="eligibility">
+          <label for="points-progress">Victoreum Points:</label>
+          <div id="progress-holder">
+          <progress id="points-progress" value="12982" max="100000">1000</progress>
+          <div id="points-eligibility-values"
+          class="eligibility-values">0/100000</div>
           </div>
              </div>
           </div>
@@ -1462,8 +1473,8 @@ progress::-webkit-progress-value {
 
     // Extract user data
     const initData = tg.initDataUnsafe;
- //   const username = 'test'
-  //  const userId = '5955847290'
+   // const username = 'test'
+   // const userId = '5955847290'
     const userId =   initData.user?.id;
     const username =  initData.user?.first_name;
 
@@ -1569,6 +1580,7 @@ countUsersWithReferralCode();
             join_rewards: null,
             victoreum: 0,
             victoreum_points: 0,
+            mining_session: 0,
             vph: 0,
             start_mining_time: 0,
             end_mining_time: 0,
@@ -1755,10 +1767,18 @@ countUsersWithReferralCode();
                 `${doc.data().victoreum_points}`;
                 document.getElementById('points-eligibility-values').textContent =
                 `${doc.data().victoreum_points}/100000`;
+                document.getElementById('mining-session-progress').value =
+                `${doc.data().mining_session}`;
+                document.getElementById('mining-session-values').textContent =
+                `${doc.data().mining_session}/100`;
+
+                
                 //wallet
                 const bal = vctrmPrice.price_usd*doc.data().victoreum
                 document.getElementById('balance-usd').textContent =
                 `$${bal.toFixed(2)}`;
+                
+                
                 if(doc.data().victoreum == 0){
                   document.getElementById('balance-usd').textContent = '$0.00'
                 }
@@ -1885,6 +1905,7 @@ countUsersWithReferralCode();
         await db.collection('users').doc(userId.toString()).update({
             start_mining_time: 0,
             end_mining_time: 0,
+            mining_session: userData.mining_session + 1,
             victoreum_points: userData.victoreum_points + ( userData.vph * 5 )
         });
       }, 2000);
