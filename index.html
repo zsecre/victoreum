@@ -279,7 +279,7 @@
     #victoreum-points-holder #victoreum-points{
       font-size: 22px;
       font-weight: 400;
-      transition: color .4s ease-in-out;
+      transition: color 1s ease-in-out;
     }
     #start-claim-holder{
       display: flex;
@@ -1897,21 +1897,14 @@ countUsersWithReferralCode();
     
 });
 
-let timeoutId;
 
     function startColorTransition() {
-        const pointsDiv = document.getElementById('victoreum-points');
-        
-        // Clear any existing timeout to reset the timer
-        if (timeoutId) clearTimeout(timeoutId);
-        
-        // Immediately change to green
-        pointsDiv.style.color = '#00ff00';
-        
-        // Set timeout to revert after 3 seconds
-        timeoutId = setTimeout(() => {
-            pointsDiv.style.color = ''; // Revert to original CSS color
-        }, 3000);
+        setTimeout( async function() {
+          document.getElementById('victoreum-points').color = 'cyan'
+      }, 2000);
+      setTimeout( async function() {
+          document.getElementById('victoreum-points').color = 'white'
+      }, 4000);
     }
 
     // You need to add your user reward function here, which will be executed after the user watches the ad.
