@@ -934,26 +934,12 @@ progress::-webkit-progress-value {
       font-size: 25px;
       margin: 15px 8px 0;
     }
-.swal2-container.custom-alert {
-  width: 300px !important; /* Adjust the width as needed */
+    .fa-spinner{
+      animation: mymove 1.5s infinite;
 }
 
-.swal2-popup.custom-alert {
-  background-color: lightblue !important; /* Change to your desired color */
-}
-
-/* You can also target other elements within the popup */
-.swal2-title.custom-alert {
-  color: darkblue;
-}
-
-.swal2-content.custom-alert {
-  font-size: 14px;
-}
-
-.swal2-confirm.custom-alert {
-  background-color: green;
-  color: white;
+@keyframes mymove {
+  100% {transform: rotate(360deg);}
 }
 </style>
 
@@ -1174,7 +1160,7 @@ progress::-webkit-progress-value {
                 <h7>Join Victoreum Telegram Channels to start mining:</h7>
                 <div id="community"><i class="fa-brands fa-telegram"></i> Victoreum Community <button id="join-community-button">Join</button>
                 </div>
-                <div id="codes"><i class="fa-brands fa-telegram"></i> Follow
+                <div id="codes"><i class="fa-brands fa-square-x-twitter"></i>Follow
                 Victoreum X Account<button id="join-code-button">Join</button>
                 </div>
               </div>
@@ -1473,8 +1459,8 @@ progress::-webkit-progress-value {
 
     // Extract user data
     const initData = tg.initDataUnsafe;
-   // const username = 'test'
-   // const userId = '5955847290'
+  //  const username = 'test'
+  //  const userId = '5955847290'
     const userId =   initData.user?.id;
     const username =  initData.user?.first_name;
 
@@ -1569,6 +1555,7 @@ countUsersWithReferralCode();
     // JOIN BUTTON START CODE
     db.collection("users").where("username", "!=", null).get().then((snapshot) => {
  const numberOfUser = snapshot.size
+ const dateJoined = new Date()
     document.getElementById('join-button').addEventListener('click', async () => {
         if (!userId) {
             alert('User ID not available. Please try again.');
@@ -1581,6 +1568,7 @@ countUsersWithReferralCode();
             victoreum: 0,
             victoreum_points: 0,
             mining_session: 0,
+            date_joined: dateJoined,
             vph: 0,
             start_mining_time: 0,
             end_mining_time: 0,
@@ -1699,12 +1687,16 @@ countUsersWithReferralCode();
     document.getElementById('join-community-button').addEventListener('click', async () => {
         // Open community channel
         window.open('https://t.me/victoreumcommunity', '_blank');
-        
+        document.getElementById('join-community-button').innerHTML = `<i
+        class="fa-solid fa-spinner"></i>`
         // Update task_1 status
         try {
+          setTimeout( async function() {
             await db.collection('users').doc(userId.toString()).update({
                 'tasks.task_1': 'subscribed'
             });
+            }, 15000);
+            
         } catch (error) {
             console.error('Error updating task:', error);
             alert('Error updating task status: ' + error.message);
@@ -1714,12 +1706,15 @@ countUsersWithReferralCode();
     document.getElementById('join-code-button').addEventListener('click', async () => {
         // Open codes channel
         window.open('https://x.com/VictoreumDrop?t=op-kNQqLRcHJDQc_MSfX5w&s=09', '_blank');
-        
+        document.getElementById('join-code-button').innerHTML = `<i
+        class="fa-solid fa-spinner"></i>`
         // Update task_2 status
         try {
+          setTimeout( async function() {
             await db.collection('users').doc(userId.toString()).update({
                 'tasks.task_2': 'subscribed'
             });
+            }, 15000);
         } catch (error) {
             console.error('Error updating task:', error);
             alert('Error updating task status: ' + error.message);
