@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Victoreum Price Updater</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 0 20px;
+        }
+        .price-container {
+            background: #f5f5f5;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .price {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin: 1rem 0;
+        }
+        .result {
+            margin-top: 1rem;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .loading {
+            color: #666;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="price-container">
+        <h1>Victoreum Price (USD)</h1>
+        <div class="price" id="currentPrice">Loading...</div>
+        <div id="result" class="result loading">Updating price...</div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore-compat.js"></script>
+
+    <script>
+        // Initialize Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyBB3gfZtcvPBs1G4fbezMU9EdeK6u261To",
+            authDomain: "victoreumgames-drop.firebaseapp.com",
+            projectId: "victoreumgames-drop",
+            storageBucket: "victoreumgames-drop.appspot.com",
+            messagingSenderId: "396211397518",
+            appId: "1:396211397518:web:6f22a52c394ff3cdeebadf",
+            measurementId: "G-QMQ4E1WJQC"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Get elements
+        const currentPriceElement = document.getElementById('currentPrice');
+        const resultElement = document.getElementById('result');
+
+        // Update price function (auto-triggered on load)
+        async function updatePrice() {
+            const docRef = db.collection('victoreum').doc('vctrm');
+            
+            try {
+                const doc = await docRef.get();
+                
+                if (doc.exists) {
+                    const currentPrice = doc.data().price_usd;
+                    const random = Math.random();
+                    
+                    // 80% chance to add, 20% to subtract
+                    let newPrice = random < 0.8 ? 
+                        currentPrice + 0.01 : 
+                        currentPrice - 0.01;
+                    
+                    newPrice = Number(newPrice.toFixed(2));
+                    
+                    await docRef.update({ price_usd: newPrice });
+                    
+                    // Update UI
+                    currentPriceElement.textContent = `$${newPrice.toFixed(2)}`;
+                    showResult(`Price updated to $${newPrice.toFixed(2)} (${random < 0.8 ? '+0.01' : '-0.01'})`, 'success');
+                }
+            } catch (error) {
+                showResult(`Error updating price: ${error.message}`, 'error');
+            }
+        }
+
+        // Helper function to show results
+        function showResult(message, type = 'info') {
+            resultElement.textContent = message;
+            resultElement.className = `result ${type}`;
+            resultElement.classList.remove('loading');
+        }
+
+        // Auto-trigger update on page load
+        document.addEventListener('DOMContentLoaded', updatePrice);
+    </script>
+</body>
+</html>
