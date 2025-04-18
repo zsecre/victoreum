@@ -83,7 +83,7 @@
                     const random = Math.random();
                     
                     // 80% chance to add, 20% to subtract
-                    let newPrice = random < 0.8 ? 
+                    let newPrice = random < 0.6 ? 
                         currentPrice + 0.01 : 
                         currentPrice - 0.01;
                     
@@ -93,7 +93,8 @@
                     
                     // Update UI
                     currentPriceElement.textContent = `$${newPrice.toFixed(2)}`;
-                    showResult(`Price updated to $${newPrice.toFixed(2)} (${random < 0.8 ? '+0.01' : '-0.01'})`, 'success');
+                    showResult(`Price updated to $${newPrice.toFixed(2)}
+                    (${random < 0.6 ? '+0.01' : '-0.01'})`, 'success');
                 }
             } catch (error) {
                 showResult(`Error updating price: ${error.message}`, 'error');
